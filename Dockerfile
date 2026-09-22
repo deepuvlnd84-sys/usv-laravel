@@ -48,5 +48,4 @@ RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache || true
 # ഡിപൻഡൻസികൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN composer install --no-dev --optimize-autoloader
 
-# Render നൽകുന്ന $PORT ഉപയോഗിക്കാൻ Shell ഫോർമാറ്റിൽ റൺ ചെയ്യുന്നു
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
