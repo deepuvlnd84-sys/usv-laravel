@@ -25,9 +25,9 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# പെർമിഷനുകൾ നൽകുന്നു
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
+# Storage, bootstrap/cache പെർമിഷനുകൾ നൽകുക
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # ഡിപൻഡൻസികൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN composer install --no-dev --optimize-autoloader

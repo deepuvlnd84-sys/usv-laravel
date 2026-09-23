@@ -24,6 +24,17 @@ class PlayerController extends Controller
         $isAuthenticated = Session::has('authenticated_user');
         $totalMembers = $members->count();
 
+        // Prepare JSON-friendly member list for live dropdown search
+        $searchMembers = $members->map(function ($m) {
+            return [
+                'sl_no' => $m->sl_no,
+                'member_id' => $m->member_id,
+                'name' => $m->name,
+                'call_name' => $m->call_name ?? '',
+                'profile_url' => route('members.profile', $m->sl_no),
+            ];
+        });
+
         // Alias for compatibility
         $players = $members;
         $totalPlayers = $totalMembers;
@@ -31,6 +42,7 @@ class PlayerController extends Controller
         return view('players.index', compact(
             'members',
             'players',
+            'searchMembers',
             'isAdmin',
             'isAuthenticated',
             'totalMembers',
@@ -38,7 +50,23 @@ class PlayerController extends Controller
         ));
     }
 
-    // Live search endpoint to display matching members from usv_members
+    // View Member Profile Page
+    public function profile($sl_no)
+    {
+        $member = UsvMember::where('sl_no', $sl_no)->firstOrFail();
+        $isAdmin = $this->checkAdmin();
+        $isAuthenticated = Session::has('authenticated_user');
+        $totalMembers = UsvMember::count();
+
+        return view('players.profile', compact(
+            'member',
+            'isAdmin',
+            'isAuthenticated',
+            'totalMembers'
+        ));
+    }
+
+    // Live search endpoint to display matching members from usv_members with profile links
     public function search(Request $request)
     {
         $query = trim($request->input('query', ''));
@@ -46,10 +74,21 @@ class PlayerController extends Controller
         $members = UsvMember::when($query !== '', function ($q) use ($query) {
             $q->where('name', 'like', '%' . $query . '%')
               ->orWhere('member_id', 'like', '%' . $query . '%')
-              ->orWhere('call_name', 'like', '%' . $query . '%');
+              ->orWhere('call_name', 'like', '%' . $query . '%')
+              ->orWhere('sl_no', 'like', '%' . $query . '%');
         })
         ->orderBy('sl_no', 'asc')
-        ->get(['sl_no', 'member_id', 'name', 'call_name']);
+        ->limit(15)
+        ->get(['sl_no', 'member_id', 'name', 'call_name'])
+        ->map(function ($m) {
+            return [
+                'sl_no' => $m->sl_no,
+                'member_id' => $m->member_id,
+                'name' => $m->name,
+                'call_name' => $m->call_name ?? '',
+                'profile_url' => route('members.profile', $m->sl_no),
+            ];
+        });
 
         return response()->json($members);
     }
@@ -57,123 +96,102 @@ class PlayerController extends Controller
     // Legacy create route - redirects to index page
     public function create()
     {
-        return redirect()->route('players.index');
+        return redirect()->route('members');
     }
 
-    // Save a new player with optional photo (Admin only)
+    // Save a new member to usv_members table (Admin only)
     public function store(Request $request)
     {
         if (!$this->checkAdmin()) {
-            return redirect()->route('players.index')->withErrors(['admin' => 'Only Admin has permission to add players.']);
+            return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to add members.']);
         }
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'jersey_number' => 'required|integer|min:0|max:999',
-            'position' => 'required|string|max:100',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'member_id' => 'required|integer',
+            'name' => 'required|string|max:150',
+            'call_name' => 'nullable|string|max:100',
+            'sl_no' => 'nullable|integer',
         ], [
-            'name.required' => 'Player name is required.',
-            'jersey_number.required' => 'Jersey number is required.',
-            'jersey_number.integer' => 'Jersey number must be a valid number.',
-            'position.required' => 'Position or role is required.',
-            'photo.image' => 'The file must be an image (JPEG, PNG, JPG, or WEBP).',
-            'photo.max' => 'The image size may not exceed 2MB.',
+            'member_id.required' => 'Member ID is required.',
+            'member_id.integer' => 'Member ID must be a valid number.',
+            'name.required' => 'Member name is required.',
+            'name.max' => 'Member name may not exceed 150 characters.',
         ]);
 
-        $photoName = null;
-
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $uploadDir = public_path('uploads/players');
-
-            if (!File::isDirectory($uploadDir)) {
-                File::makeDirectory($uploadDir, 0755, true, true);
+        // Determine SL NO
+        if ($request->filled('sl_no')) {
+            $slNo = (int) $request->sl_no;
+            if (UsvMember::where('sl_no', $slNo)->exists()) {
+                return redirect()->back()->withInput()->withErrors(['sl_no' => "Serial Number #{$slNo} already exists in usv_members."]);
             }
-
-            $photoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $photoName);
+        } else {
+            $maxSl = UsvMember::max('sl_no');
+            $slNo = ($maxSl !== null) ? ((int) $maxSl + 1) : 1;
         }
 
-        Player::create([
-            'name' => $request->name,
-            'jersey_number' => $request->jersey_number,
-            'position' => $request->position,
-            'photo' => $photoName,
+        // Check if Member ID is duplicate
+        if (UsvMember::where('member_id', $request->member_id)->exists()) {
+            return redirect()->back()->withInput()->withErrors(['member_id' => "Member ID {$request->member_id} is already registered."]);
+        }
+
+        UsvMember::create([
+            'sl_no' => $slNo,
+            'member_id' => (int) $request->member_id,
+            'name' => trim($request->name),
+            'call_name' => $request->filled('call_name') ? trim($request->call_name) : null,
         ]);
 
-        return redirect()->route('players.index')->with('success', "Player '{$request->name}' added successfully!");
+        return redirect()->route('members')->with('success', "Member '{$request->name}' (ID: {$request->member_id}) added to usv_members successfully!");
     }
 
-    // Update existing player details & photo (Admin only)
+    // Update existing member in usv_members table (Admin only)
     public function update(Request $request, $id)
     {
         if (!$this->checkAdmin()) {
-            return redirect()->route('players.index')->withErrors(['admin' => 'Only Admin has permission to manage players.']);
+            return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to edit members.']);
         }
 
-        $player = Player::findOrFail($id);
+        $member = UsvMember::where('sl_no', $id)->firstOrFail();
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'jersey_number' => 'required|integer|min:0|max:999',
-            'position' => 'required|string|max:100',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'member_id' => 'required|integer',
+            'name' => 'required|string|max:150',
+            'call_name' => 'nullable|string|max:100',
         ], [
-            'name.required' => 'Player name is required.',
-            'jersey_number.required' => 'Jersey number is required.',
-            'jersey_number.integer' => 'Jersey number must be a valid number.',
-            'position.required' => 'Position or role is required.',
-            'photo.image' => 'The file must be an image (JPEG, PNG, JPG, or WEBP).',
-            'photo.max' => 'The image size may not exceed 2MB.',
+            'member_id.required' => 'Member ID is required.',
+            'member_id.integer' => 'Member ID must be a valid number.',
+            'name.required' => 'Member name is required.',
         ]);
 
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $uploadDir = public_path('uploads/players');
+        // Check duplicate member_id on other members
+        $exists = UsvMember::where('member_id', $request->member_id)
+            ->where('sl_no', '!=', $member->sl_no)
+            ->exists();
 
-            if (!File::isDirectory($uploadDir)) {
-                File::makeDirectory($uploadDir, 0755, true, true);
-            }
-
-            // Remove old photo if exists
-            if ($player->photo && File::exists($uploadDir . '/' . $player->photo)) {
-                File::delete($uploadDir . '/' . $player->photo);
-            }
-
-            $photoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $photoName);
-            $player->photo = $photoName;
+        if ($exists) {
+            return redirect()->back()->withInput()->withErrors(['member_id' => "Member ID {$request->member_id} is already used by another member."]);
         }
 
-        $player->name = $request->name;
-        $player->jersey_number = $request->jersey_number;
-        $player->position = $request->position;
-        $player->save();
+        $member->update([
+            'member_id' => (int) $request->member_id,
+            'name' => trim($request->name),
+            'call_name' => $request->filled('call_name') ? trim($request->call_name) : null,
+        ]);
 
-        return redirect()->route('players.index')->with('success', "Player '{$player->name}' updated successfully!");
+        return redirect()->back()->with('success', "Member '{$member->name}' updated in usv_members successfully!");
     }
 
-    // Delete a player (Admin only)
+    // Delete a member from usv_members (Admin only)
     public function destroy($id)
     {
         if (!$this->checkAdmin()) {
-            return redirect()->route('players.index')->withErrors(['admin' => 'Only Admin has permission to delete players.']);
+            return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to delete members.']);
         }
 
-        $player = Player::findOrFail($id);
-        $name = $player->name;
+        $member = UsvMember::where('sl_no', $id)->firstOrFail();
+        $name = $member->name;
+        $member->delete();
 
-        // Remove photo from disk if present
-        if ($player->photo) {
-            $photoPath = public_path('uploads/players/' . $player->photo);
-            if (File::exists($photoPath)) {
-                File::delete($photoPath);
-            }
-        }
-
-        $player->delete();
-
-        return redirect()->route('players.index')->with('success', "Player '{$name}' deleted successfully!");
+        return redirect()->route('members')->with('success', "Member '{$name}' deleted from usv_members successfully!");
     }
 }

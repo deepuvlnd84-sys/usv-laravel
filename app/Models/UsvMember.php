@@ -14,7 +14,7 @@ class UsvMember extends Model
 
     protected $primaryKey = 'sl_no';
 
-    public $incrementing = true;
+    public $incrementing = false;
 
     public $timestamps = false;
 

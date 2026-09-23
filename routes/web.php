@@ -61,9 +61,17 @@ Route::delete('/tournaments/{id}', [TournamentController::class, 'destroy'])->na
 // Gallery Route
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 
-// Player / Member Routes (List, Add, Edit, Delete, Search)
+// Player / Member Routes (List, Profile, Add, Edit, Delete, Search)
 Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
 Route::get('/members', [PlayerController::class, 'index'])->name('members');
+Route::get('/members/search', [PlayerController::class, 'search'])->name('members.search');
+Route::get('/members/{sl_no}/profile', [PlayerController::class, 'profile'])->name('members.profile');
+Route::get('/members/{sl_no}', [PlayerController::class, 'profile']);
+Route::post('/members', [PlayerController::class, 'store'])->name('members.store');
+Route::put('/members/{id}', [PlayerController::class, 'update'])->name('members.update');
+Route::delete('/members/{id}', [PlayerController::class, 'destroy'])->name('members.destroy');
+
+// Backward compatibility aliases for players
 Route::get('/players/search', [PlayerController::class, 'search'])->name('players.search');
 Route::get('/players/create', [PlayerController::class, 'create'])->name('players.create');
 Route::post('/players', [PlayerController::class, 'store'])->name('players.store');

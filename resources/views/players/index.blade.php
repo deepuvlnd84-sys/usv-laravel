@@ -347,6 +347,367 @@
             margin-top: 0.25rem;
         }
 
+        .btn-add-member {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #e60000 0%, #b80000 100%);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
+            transition: all 0.25s ease;
+        }
+
+        .btn-add-member:hover {
+            background: linear-gradient(135deg, #ff1a1a 0%, #d60000 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 0, 0, 0.6);
+        }
+
+        /* Search Dropdown (Matching drop list) */
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: rgba(18, 18, 18, 0.98);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            max-height: 380px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            padding: 0.5rem;
+        }
+
+        .search-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .search-dropdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: background 0.15s, transform 0.15s;
+            cursor: pointer;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .search-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-dropdown-item:hover {
+            background: rgba(230, 0, 0, 0.22);
+            transform: translateX(3px);
+        }
+
+        .search-item-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .search-item-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e60000, #800000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.85rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            min-width: 0;
+        }
+
+        .search-item-name {
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-item-call {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .search-item-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .search-item-id {
+            font-size: 0.72rem;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.25rem 0.55rem;
+            border-radius: 50px;
+        }
+
+        .search-item-btn {
+            font-size: 0.72rem;
+            font-weight: 800;
+            background: var(--primary-color);
+            color: #ffffff;
+            padding: 0.35rem 0.85rem;
+            border-radius: 50px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .search-item-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Action Buttons: PROFILE, EDIT, DEL */
+        .col-actions {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, rgba(230, 0, 0, 0.9), rgba(160, 0, 0, 0.95));
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            padding: 0.45rem 1.05rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(230, 0, 0, 0.35);
+        }
+
+        .btn-profile:hover {
+            background: #ff1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(230, 0, 0, 0.6);
+            color: #ffffff;
+        }
+
+        .btn-table-edit {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.42rem 0.85rem;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .btn-table-edit:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffffff;
+        }
+
+        .btn-table-del {
+            display: inline-flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid rgba(230, 0, 0, 0.5);
+            color: #ff6b6b;
+            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.42rem 0.75rem;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .btn-table-del:hover {
+            background: rgba(230, 0, 0, 0.25);
+            color: #ffffff;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-card {
+            background: #181818;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.6rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.45rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1.1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.85rem;
+            margin-top: 1.75rem;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.7rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-hover);
+        }
+
         /* Feedback Alerts */
         .alert {
             padding: 1rem 1.5rem;
@@ -887,9 +1248,19 @@
                 <h1>CLUB <span>MEMBERS</span></h1>
                 <p class="roster-subtitle">Official members list of United Seniors Vellanad (from USV database)</p>
             </div>
-            <div class="members-count-badge">
-                <span class="count-number" id="headerCountBadge">{{ $totalMembers ?? count($members) }}</span>
-                <span class="count-label">Registered Members</span>
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                @if($isAdmin)
+                    <button type="button" class="btn-add-member" onclick="openAddModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        ADD MEMBER
+                    </button>
+                @endif
+                <div class="members-count-badge">
+                    <span class="count-number" id="headerCountBadge">{{ $totalMembers ?? count($members) }}</span>
+                    <span class="count-label">Registered Members</span>
+                </div>
             </div>
         </div>
 
@@ -919,9 +1290,11 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255, 255, 255, 0.6)">
                         <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                     </svg>
-                    <input type="text" id="memberSearch" placeholder="Search by name, ID or call name..." autocomplete="off" oninput="handleMemberSearch(this.value)">
+                    <input type="text" id="memberSearch" placeholder="Search by name, ID or call name..." autocomplete="off" oninput="handleMemberSearch(this.value)" onfocus="if(this.value.trim().length > 0) handleMemberSearch(this.value)">
                     <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()" style="display: none;" title="Clear Search">&times;</button>
                 </div>
+                <!-- Search Matching Dropdown -->
+                <div id="searchDropdown" class="search-dropdown"></div>
             </div>
             <div class="view-switch-controls">
                 <span class="showing-text" id="showingCounter">Showing {{ $totalMembers ?? count($members) }} of {{ $totalMembers ?? count($members) }} members</span>
@@ -952,6 +1325,7 @@
                             <th class="col-id">MEMBER ID</th>
                             <th class="col-name">MEMBER NAME</th>
                             <th class="col-call">CALL NAME</th>
+                            <th class="col-actions">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody id="membersTableBody">
@@ -976,10 +1350,30 @@
                                         <span class="call-empty">—</span>
                                     @endif
                                 </td>
+                                <td class="col-actions">
+                                    <div class="actions-cell">
+                                        <a href="{{ route('members.profile', $member->sl_no) }}" class="btn-profile" title="View Member Profile">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                            </svg>
+                                            PROFILE
+                                        </a>
+                                        @if($isAdmin)
+                                            <button type="button" class="btn-table-edit" data-sl="{{ $member->sl_no }}" data-id="{{ $member->member_id }}" data-name="{{ $member->name }}" data-call="{{ $member->call_name ?? '' }}" onclick="handleEditBtn(this)" title="Edit Member">
+                                                EDIT
+                                            </button>
+                                            <form action="{{ route('members.destroy', $member->sl_no) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete member {{ addslashes($member->name) }} (ID: {{ $member->member_id }}) from usv_members?');" style="margin: 0; display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-table-del" title="Delete Member">DEL</button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="empty-table-cell">No members found in usv_members database table.</td>
+                                <td colspan="5" class="empty-table-cell">No members found in usv_members database table.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -1004,12 +1398,25 @@
                             </div>
                         </div>
                         <div class="card-footer-bar">
-                            <span class="footer-label">CALL NAME</span>
-                            @if(!empty(trim($member->call_name ?? '')))
-                                <span class="call-badge">{{ $member->call_name }}</span>
-                            @else
-                                <span class="call-empty">—</span>
-                            @endif
+                            <div style="display: flex; flex-direction: column; gap: 0.2rem;">
+                                <span class="footer-label">CALL NAME</span>
+                                @if(!empty(trim($member->call_name ?? '')))
+                                    <span class="call-badge">{{ $member->call_name }}</span>
+                                @else
+                                    <span class="call-empty">—</span>
+                                @endif
+                            </div>
+                            <div class="actions-cell">
+                                <a href="{{ route('members.profile', $member->sl_no) }}" class="btn-profile">PROFILE</a>
+                                @if($isAdmin)
+                                    <button type="button" class="btn-table-edit" data-sl="{{ $member->sl_no }}" data-id="{{ $member->member_id }}" data-name="{{ $member->name }}" data-call="{{ $member->call_name ?? '' }}" onclick="handleEditBtn(this)" title="Edit Member">EDIT</button>
+                                    <form action="{{ route('members.destroy', $member->sl_no) }}" method="POST" onsubmit="return confirm('Delete member {{ addslashes($member->name) }}?');" style="margin: 0; display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-table-del">DEL</button>
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -1025,10 +1432,86 @@
         </div>
     </main>
 
+    @if($isAdmin)
+        <!-- Add Member Modal -->
+        <div id="addMemberModal" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add New Member</h3>
+                    <button type="button" class="modal-close-btn" onclick="closeAddModal()">&times;</button>
+                </div>
+                <form action="{{ route('members.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label">Member ID *</label>
+                        <input type="number" name="member_id" class="form-control" placeholder="e.g. 1175" required value="{{ old('member_id') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Member Name *</label>
+                        <input type="text" name="name" class="form-control" placeholder="Full name of member" required maxlength="150" value="{{ old('name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Call / Known Name (Optional)</label>
+                        <input type="text" name="call_name" class="form-control" placeholder="e.g. Deepu" maxlength="100" value="{{ old('call_name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Serial Number (Optional)</label>
+                        <input type="number" name="sl_no" class="form-control" placeholder="Auto-assigned if left blank" value="{{ old('sl_no') }}">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+                        <button type="submit" class="btn-save">Save to usv_members</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Member Modal -->
+        <div id="editMemberModal" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Member Details</h3>
+                    <button type="button" class="modal-close-btn" onclick="closeEditModal()">&times;</button>
+                </div>
+                <form id="editMemberForm" action="{{ route('members.update', 0) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label class="form-label">Serial No (SL NO)</label>
+                        <input type="text" id="edit_sl_no_display" class="form-control" readonly style="opacity: 0.6; cursor: not-allowed;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Member ID *</label>
+                        <input type="number" id="edit_member_id" name="member_id" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Member Name *</label>
+                        <input type="text" id="edit_name" name="name" class="form-control" required maxlength="150">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Call / Known Name (Optional)</label>
+                        <input type="text" id="edit_call_name" name="call_name" class="form-control" maxlength="100">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn-save">Update Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+
+    <!-- Embedded Search Dataset -->
+    <script id="membersSearchData" type="application/json">{!! json_encode($searchMembers ?? []) !!}</script>
+
     <!-- Interactive Client Scripts -->
     <script>
         const totalMemberCount = parseInt('{{ $totalMembers ?? count($members) }}', 10) || 0;
         let currentView = 'table';
+
+        // Preload members for instantaneous dropdown search
+        const membersDataEl = document.getElementById('membersSearchData');
+        const memberList = membersDataEl ? JSON.parse(membersDataEl.textContent || '[]') : [];
 
         // Switch View between Table and Grid
         function switchView(view) {
@@ -1051,7 +1534,7 @@
             }
         }
 
-        // Live Filter Functionality
+        // Live Filter Functionality with Matching Dropdown
         function handleMemberSearch(query) {
             const val = (query || '').toLowerCase().trim();
             const clearBtn = document.getElementById('clearSearchBtn');
@@ -1059,11 +1542,57 @@
             const noResults = document.getElementById('noResultsState');
             const tableView = document.getElementById('membersTableView');
             const gridView = document.getElementById('membersGridView');
+            const dropdown = document.getElementById('searchDropdown');
 
             if (clearBtn) {
                 clearBtn.style.display = val.length > 0 ? 'inline-block' : 'none';
             }
 
+            // Populate Matching Dropdown
+            if (dropdown) {
+                if (val.length > 0) {
+                    const matches = memberList.filter(m => {
+                        const n = (m.name || '').toLowerCase();
+                        const c = (m.call_name || '').toLowerCase();
+                        const id = String(m.member_id || '');
+                        const sl = String(m.sl_no || '');
+                        return n.includes(val) || c.includes(val) || id.includes(val) || sl.includes(val);
+                    }).slice(0, 10);
+
+                    if (matches.length > 0) {
+                        let html = '';
+                        matches.forEach(m => {
+                            const callBadge = m.call_name ? `<span class="search-item-call">(${escapeHtml(m.call_name)})</span>` : '';
+                            html += `
+                                <div class="search-dropdown-item" onclick="window.location.href='${m.profile_url}'">
+                                    <div class="search-item-left">
+                                        <div class="search-item-avatar">${(m.name || 'U').charAt(0).toUpperCase()}</div>
+                                        <div class="search-item-info">
+                                            <div class="search-item-name">${highlightMatch(m.name, val)} ${callBadge}</div>
+                                        </div>
+                                    </div>
+                                    <div class="search-item-right">
+                                        <span class="search-item-id">ID: ${m.member_id}</span>
+                                        <a href="${m.profile_url}" class="search-item-btn" onclick="event.stopPropagation();">
+                                            PROFILE
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        dropdown.innerHTML = html;
+                        dropdown.style.display = 'block';
+                    } else {
+                        dropdown.innerHTML = `<div style="padding: 1rem; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.88rem;">No members matching "${escapeHtml(val)}"</div>`;
+                        dropdown.style.display = 'block';
+                    }
+                } else {
+                    dropdown.style.display = 'none';
+                    dropdown.innerHTML = '';
+                }
+            }
+
+            // Filter Table and Cards
             const rows = document.querySelectorAll('.member-row');
             const cards = document.querySelectorAll('.member-card-item');
             let visibleCount = 0;
@@ -1119,6 +1648,27 @@
             }
         }
 
+        function highlightMatch(text, query) {
+            if (!query) return escapeHtml(text);
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return escapeHtml(text).replace(regex, '<span style="color: var(--text-color); font-weight: 900; text-decoration: underline;">$1</span>');
+        }
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, function (m) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m];
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const searchWrapper = document.querySelector('.search-wrapper');
+            const dropdown = document.getElementById('searchDropdown');
+            if (dropdown && searchWrapper && !searchWrapper.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         // Clear Search
         function clearSearch() {
             const input = document.getElementById('memberSearch');
@@ -1128,6 +1678,46 @@
             }
             handleMemberSearch('');
         }
+
+        // Modal Helpers
+        function openAddModal() {
+            const modal = document.getElementById('addMemberModal');
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeAddModal() {
+            const modal = document.getElementById('addMemberModal');
+            if (modal) modal.style.display = 'none';
+        }
+        function openEditModal(sl, id, name, call) {
+            const modal = document.getElementById('editMemberModal');
+            const form = document.getElementById('editMemberForm');
+            if (modal && form) {
+                form.action = `/members/${sl}`;
+                document.getElementById('edit_sl_no_display').value = '#' + sl;
+                document.getElementById('edit_member_id').value = id;
+                document.getElementById('edit_name').value = name;
+                document.getElementById('edit_call_name').value = call || '';
+                modal.style.display = 'flex';
+            }
+        }
+        function closeEditModal() {
+            const modal = document.getElementById('editMemberModal');
+            if (modal) modal.style.display = 'none';
+        }
+        function handleEditBtn(btn) {
+            if (!btn) return;
+            const sl = btn.getAttribute('data-sl');
+            const id = btn.getAttribute('data-id');
+            const name = btn.getAttribute('data-name');
+            const call = btn.getAttribute('data-call');
+            openEditModal(sl, id, name, call);
+        }
+        window.addEventListener('click', function(e) {
+            const addModal = document.getElementById('addMemberModal');
+            const editModal = document.getElementById('editMemberModal');
+            if (e.target === addModal) closeAddModal();
+            if (e.target === editModal) closeEditModal();
+        });
     </script>
 </body>
 </html>
