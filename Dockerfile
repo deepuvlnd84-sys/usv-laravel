@@ -33,4 +33,4 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
 RUN composer install --no-dev --optimize-autoloader
 
 # Render പോർട്ട് ലിസൺ ചെയ്യുന്നതിനുള്ള സ്ക്രിപ്റ്റ്
-CMD php artisan migrate --force && sed -i "s/80/${PORT:-80}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground
+CMD (php artisan migrate --force || true) && sed -i "s/80/${PORT:-80}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground
