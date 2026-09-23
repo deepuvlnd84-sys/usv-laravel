@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# SSL Certificates
+/storage/ca.pem
+*.pem
