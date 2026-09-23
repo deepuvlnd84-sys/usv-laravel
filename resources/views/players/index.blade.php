@@ -1241,7 +1241,7 @@
     </header>
 
     <!-- Main Container -->
-    <main class="main-container">
+    <main class="main-container" data-total-members="{{ $totalMembers ?? count($members) }}">
         <!-- Roster Top Bar -->
         <div class="roster-header">
             <div class="roster-title-area">
@@ -1330,7 +1330,7 @@
                     </thead>
                     <tbody id="membersTableBody">
                         @forelse($members as $member)
-                            <tr class="member-row" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}">
+                            <tr class="member-row" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}" data-fullname="{{ $member->name }}" data-callname="{{ $member->call_name }}">
                                 <td class="col-sl">
                                     <span class="sl-badge">#{{ $member->sl_no }}</span>
                                 </td>
@@ -1359,7 +1359,7 @@
                                             PROFILE
                                         </a>
                                         @if($isAdmin)
-                                            <button type="button" class="btn-table-edit" data-sl="{{ $member->sl_no }}" data-id="{{ $member->member_id }}" data-name="{{ $member->name }}" data-call="{{ $member->call_name ?? '' }}" onclick="handleEditBtn(this)" title="Edit Member">
+                                            <button type="button" class="btn-table-edit" onclick="handleEditBtn(this)" title="Edit Member">
                                                 EDIT
                                             </button>
                                             <form action="{{ route('members.destroy', $member->sl_no) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete member {{ addslashes($member->name) }} (ID: {{ $member->member_id }}) from usv_members?');" style="margin: 0; display: inline;">
@@ -1385,7 +1385,7 @@
         <div class="members-grid-container" id="membersGridView" style="display: none;">
             <div class="members-cards-grid" id="membersCardsGrid">
                 @foreach($members as $member)
-                    <div class="member-card-item" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}">
+                    <div class="member-card-item" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}" data-fullname="{{ $member->name }}" data-callname="{{ $member->call_name }}">
                         <div class="card-header-bar">
                             <span class="sl-badge">#{{ $member->sl_no }}</span>
                             <span class="id-badge">ID: {{ $member->member_id }}</span>
@@ -1409,7 +1409,7 @@
                             <div class="actions-cell">
                                 <a href="{{ route('members.profile', $member->sl_no) }}" class="btn-profile">PROFILE</a>
                                 @if($isAdmin)
-                                    <button type="button" class="btn-table-edit" data-sl="{{ $member->sl_no }}" data-id="{{ $member->member_id }}" data-name="{{ $member->name }}" data-call="{{ $member->call_name ?? '' }}" onclick="handleEditBtn(this)" title="Edit Member">EDIT</button>
+                                    <button type="button" class="btn-table-edit" onclick="handleEditBtn(this)" title="Edit Member">EDIT</button>
                                     <form action="{{ route('members.destroy', $member->sl_no) }}" method="POST" onsubmit="return confirm('Delete member {{ addslashes($member->name) }}?');" style="margin: 0; display: inline;">
                                         @csrf
                                         @method('DELETE')
@@ -1506,7 +1506,8 @@
 
     <!-- Interactive Client Scripts -->
     <script>
-        const totalMemberCount = parseInt('{{ $totalMembers ?? count($members) }}', 10) || 0;
+        const mainContainerEl = document.querySelector('.main-container');
+        const totalMemberCount = parseInt((mainContainerEl && mainContainerEl.getAttribute('data-total-members')) || '0', 10);
         let currentView = 'table';
 
         // Preload members for instantaneous dropdown search
@@ -1706,10 +1707,12 @@
         }
         function handleEditBtn(btn) {
             if (!btn) return;
-            const sl = btn.getAttribute('data-sl');
-            const id = btn.getAttribute('data-id');
-            const name = btn.getAttribute('data-name');
-            const call = btn.getAttribute('data-call');
+            const item = btn.closest('.member-row') || btn.closest('.member-card-item');
+            if (!item) return;
+            const sl = item.getAttribute('data-sl');
+            const id = item.getAttribute('data-id');
+            const name = item.getAttribute('data-fullname') || '';
+            const call = item.getAttribute('data-callname') || '';
             openEditModal(sl, id, name, call);
         }
         window.addEventListener('click', function(e) {
