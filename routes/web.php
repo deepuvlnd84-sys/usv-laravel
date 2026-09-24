@@ -14,7 +14,11 @@ use App\Http\Controllers\RegisterController;
 
 // Home Page Route
 Route::get('/', function () {
-    $activeMessages = ScrollingMessage::where('is_active', true)->latest()->get();
+    try {
+        $activeMessages = ScrollingMessage::where('is_active', true)->latest()->get();
+    } catch (\Throwable $e) {
+        $activeMessages = collect();
+    }
     return view('welcome', compact('activeMessages'));
 });
 

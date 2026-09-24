@@ -74,36 +74,43 @@ class RegisterController extends Controller
             $file->move($destinationPath, $photoName);
         }
 
-        $record = RegisterDetail::create([
-            'photo' => $photoName,
-            'name' => trim($validated['name']),
-            'mobile_no' => trim($validated['mobile_no']),
-            'address' => $request->filled('address') ? trim($validated['address']) : null,
-            'age' => $request->filled('age') ? (int) $validated['age'] : null,
-            'dob' => $request->filled('dob') ? $validated['dob'] : null,
-            'blood_group' => $request->filled('blood_group') ? $validated['blood_group'] : null,
-            'education_qualification' => $request->filled('education_qualification') ? trim($validated['education_qualification']) : null,
-            'job' => $request->filled('job') ? trim($validated['job']) : null,
-            'remarks' => $request->filled('remarks') ? trim($validated['remarks']) : null,
-            
-            'playing_role' => $validated['playing_role'],
-            'batting_style' => $request->filled('batting_style') ? $validated['batting_style'] : null,
-            'bowling_arm' => $request->filled('bowling_arm') ? $validated['bowling_arm'] : null,
-            'bowling_pace' => $request->filled('bowling_pace') ? $validated['bowling_pace'] : null,
-            'wicket_keeping_style' => $request->filled('wicket_keeping_style') ? trim($validated['wicket_keeping_style']) : null,
-            'batting_position' => $request->filled('batting_position') ? $validated['batting_position'] : null,
-            'jersey_number' => $request->filled('jersey_number') ? trim($validated['jersey_number']) : null,
-            'previous_clubs' => $request->filled('previous_clubs') ? trim($validated['previous_clubs']) : null,
-            'cricket_experience' => $request->filled('cricket_experience') ? trim($validated['cricket_experience']) : null,
-            'is_locked' => false,
-        ]);
+        try {
+            $record = RegisterDetail::create([
+                'photo' => $photoName,
+                'name' => trim($validated['name']),
+                'mobile_no' => trim($validated['mobile_no']),
+                'address' => $request->filled('address') ? trim($validated['address']) : null,
+                'age' => $request->filled('age') ? (int) $validated['age'] : null,
+                'dob' => $request->filled('dob') ? $validated['dob'] : null,
+                'blood_group' => $request->filled('blood_group') ? $validated['blood_group'] : null,
+                'education_qualification' => $request->filled('education_qualification') ? trim($validated['education_qualification']) : null,
+                'job' => $request->filled('job') ? trim($validated['job']) : null,
+                'remarks' => $request->filled('remarks') ? trim($validated['remarks']) : null,
+                
+                'playing_role' => $validated['playing_role'],
+                'batting_style' => $request->filled('batting_style') ? $validated['batting_style'] : null,
+                'bowling_arm' => $request->filled('bowling_arm') ? $validated['bowling_arm'] : null,
+                'bowling_pace' => $request->filled('bowling_pace') ? $validated['bowling_pace'] : null,
+                'wicket_keeping_style' => $request->filled('wicket_keeping_style') ? trim($validated['wicket_keeping_style']) : null,
+                'batting_position' => $request->filled('batting_position') ? $validated['batting_position'] : null,
+                'jersey_number' => $request->filled('jersey_number') ? trim($validated['jersey_number']) : null,
+                'previous_clubs' => $request->filled('previous_clubs') ? trim($validated['previous_clubs']) : null,
+                'cricket_experience' => $request->filled('cricket_experience') ? trim($validated['cricket_experience']) : null,
+                'is_locked' => false,
+            ]);
 
-        return redirect()->route('register.create')->with([
-            'success' => "Registration successful! Welcome to United Seniors Vellanad, {$record->name}.",
-            'registered_id' => $record->id,
-            'registered_name' => $record->name,
-            'registered_role' => $record->playing_role,
-        ]);
+            return redirect()->route('register.create')->with([
+                'success' => "Registration successful! Welcome to United Seniors Vellanad, {$record->name}.",
+                'registered_id' => $record->id,
+                'registered_name' => $record->name,
+                'registered_role' => $record->playing_role,
+            ]);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Registration error: " . $e->getMessage());
+            return redirect()->back()->withInput()->withErrors([
+                'db' => "Database connection issue: Unable to save registration at this moment. Please try again shortly or contact the administrator."
+            ]);
+        }
     }
 
     /**
