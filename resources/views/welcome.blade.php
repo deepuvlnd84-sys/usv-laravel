@@ -322,54 +322,54 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: 2rem 1.5rem 1rem 1.5rem;
+            padding: 0.6rem 1.5rem 0.4rem 1.5rem;
             z-index: 5;
         }
 
         .text-container {
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .hero-emblem-wrap {
-            margin-bottom: 1rem;
+            margin-bottom: 0.25rem;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .hero-emblem-img {
-            width: clamp(120px, 15vw, 180px);
+            width: clamp(60px, 7vw, 90px);
             height: auto;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.4));
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
         }
 
         .hero-emblem-img:hover {
-            transform: scale(1.06) translateY(-4px);
-            filter: drop-shadow(0 16px 32px rgba(230, 0, 0, 0.45));
+            transform: scale(1.06) translateY(-2px);
+            filter: drop-shadow(0 12px 24px rgba(230, 0, 0, 0.45));
         }
 
         .title {
             color: var(--primary-color);
             font-weight: 900;
-            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-size: clamp(1.3rem, 3.2vw, 2.3rem);
             letter-spacing: -0.02em;
             text-transform: uppercase;
             margin: 0;
             line-height: 1.1;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
         }
 
         .hero-actions {
-            margin-top: 1.5rem;
+            margin-top: 0.4rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
@@ -378,26 +378,26 @@
         .btn-hero-about {
             display: inline-flex;
             align-items: center;
-            gap: 0.65rem;
+            gap: 0.5rem;
             background: linear-gradient(135deg, var(--primary-color) 0%, #b80000 100%);
             color: #ffffff;
             text-decoration: none;
-            padding: 0.75rem 2rem;
+            padding: 0.45rem 1.35rem;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.78rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-            border: 2px solid rgba(231, 247, 17, 0.4);
+            box-shadow: 0 6px 18px rgba(230, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+            border: 1.5px solid rgba(231, 247, 17, 0.4);
             transition: all var(--transition-speed) ease;
         }
 
         .btn-hero-about:hover {
-            transform: translateY(-3px) scale(1.03);
+            transform: translateY(-2px) scale(1.02);
             background: linear-gradient(135deg, #15b300 0%, #0e7d00 100%);
             border-color: #ffffff;
-            box-shadow: 0 12px 30px rgba(21, 179, 0, 0.5);
+            box-shadow: 0 10px 24px rgba(21, 179, 0, 0.5);
             color: #ffffff;
         }
 
@@ -408,8 +408,8 @@
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
-            padding: 0.6rem 0;
-            font-size: 0.95rem;
+            padding: 0.45rem 0;
+            font-size: 0.88rem;
             font-weight: 800;
             letter-spacing: 0.05em;
             z-index: 100;
@@ -455,11 +455,11 @@
         /* ======================================================== */
         /* HOME PAGE 2-COLUMN GRID (IMPORTANT MESSAGES & FIXTURES) */
         /* ======================================================== */
-        .home-main-wrapper {
-            width: 100%;
+        .home-sections-container {
+            width: 96%;
             max-width: 1400px;
-            margin: 0.5rem auto 2.5rem auto;
-            padding: 0 1.5rem;
+            margin: 0.35rem auto 1.5rem auto;
+            padding: 0 1rem;
             box-sizing: border-box;
             z-index: 10;
             position: relative;
@@ -467,10 +467,10 @@
 
         /* Alert notifications */
         .home-alert {
-            padding: 0.85rem 1.25rem;
-            border-radius: 14px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            font-size: 0.88rem;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -490,61 +490,18 @@
             color: #ffffff;
         }
 
-        .home-main-grid {
+        .home-sections-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            align-items: start;
+            gap: 1.25rem;
+            align-items: stretch;
         }
 
         @media (max-width: 992px) {
-            .home-main-grid {
+            .home-sections-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-        }
-
-        /* Left side USV Brand Header Banner */
-        .usv-brand-hero-card {
-            background: rgba(14, 14, 14, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 20px;
-            padding: 0.85rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-            margin-bottom: 1rem;
-        }
-
-        .usv-brand-logo-img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(230, 0, 0, 0.5));
-            flex-shrink: 0;
-        }
-
-        .usv-brand-text-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex: 1;
-            flex-wrap: wrap;
-        }
-
-        .usv-brand-title {
-            color: var(--primary-color);
-            font-weight: 900;
-            font-size: clamp(1.15rem, 2.2vw, 1.65rem);
-            letter-spacing: -0.01em;
-            text-transform: uppercase;
-            margin: 0;
-            line-height: 1.1;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
         /* Section Glassmorphism Box */
@@ -554,186 +511,40 @@
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 20px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            height: calc(100vh - 210px);
+            min-height: 440px;
+            max-height: 600px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (max-width: 992px) {
+            .section-card-box {
+                height: auto;
+                min-height: 0;
+                max-height: none;
+            }
         }
 
         .section-card-box:hover {
             border-color: rgba(230, 0, 0, 0.45);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
-        }
-
-        /* Table Scroll Wrap for First Screen Fit */
-        .table-scroll-wrap {
-            max-height: clamp(300px, 45vh, 500px);
-            overflow-y: auto;
-            overflow-x: auto;
-            padding: 0.75rem;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .table-scroll-wrap::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        .table-scroll-wrap::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .table-scroll-wrap::-webkit-scrollbar-thumb {
-            background: rgba(230, 0, 0, 0.45);
-            border-radius: 4px;
-        }
-
-        /* Data Tables Styling */
-        .usv-data-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 0.5rem;
-            color: #ffffff;
-            font-size: 0.88rem;
-        }
-
-        .usv-data-table th {
-            background: rgba(230, 0, 0, 0.25);
-            color: var(--text-color);
-            font-size: 0.76rem;
-            font-weight: 900;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 0.65rem 0.85rem;
-            text-align: left;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .usv-data-table th:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        .usv-data-table th:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .usv-data-table td {
-            background: rgba(255, 255, 255, 0.04);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.75rem 0.85rem;
-            vertical-align: middle;
-        }
-
-        .usv-data-table td:first-child {
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-        }
-
-        .usv-data-table td:last-child {
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-
-        .usv-data-table tr:hover td {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(230, 0, 0, 0.35);
-        }
-
-        .empty-placeholder-td {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 700;
-            padding: 2rem 1rem !important;
-        }
-
-        /* Fixture cell helpers */
-        .team-flex-row {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            flex-wrap: wrap;
-        }
-
-        .team-name-box {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .team-name-text {
-            font-weight: 800;
-            color: #ffffff;
-            font-size: 0.9rem;
-        }
-
-        .team-score-badge {
-            background: rgba(231, 247, 17, 0.15);
-            color: var(--text-color);
-            border: 1px solid rgba(231, 247, 17, 0.4);
-            font-size: 0.78rem;
-            font-weight: 800;
-            padding: 0.1rem 0.45rem;
-            border-radius: 6px;
-        }
-
-        .vs-circle {
-            background: rgba(230, 0, 0, 0.3);
-            color: #ff6666;
-            border: 1px solid var(--primary-color);
-            font-weight: 900;
-            font-size: 0.65rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 50px;
-        }
-
-        .fixture-match-no {
-            font-weight: 900;
-            color: var(--text-color);
-            font-size: 0.85rem;
-        }
-
-        .fixture-stage-text {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .dt-text {
-            font-weight: 700;
-            font-size: 0.82rem;
-            color: #ffffff;
-        }
-
-        .time-text {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .venue-text {
-            font-size: 0.72rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .section-card-box:hover {
-            border-color: rgba(230, 0, 0, 0.45);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
         }
 
         /* Continuous Scrolling Marquee Heading Banner */
         .scrolling-header-container {
             background: linear-gradient(90deg, #180303 0%, #3d0505 50%, #180303 100%);
             border-bottom: 2.5px solid var(--primary-color);
-            padding: 0.8rem 0;
+            padding: 0.65rem 0;
             overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
         }
 
         .scrolling-header-track {
@@ -758,7 +569,7 @@
         }
 
         .scrolling-header-text {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 900;
             letter-spacing: 0.08em;
             color: #ffffff;
@@ -772,7 +583,7 @@
 
         .scrolling-header-icon {
             color: var(--text-color);
-            font-size: 1.25rem;
+            font-size: 1.15rem;
         }
 
         /* Top Action Bar under Heading */
@@ -780,16 +591,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.85rem 1.25rem;
+            padding: 0.65rem 1.1rem;
             background: rgba(255, 255, 255, 0.03);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.5rem;
+            flex-shrink: 0;
         }
 
         .section-sub-title {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
@@ -801,14 +613,14 @@
         .full-fixtures-pdf-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             background: linear-gradient(135deg, #e60000 0%, #990000 100%);
             color: #ffffff;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            padding: 0.6rem 1.25rem;
+            padding: 0.45rem 1.1rem;
             border-radius: 50px;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(230, 0, 0, 0.45);
@@ -830,13 +642,13 @@
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.25);
             font-weight: 800;
-            font-size: 0.78rem;
-            padding: 0.45rem 0.95rem;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.85rem;
             border-radius: 50px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             transition: all 0.2s ease;
             text-decoration: none;
             font-family: inherit;
@@ -861,17 +673,23 @@
 
         /* Body List Area */
         .section-body-list {
-            padding: 1.25rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.85rem;
             flex: 1;
             overflow-y: auto;
-            max-height: 720px;
+            max-height: none;
+        }
+
+        @media (max-width: 992px) {
+            .section-body-list {
+                max-height: 400px;
+            }
         }
 
         .section-body-list::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
 
         .section-body-list::-webkit-scrollbar-track {
@@ -1730,8 +1548,27 @@
         </div>
     </header>
 
-    <!-- Main Home Sections Layout (Left: USV Emblem/Title + Important Messages Table | Right: Fixtures Table directly under Sign In tab) -->
-    <div class="home-main-wrapper">
+    <!-- Hero Content -->
+    <main class="main-content">
+        <div class="text-container">
+            <div class="hero-emblem-wrap">
+                <img src="{{ asset('usv-logo.png') }}" alt="United Seniors Vellanad" class="hero-emblem-img">
+            </div>
+            <h1 class="title">UNITED SENIORS VELLANAD</h1>
+            <div class="hero-actions">
+                <a href="{{ route('about') }}" class="btn-hero-about">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                    </svg>
+                    <span>ABOUT US</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Home Sections Container (Important Messages Left Side & Fixtures Right Side) -->
+    <div class="home-sections-container">
         @if(session('success'))
             <div class="home-alert alert-success-custom">
                 <span>✅ {{ session('success') }}</span>
@@ -1744,236 +1581,188 @@
             </div>
         @endif
 
-        <div class="home-main-grid">
+        <div class="home-sections-grid">
 
-            <!-- LEFT COLUMN: USV BRAND HERO + IMPORTANT MESSAGES TABLE -->
-            <div class="home-col-left">
-                <!-- Sleek Compact USV Brand Header Banner -->
-                <div class="usv-brand-hero-card">
-                    <img src="{{ asset('usv-logo.png') }}" alt="United Seniors Vellanad Logo" class="usv-brand-logo-img">
-                    <div class="usv-brand-text-wrap">
-                        <h1 class="usv-brand-title">UNITED SENIORS VELLANAD</h1>
-                        <a href="{{ route('about') }}" class="btn-hero-about">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                            </svg>
-                            <span>ABOUT US</span>
-                        </a>
+            <!-- LEFT SIDE: IMPORTANT MESSAGES -->
+            <div class="section-card-box">
+                <!-- Scrolling Marquee Header for IMPORTANT MESSAGES -->
+                <div class="scrolling-header-container">
+                    <div class="scrolling-header-track">
+                        <div class="scrolling-header-text">
+                            <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
+                            ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class="scrolling-header-text">
+                            <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
+                            ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
                     </div>
                 </div>
 
-                <!-- LEFT SIDE TABLE: IMPORTANT MESSAGES -->
-                <div class="section-card-box">
-                    <!-- Scrolling Marquee Header for IMPORTANT MESSAGES -->
-                    <div class="scrolling-header-container">
-                        <div class="scrolling-header-track">
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                        </div>
-                    </div>
+                <!-- Sub-bar with Admin controls -->
+                <div class="section-top-bar">
+                    <span class="section-sub-title">
+                        <span>📌</span> Latest Club Updates
+                    </span>
+                    @if($isAdmin)
+                        <button type="button" class="admin-btn" onclick="openAddMsgModal()">
+                            ➕ Add Message
+                        </button>
+                    @endif
+                </div>
 
-                    <!-- Sub-bar with Admin controls -->
-                    <div class="section-top-bar">
-                        <span class="section-sub-title">
-                            <span>📌</span> Latest Club Updates
-                        </span>
-                        @if($isAdmin)
-                            <button type="button" class="admin-btn" onclick="openAddMsgModal()">
-                                ➕ Add Message
-                            </button>
-                        @endif
-                    </div>
-
-                    <!-- Messages Data Table -->
-                    <div class="table-scroll-wrap">
-                        <table class="usv-data-table msg-data-table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 22%;">TAG</th>
-                                    <th style="width: 28%;">DATE & TIME</th>
-                                    <th style="width: 50%;">ANNOUNCEMENT DETAILS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(isset($importantMessages) && $importantMessages->count() > 0)
-                                    @foreach($importantMessages as $msg)
-                                        <tr>
-                                            <td>
-                                                <span class="msg-badge badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
-                                            </td>
-                                            <td style="color: rgba(255,255,255,0.65); font-size: 0.78rem; font-weight: 600;">
-                                                {{ $msg->created_at->format('d M Y, h:i A') }}
-                                            </td>
-                                            <td>
-                                                @if($msg->title)
-                                                    <div style="color: #ffffff; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.2rem;">
-                                                        {{ $msg->title }}
-                                                    </div>
-                                                @endif
-                                                <div style="color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.4;">
-                                                    {{ $msg->message }}
-                                                </div>
-                                                @if($isAdmin)
-                                                    <div class="item-admin-actions" style="margin-top: 0.4rem;">
-                                                        <button type="button" class="admin-btn btn-edit-sm"
-                                                            onclick="openEditMsgModal({{ $msg->id }}, '{{ addslashes($msg->title) }}', '{{ addslashes($msg->message) }}', '{{ $msg->badge }}')">
-                                                            ✏️ Edit
-                                                        </button>
-                                                        <form action="{{ route('important-messages.destroy', $msg->id) }}" method="POST"
-                                                            style="margin:0; display:inline;"
-                                                            onsubmit="return confirm('Are you sure you want to delete this important message?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="admin-btn btn-delete-sm">
-                                                                🗑️ Delete
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="3" class="empty-placeholder-td">
-                                            📢 No important messages published yet.
-                                        </td>
-                                    </tr>
+                <!-- Messages List -->
+                <div class="section-body-list">
+                    @if(isset($importantMessages) && $importantMessages->count() > 0)
+                        @foreach($importantMessages as $msg)
+                            <div class="msg-item-card">
+                                <div class="msg-item-top">
+                                    <span class="msg-badge badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
+                                    <span class="msg-date">{{ $msg->created_at->format('d M Y, h:i A') }}</span>
+                                </div>
+                                @if($msg->title)
+                                    <h4 class="msg-item-title">{{ $msg->title }}</h4>
                                 @endif
-                            </tbody>
-                        </table>
-                    </div>
+                                <p class="msg-item-body">{{ $msg->message }}</p>
+
+                                @if($isAdmin)
+                                    <div class="item-admin-actions">
+                                        <button type="button" class="admin-btn btn-edit-sm"
+                                            onclick="openEditMsgModal({{ $msg->id }}, '{{ addslashes($msg->title) }}', '{{ addslashes($msg->message) }}', '{{ $msg->badge }}')">
+                                            ✏️ Edit
+                                        </button>
+                                        <form action="{{ route('important-messages.destroy', $msg->id) }}" method="POST"
+                                            style="margin:0;"
+                                            onsubmit="return confirm('Are you sure you want to delete this important message?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="admin-btn btn-delete-sm">
+                                                🗑️ Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="empty-placeholder">
+                            📢 No important messages published yet.
+                        </div>
+                    @endif
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: FIXTURES TABLE (Placed directly under Sign In tab on top right) -->
-            <div class="home-col-right">
-                <div class="section-card-box">
-                    <!-- Scrolling Marquee Header for FIXTURES -->
-                    <div class="scrolling-header-container">
-                        <div class="scrolling-header-track">
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull; TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull; TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
+            <!-- RIGHT SIDE: FIXTURES (6 Matches & Full Fixtures PDF Link) -->
+            <div class="section-card-box">
+                <!-- Scrolling Marquee Header for FIXTURES -->
+                <div class="scrolling-header-container">
+                    <div class="scrolling-header-track">
+                        <div class="scrolling-header-text">
+                            <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
+                            TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class="scrolling-header-text">
+                            <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
+                            TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                     </div>
+                </div>
 
-                    <!-- Sub-bar with FULL FIXTURES PDF button & Admin buttons -->
-                    <div class="section-top-bar">
-                        @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
-                            <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
-                                class="full-fixtures-pdf-btn" title="Download / View Full Fixtures PDF">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                                </svg>
-                                <span>FULL FIXTURES</span>
-                            </a>
-                        @else
-                            <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn"
-                                title="View Full Fixtures PDF">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                                </svg>
-                                <span>FULL FIXTURES</span>
-                            </a>
-                        @endif
+                <!-- Sub-bar with FULL FIXTURES PDF button & Admin buttons -->
+                <div class="section-top-bar">
+                    @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
+                        <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
+                            class="full-fixtures-pdf-btn" title="Download / View Full Fixtures PDF">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                            </svg>
+                            <span>FULL FIXTURES</span>
+                        </a>
+                    @else
+                        <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn"
+                            title="View Full Fixtures PDF">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                            </svg>
+                            <span>FULL FIXTURES</span>
+                        </a>
+                    @endif
 
-                        @if($isAdmin)
-                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-                                <button type="button" class="admin-btn" onclick="openAddFixtureModal()">
-                                    ➕ Add Match
-                                </button>
-                                <button type="button" class="admin-btn btn-edit-sm" onclick="openUploadPdfModal()">
-                                    📄 Upload PDF
-                                </button>
-                            </div>
-                        @endif
-                    </div>
+                    @if($isAdmin)
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button type="button" class="admin-btn" onclick="openAddFixtureModal()">
+                                ➕ Add Match
+                            </button>
+                            <button type="button" class="admin-btn btn-edit-sm" onclick="openUploadPdfModal()">
+                                📄 Upload PDF
+                            </button>
+                        </div>
+                    @endif
+                </div>
 
-                    <!-- Fixtures Data Table -->
-                    <div class="table-scroll-wrap">
-                        <table class="usv-data-table fixtures-data-table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 25%;">MATCH / STAGE</th>
-                                    <th style="width: 45%;">TEAMS & SCORES</th>
-                                    <th style="width: 30%;">DATE & VENUE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(isset($fixtures) && $fixtures->count() > 0)
-                                    @foreach($fixtures as $fix)
-                                        <tr>
-                                            <td>
-                                                <div class="fixture-match-no">{{ $fix->match_no }}</div>
-                                                <div class="fixture-stage-text">{{ $fix->stage }}</div>
-                                                <div style="margin-top:0.25rem;">
-                                                    <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="team-flex-row">
-                                                    <div class="team-name-box">
-                                                        <span class="team-name-text">{{ $fix->team1 }}</span>
-                                                        @if($fix->team1_score)
-                                                            <span class="team-score-badge">{{ $fix->team1_score }}</span>
-                                                        @endif
-                                                    </div>
-                                                    <span class="vs-circle">VS</span>
-                                                    <div class="team-name-box">
-                                                        <span class="team-name-text">{{ $fix->team2 }}</span>
-                                                        @if($fix->team2_score)
-                                                            <span class="team-score-badge">{{ $fix->team2_score }}</span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                @if($fix->result)
-                                                    <div class="fixture-result-banner" style="margin-top: 0.35rem; font-size: 0.75rem; color: #4ade80;">
-                                                        🏆 {{ $fix->result }}
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="dt-text">📅 {{ $fix->match_date }}</div>
-                                                <div class="time-text">⏰ {{ $fix->match_time }}</div>
-                                                <div class="venue-text">📍 {{ $fix->venue }}</div>
-                                                @if($isAdmin)
-                                                    <div class="item-admin-actions" style="margin-top:0.4rem;">
-                                                        <button type="button" class="admin-btn btn-edit-sm"
-                                                            onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
-                                                            ✏️ Edit
-                                                        </button>
-                                                        <form action="{{ route('home-fixtures.destroy', $fix->id) }}" method="POST"
-                                                            style="margin:0; display:inline;"
-                                                            onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="admin-btn btn-delete-sm">
-                                                                🗑️ Delete
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="3" class="empty-placeholder-td">
-                                            🏏 No match fixtures added yet.
-                                        </td>
-                                    </tr>
+                <!-- Fixtures List (6 Matches Shown) -->
+                <div class="section-body-list">
+                    @if(isset($fixtures) && $fixtures->count() > 0)
+                        @foreach($fixtures as $fix)
+                            <div class="fixture-card">
+                                <div class="fixture-header-row">
+                                    <span class="fixture-match-no">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
+                                    <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
+                                </div>
+
+                                <div class="fixture-versus-row">
+                                    <div class="team-box">
+                                        <span class="team-title">{{ $fix->team1 }}</span>
+                                        @if($fix->team1_score)
+                                            <span class="team-score">{{ $fix->team1_score }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="vs-badge">VS</div>
+                                    <div class="team-box">
+                                        <span class="team-title">{{ $fix->team2 }}</span>
+                                        @if($fix->team2_score)
+                                            <span class="team-score">{{ $fix->team2_score }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="fixture-details-row">
+                                    <span>📅 {{ $fix->match_date }} @ {{ $fix->match_time }}</span>
+                                    <span>📍 {{ $fix->venue }}</span>
+                                </div>
+
+                                @if($fix->result)
+                                    <div class="fixture-result-banner">
+                                        🏆 {{ $fix->result }}
+                                    </div>
                                 @endif
-                            </tbody>
-                        </table>
-                    </div>
+
+                                @if($isAdmin)
+                                    <div class="item-admin-actions">
+                                        <button type="button" class="admin-btn btn-edit-sm"
+                                            onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
+                                            ✏️ Edit Match
+                                        </button>
+                                        <form action="{{ route('home-fixtures.destroy', $fix->id) }}" method="POST"
+                                            style="margin:0;"
+                                            onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="admin-btn btn-delete-sm">
+                                                🗑️ Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="empty-placeholder">
+                            🏏 No match fixtures added yet.
+                        </div>
+                    @endif
                 </div>
             </div>
 

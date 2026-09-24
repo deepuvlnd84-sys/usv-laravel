@@ -751,6 +751,59 @@
                 padding: 1.8rem;
             }
         }
+
+        /* Subnav Back & Home buttons */
+        .subnav-buttons-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subpage-back-btn,
+        .subpage-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.95rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            line-height: 1;
+        }
+
+        .subpage-back-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .subpage-back-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: #ffffff;
+            transform: translateX(-2px);
+            color: #ffffff;
+        }
+
+        .subpage-home-btn {
+            background: linear-gradient(135deg, #e60000 0%, #b80000 100%);
+            color: #ffffff;
+            border: 1px solid rgba(231, 247, 17, 0.35);
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.35);
+        }
+
+        .subpage-home-btn:hover {
+            background: linear-gradient(135deg, #15b300 0%, #0e7d00 100%);
+            border-color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(21, 179, 0, 0.45);
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -760,24 +813,26 @@
 
     <!-- Header Navigation -->
     <header class="header">
-        <a href="{{ url('/') }}" class="logo" title="United Seniors Vellanad - Return to Home">
-            <img src="{{ asset('usv-logo.png') }}" alt="USV Logo" class="logo-img">
-            <span class="logo-text">USV</span>
-        </a>
-        <div class="header-nav-actions">
-            <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ url('/') }}'" class="btn-nav-back" title="Go Back">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                <span>Back</span>
-            </button>
-            <a href="{{ url('/') }}" class="btn-nav-home" title="Go to Home Page">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                </svg>
-                <span>Home</span>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="{{ url('/') }}" class="logo" title="United Seniors Vellanad - Return to Home">
+                <img src="{{ asset('usv-logo.png') }}" alt="USV Logo" class="logo-img">
+                <span class="logo-text">USV</span>
             </a>
+            <div class="subnav-buttons-wrap">
+                <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ url('/') }}'" class="subpage-back-btn" title="Go Back">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>Back</span>
+                </button>
+                <a href="{{ url('/') }}" class="subpage-home-btn" title="Return to Home Page">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+            </div>
         </div>
         <nav class="nav-menu">
             <a href="{{ route('members') }}" class="nav-link">MEMBERS</a>
