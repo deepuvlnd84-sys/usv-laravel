@@ -556,6 +556,7 @@
             </div>
 
             <a href="{{ route('gallery') }}" class="nav-link active">GALLERY</a>
+            <a href="{{ route('register.create') }}" class="nav-link">REGISTER</a>
             <a href="{{ route('contact') }}" class="nav-link">CONTACT</a>
             @if(Session::has('authenticated_user'))
                 <a href="{{ route('dashboard') }}" class="nav-link">DASHBOARD</a>

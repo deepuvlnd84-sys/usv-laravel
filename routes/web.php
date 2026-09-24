@@ -10,6 +10,7 @@ use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\RegisterController;
 
 // Home Page Route
 Route::get('/', function () {
@@ -60,6 +61,18 @@ Route::delete('/tournaments/{id}', [TournamentController::class, 'destroy'])->na
 
 // Gallery Route
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+
+// Registration Routes (Public Registration Form & Submission)
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+
+// Admin Registration Management (View, Search, Export Excel, Lock/Unlock, Edit, Delete, Add)
+Route::get('/admin/registrations', [RegisterController::class, 'adminIndex'])->name('admin.register.index');
+Route::get('/admin/registrations/export', [RegisterController::class, 'exportExcel'])->name('admin.register.export');
+Route::post('/admin/registrations', [RegisterController::class, 'adminStore'])->name('admin.register.store');
+Route::put('/admin/registrations/{id}', [RegisterController::class, 'adminUpdate'])->name('admin.register.update');
+Route::patch('/admin/registrations/{id}/lock', [RegisterController::class, 'toggleLock'])->name('admin.register.lock');
+Route::delete('/admin/registrations/{id}', [RegisterController::class, 'destroy'])->name('admin.register.destroy');
 
 // Player / Member Routes (List, Profile, Add, Edit, Delete, Search)
 Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
