@@ -16,11 +16,16 @@ class TournamentController extends Controller
     // Display all tournaments
     public function index()
     {
-        $tournaments = Tournament::orderBy('created_at', 'asc')->get();
+        try {
+            $tournaments = Tournament::orderBy('created_at', 'asc')->get();
+        } catch (\Throwable $e) {
+            $tournaments = collect();
+        }
         $isAdmin = $this->checkAdmin();
 
         return view('tournaments.index', compact('tournaments', 'isAdmin'));
     }
+
 
     // Display single tournament details with Teams, Fixtures, Point Table, Leaderboard, Committee, and Gallery
     public function show($id)
