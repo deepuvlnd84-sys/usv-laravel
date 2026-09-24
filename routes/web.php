@@ -12,6 +12,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\RegisterController;
 
+use App\Http\Controllers\ImportantMessageController;
+use App\Http\Controllers\HomeFixtureController;
+use App\Models\ImportantMessage;
+use App\Models\HomeFixture;
+use App\Models\FixtureSetting;
+use Illuminate\Support\Facades\Session;
+
 // Home Page Route
 Route::get('/', function () {
     try {
@@ -19,8 +26,41 @@ Route::get('/', function () {
     } catch (\Throwable $e) {
         $activeMessages = collect();
     }
-    return view('welcome', compact('activeMessages'));
+
+    try {
+        $importantMessages = ImportantMessage::where('is_active', true)->latest()->get();
+    } catch (\Throwable $e) {
+        $importantMessages = collect();
+    }
+
+    try {
+        $fixtures = HomeFixture::orderBy('order_position', 'asc')->take(6)->get();
+    } catch (\Throwable $e) {
+        $fixtures = collect();
+    }
+
+    try {
+        $fixtureSetting = FixtureSetting::first();
+    } catch (\Throwable $e) {
+        $fixtureSetting = null;
+    }
+
+    $isAdmin = Session::get('is_admin') === true;
+
+    return view('welcome', compact('activeMessages', 'importantMessages', 'fixtures', 'fixtureSetting', 'isAdmin'));
 });
+
+// Important Message Routes (Admin)
+Route::post('/important-messages', [ImportantMessageController::class, 'store'])->name('important-messages.store');
+Route::put('/important-messages/{id}', [ImportantMessageController::class, 'update'])->name('important-messages.update');
+Route::delete('/important-messages/{id}', [ImportantMessageController::class, 'destroy'])->name('important-messages.destroy');
+
+// Home Fixtures Routes (Admin)
+Route::post('/home-fixtures', [HomeFixtureController::class, 'store'])->name('home-fixtures.store');
+Route::put('/home-fixtures/{id}', [HomeFixtureController::class, 'update'])->name('home-fixtures.update');
+Route::delete('/home-fixtures/{id}', [HomeFixtureController::class, 'destroy'])->name('home-fixtures.destroy');
+Route::post('/home-fixtures/pdf', [HomeFixtureController::class, 'uploadPdf'])->name('home-fixtures.pdf.upload');
+
 
 // Club About Routes (Public View, Admin Edit & Update)
 Route::get('/about', [AboutController::class, 'index'])->name('about');
