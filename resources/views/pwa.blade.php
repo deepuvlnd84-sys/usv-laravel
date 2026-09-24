@@ -21,3 +21,172 @@
     });
   }
 </script>
+
+<!-- Mobile App Compatible Styling Layer (Active on Mobile Screens, Web Desktop View Preserved) -->
+<style>
+    @media (max-width: 768px) {
+        :root {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-size: 15px;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Mobile App Header & Sticky Navigation Bar */
+        .header {
+            padding: 0.85rem 1rem !important;
+            gap: 0.75rem !important;
+            flex-wrap: wrap !important;
+            position: sticky !important;
+            top: 0 !important;
+            background: rgba(12, 12, 12, 0.94) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+            z-index: 1000 !important;
+        }
+
+        .logo-img {
+            width: 40px !important;
+            height: 38px !important;
+        }
+
+        .logo-text {
+            font-size: 0.95rem !important;
+        }
+
+        .nav-menu {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            -webkit-overflow-scrolling: touch !important;
+            width: 100% !important;
+            padding: 0.35rem 0.1rem 0.55rem 0.1rem !important;
+            gap: 0.5rem !important;
+            scrollbar-width: none !important;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        .nav-link, 
+        .nav-dropdown-toggle {
+            font-size: 0.82rem !important;
+            padding: 0.55rem 1rem !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            min-height: 42px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            touch-action: manipulation !important;
+            border-radius: 25px !important;
+        }
+
+        /* Tactile Touch Button Animation for Mobile App feel */
+        .nav-link:active,
+        .nav-dropdown-toggle:active,
+        .signin-btn:active,
+        .btn-hero-about:active,
+        .btn-add-member:active,
+        .btn-profile:active,
+        .btn-table-edit:active,
+        .btn-table-del:active,
+        .btn-save:active,
+        .btn-cancel:active,
+        .search-item-btn:active,
+        .btn-reset-search:active,
+        button:active,
+        .btn:active {
+            transform: scale(0.96) !important;
+            opacity: 0.9 !important;
+        }
+
+        .auth-menu {
+            margin-left: auto !important;
+        }
+
+        .signin-btn {
+            font-size: 0.78rem !important;
+            padding: 0.5rem 1rem !important;
+            min-height: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 25px !important;
+        }
+
+        /* Mobile Container Padding */
+        .main-container,
+        .main-content,
+        .home-sections-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+
+        /* Mobile App Typography Scaling */
+        h1, .title {
+            font-size: clamp(1.75rem, 7vw, 2.4rem) !important;
+            line-height: 1.15 !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        h2, .section-title {
+            font-size: 1.35rem !important;
+        }
+
+        h3 {
+            font-size: 1.15rem !important;
+        }
+
+        /* Mobile Touch Inputs - Prevent iOS Auto-zoom */
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        textarea {
+            font-size: 16px !important;
+            padding: 0.75rem 1rem !important;
+            border-radius: 12px !important;
+        }
+
+        /* Mobile Table Touch Scroll */
+        .table-responsive {
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+        }
+
+        .usv-members-table th,
+        .usv-members-table td {
+            padding: 0.75rem 0.85rem !important;
+            font-size: 0.85rem !important;
+        }
+
+        /* Mobile App Modals */
+        .modal-card {
+            padding: 1.25rem !important;
+            border-radius: 18px !important;
+            max-width: 94vw !important;
+        }
+
+        .modal-actions {
+            flex-direction: column-reverse !important;
+            gap: 0.5rem !important;
+        }
+
+        .modal-actions button,
+        .modal-actions .btn {
+            width: 100% !important;
+            min-height: 46px !important;
+        }
+    }
+</style>
+
