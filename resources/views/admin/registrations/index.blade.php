@@ -875,6 +875,21 @@
             <img src="{{ asset('usv-logo.png') }}" alt="USV Logo" class="logo-img">
             <span class="logo-text">USV ADMIN</span>
         </a>
+        <div class="header-nav-actions">
+            <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ url('/') }}'" class="btn-nav-back" title="Go Back">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Back</span>
+            </button>
+            <a href="{{ url('/') }}" class="btn-nav-home" title="Go to Home Page">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+            </a>
+        </div>
 
         <div class="admin-nav-actions">
             <span class="admin-badge">🛡️ Administrator</span>
