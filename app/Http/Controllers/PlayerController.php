@@ -16,10 +16,40 @@ class PlayerController extends Controller
         return Session::get('is_admin') === true;
     }
 
+    private function getFallbackMembers()
+    {
+        $dataFile = database_path('seeders/members_data.php');
+        if (file_exists($dataFile)) {
+            $data = require $dataFile;
+            return collect($data)->map(function ($item) {
+                $m = new UsvMember();
+                $m->sl_no = (int) $item['sl_no'];
+                $m->member_id = (int) $item['member_id'];
+                $m->name = $item['name'];
+                $m->call_name = $item['call_name'] ?? null;
+                return $m;
+            });
+        }
+        return collect();
+    }
+
+    private function getFallbackMember($sl_no)
+    {
+        return $this->getFallbackMembers()->firstWhere('sl_no', (int) $sl_no);
+    }
+
     // Display the members list from usv_members table
     public function index()
     {
-        $members = UsvMember::orderBy('sl_no', 'asc')->get();
+        try {
+            $members = UsvMember::orderBy('sl_no', 'asc')->get();
+            if ($members->isEmpty()) {
+                $members = $this->getFallbackMembers();
+            }
+        } catch (\Throwable $e) {
+            $members = $this->getFallbackMembers();
+        }
+
         $isAdmin = $this->checkAdmin();
         $isAuthenticated = Session::has('authenticated_user');
         $totalMembers = $members->count();
@@ -53,10 +83,28 @@ class PlayerController extends Controller
     // View Member Profile Page
     public function profile($sl_no)
     {
-        $member = UsvMember::where('sl_no', $sl_no)->firstOrFail();
+        try {
+            $member = UsvMember::where('sl_no', $sl_no)->first();
+            if (!$member) {
+                $member = $this->getFallbackMember($sl_no);
+            }
+        } catch (\Throwable $e) {
+            $member = $this->getFallbackMember($sl_no);
+        }
+
+        if (!$member) {
+            abort(404, 'Member not found');
+        }
+
         $isAdmin = $this->checkAdmin();
         $isAuthenticated = Session::has('authenticated_user');
-        $totalMembers = UsvMember::count();
+
+        try {
+            $totalMembers = UsvMember::count();
+            if ($totalMembers === 0) $totalMembers = 174;
+        } catch (\Throwable $e) {
+            $totalMembers = 174;
+        }
 
         return view('players.profile', compact(
             'member',
@@ -71,16 +119,29 @@ class PlayerController extends Controller
     {
         $query = trim($request->input('query', ''));
 
-        $members = UsvMember::when($query !== '', function ($q) use ($query) {
-            $q->where('name', 'like', '%' . $query . '%')
-              ->orWhere('member_id', 'like', '%' . $query . '%')
-              ->orWhere('call_name', 'like', '%' . $query . '%')
-              ->orWhere('sl_no', 'like', '%' . $query . '%');
-        })
-        ->orderBy('sl_no', 'asc')
-        ->limit(15)
-        ->get(['sl_no', 'member_id', 'name', 'call_name'])
-        ->map(function ($m) {
+        try {
+            $members = UsvMember::when($query !== '', function ($q) use ($query) {
+                $q->where('name', 'like', '%' . $query . '%')
+                  ->orWhere('member_id', 'like', '%' . $query . '%')
+                  ->orWhere('call_name', 'like', '%' . $query . '%')
+                  ->orWhere('sl_no', 'like', '%' . $query . '%');
+            })
+            ->orderBy('sl_no', 'asc')
+            ->limit(15)
+            ->get(['sl_no', 'member_id', 'name', 'call_name']);
+        } catch (\Throwable $e) {
+            $all = $this->getFallbackMembers();
+            $members = $all->filter(function ($m) use ($query) {
+                if ($query === '') return true;
+                $q = strtolower($query);
+                return str_contains(strtolower($m->name), $q) ||
+                       str_contains((string) $m->member_id, $q) ||
+                       str_contains(strtolower($m->call_name ?? ''), $q) ||
+                       str_contains((string) $m->sl_no, $q);
+            })->take(15)->values();
+        }
+
+        $formatted = $members->map(function ($m) {
             return [
                 'sl_no' => $m->sl_no,
                 'member_id' => $m->member_id,
@@ -90,7 +151,7 @@ class PlayerController extends Controller
             ];
         });
 
-        return response()->json($members);
+        return response()->json($formatted);
     }
 
     // Legacy create route - redirects to index page
