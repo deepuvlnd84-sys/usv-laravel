@@ -875,15 +875,9 @@
             <img src="{{ asset('usv-logo.png') }}" alt="USV Logo" class="logo-img">
             <span class="logo-text">USV ADMIN</span>
         </a>
+        @include('partials.nav_controls')
 
         <div class="admin-nav-actions">
-            <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ url('/') }}'" class="btn-dash" title="Go Back">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-            </button>
             <span class="admin-badge">🛡️ Administrator</span>
             <a href="{{ route('dashboard') }}" class="btn-dash">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -891,7 +885,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="{{ url('/') }}" class="btn-dash" title="Home Page">
+            <a href="{{ url('/') }}" class="btn-dash">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>

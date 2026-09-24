@@ -322,54 +322,54 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: 0.6rem 1.5rem 0.4rem 1.5rem;
+            padding: 2rem 1.5rem 1rem 1.5rem;
             z-index: 5;
         }
 
         .text-container {
             text-align: center;
-            max-width: 900px;
+            max-width: 800px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .hero-emblem-wrap {
-            margin-bottom: 0.25rem;
+            margin-bottom: 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .hero-emblem-img {
-            width: clamp(60px, 7vw, 90px);
+            width: clamp(120px, 15vw, 180px);
             height: auto;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.4));
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
         }
 
         .hero-emblem-img:hover {
-            transform: scale(1.06) translateY(-2px);
-            filter: drop-shadow(0 12px 24px rgba(230, 0, 0, 0.45));
+            transform: scale(1.06) translateY(-4px);
+            filter: drop-shadow(0 16px 32px rgba(230, 0, 0, 0.45));
         }
 
         .title {
             color: var(--primary-color);
             font-weight: 900;
-            font-size: clamp(1.3rem, 3.2vw, 2.3rem);
+            font-size: clamp(2rem, 6vw, 4.5rem);
             letter-spacing: -0.02em;
             text-transform: uppercase;
             margin: 0;
             line-height: 1.1;
-            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
         }
 
         .hero-actions {
-            margin-top: 0.4rem;
+            margin-top: 1.5rem;
             display: flex;
-            gap: 0.75rem;
+            gap: 1rem;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
@@ -378,26 +378,26 @@
         .btn-hero-about {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.65rem;
             background: linear-gradient(135deg, var(--primary-color) 0%, #b80000 100%);
             color: #ffffff;
             text-decoration: none;
-            padding: 0.45rem 1.35rem;
+            padding: 0.75rem 2rem;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.9rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            box-shadow: 0 6px 18px rgba(230, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-            border: 1.5px solid rgba(231, 247, 17, 0.4);
+            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+            border: 2px solid rgba(231, 247, 17, 0.4);
             transition: all var(--transition-speed) ease;
         }
 
         .btn-hero-about:hover {
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-3px) scale(1.03);
             background: linear-gradient(135deg, #15b300 0%, #0e7d00 100%);
             border-color: #ffffff;
-            box-shadow: 0 10px 24px rgba(21, 179, 0, 0.5);
+            box-shadow: 0 12px 30px rgba(21, 179, 0, 0.5);
             color: #ffffff;
         }
 
@@ -408,8 +408,8 @@
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
-            padding: 0.45rem 0;
-            font-size: 0.88rem;
+            padding: 0.6rem 0;
+            font-size: 0.95rem;
             font-weight: 800;
             letter-spacing: 0.05em;
             z-index: 100;
@@ -453,13 +453,13 @@
         }
 
         /* ======================================================== */
-        /* HOME PAGE 2-COLUMN GRID (IMPORTANT MESSAGES & FIXTURES) */
+        /* HOME PAGE 3-COLUMN HERO GRID (MESSAGES - HEADING - FIXTURES) */
         /* ======================================================== */
         .home-sections-container {
-            width: 96%;
-            max-width: 1400px;
-            margin: 0.35rem auto 1.5rem auto;
-            padding: 0 1rem;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0.5rem auto 2rem auto;
+            padding: 0 1.25rem;
             box-sizing: border-box;
             z-index: 10;
             position: relative;
@@ -467,10 +467,10 @@
 
         /* Alert notifications */
         .home-alert {
-            padding: 0.75rem 1.25rem;
+            padding: 0.85rem 1.25rem;
             border-radius: 12px;
-            margin-bottom: 0.75rem;
-            font-size: 0.88rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.92rem;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -490,17 +490,31 @@
             color: #ffffff;
         }
 
-        .home-sections-grid {
+        .hero-sections-3col {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(290px, 380px) 1.15fr minmax(310px, 410px);
             gap: 1.25rem;
-            align-items: stretch;
+            align-items: flex-start;
         }
 
-        @media (max-width: 992px) {
-            .home-sections-grid {
+        .hero-col-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-sections-3col {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1.75rem;
+            }
+
+            .hero-col-center {
+                order: -1;
+                padding: 0.5rem 0;
             }
         }
 
@@ -510,41 +524,29 @@
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 20px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 210px);
-            min-height: 440px;
-            max-height: 600px;
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        @media (max-width: 992px) {
-            .section-card-box {
-                height: auto;
-                min-height: 0;
-                max-height: none;
-            }
         }
 
         .section-card-box:hover {
             border-color: rgba(230, 0, 0, 0.45);
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
         }
 
         /* Continuous Scrolling Marquee Heading Banner */
         .scrolling-header-container {
             background: linear-gradient(90deg, #180303 0%, #3d0505 50%, #180303 100%);
             border-bottom: 2.5px solid var(--primary-color);
-            padding: 0.65rem 0;
+            padding: 0.8rem 0;
             overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            flex-shrink: 0;
         }
 
         .scrolling-header-track {
@@ -569,7 +571,7 @@
         }
 
         .scrolling-header-text {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: 900;
             letter-spacing: 0.08em;
             color: #ffffff;
@@ -583,7 +585,7 @@
 
         .scrolling-header-icon {
             color: var(--text-color);
-            font-size: 1.15rem;
+            font-size: 1.25rem;
         }
 
         /* Top Action Bar under Heading */
@@ -591,17 +593,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.65rem 1.1rem;
+            padding: 0.85rem 1.25rem;
             background: rgba(255, 255, 255, 0.03);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             flex-wrap: wrap;
-            gap: 0.5rem;
-            flex-shrink: 0;
+            gap: 0.6rem;
         }
 
         .section-sub-title {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
@@ -613,14 +614,14 @@
         .full-fixtures-pdf-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
             background: linear-gradient(135deg, #e60000 0%, #990000 100%);
             color: #ffffff;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.85rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            padding: 0.45rem 1.1rem;
+            padding: 0.6rem 1.25rem;
             border-radius: 50px;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(230, 0, 0, 0.45);
@@ -642,13 +643,13 @@
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.25);
             font-weight: 800;
-            font-size: 0.75rem;
-            padding: 0.4rem 0.85rem;
+            font-size: 0.78rem;
+            padding: 0.45rem 0.95rem;
             border-radius: 50px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.4rem;
             transition: all 0.2s ease;
             text-decoration: none;
             font-family: inherit;
@@ -673,23 +674,18 @@
 
         /* Body List Area */
         .section-body-list {
-            padding: 1rem;
+            padding: 0.95rem;
             display: flex;
             flex-direction: column;
             gap: 0.85rem;
             flex: 1;
             overflow-y: auto;
-            max-height: none;
-        }
-
-        @media (max-width: 992px) {
-            .section-body-list {
-                max-height: 400px;
-            }
+            max-height: calc(100vh - 235px);
+            min-height: 320px;
         }
 
         .section-body-list::-webkit-scrollbar {
-            width: 5px;
+            width: 6px;
         }
 
         .section-body-list::-webkit-scrollbar-track {
@@ -1548,27 +1544,8 @@
         </div>
     </header>
 
-    <!-- Hero Content -->
-    <main class="main-content">
-        <div class="text-container">
-            <div class="hero-emblem-wrap">
-                <img src="{{ asset('usv-logo.png') }}" alt="United Seniors Vellanad" class="hero-emblem-img">
-            </div>
-            <h1 class="title">UNITED SENIORS VELLANAD</h1>
-            <div class="hero-actions">
-                <a href="{{ route('about') }}" class="btn-hero-about">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                    </svg>
-                    <span>ABOUT US</span>
-                </a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Main Home Sections Container (Important Messages Left Side & Fixtures Right Side) -->
-    <div class="home-sections-container">
+    <!-- Main First Screen Section Container (Important Messages Left, Emblem/Heading Center, Fixtures Right) -->
+    <main class="home-sections-container">
         @if(session('success'))
             <div class="home-alert alert-success-custom">
                 <span>✅ {{ session('success') }}</span>
@@ -1581,193 +1558,216 @@
             </div>
         @endif
 
-        <div class="home-sections-grid">
+        <div class="hero-sections-3col">
 
-            <!-- LEFT SIDE: IMPORTANT MESSAGES -->
-            <div class="section-card-box">
-                <!-- Scrolling Marquee Header for IMPORTANT MESSAGES -->
-                <div class="scrolling-header-container">
-                    <div class="scrolling-header-track">
-                        <div class="scrolling-header-text">
-                            <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
-                            ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
-                        <div class="scrolling-header-text">
-                            <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
-                            ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- LEFT SIDE: IMPORTANT MESSAGES (Placed below left side USV logo) -->
+            <div class="hero-col hero-col-left">
+                <div class="section-card-box">
+                    <!-- Scrolling Marquee Header for IMPORTANT MESSAGES -->
+                    <div class="scrolling-header-container">
+                        <div class="scrolling-header-track">
+                            <div class="scrolling-header-text">
+                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
+                                ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="scrolling-header-text">
+                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
+                                ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Sub-bar with Admin controls -->
-                <div class="section-top-bar">
-                    <span class="section-sub-title">
-                        <span>📌</span> Latest Club Updates
-                    </span>
-                    @if($isAdmin)
-                        <button type="button" class="admin-btn" onclick="openAddMsgModal()">
-                            ➕ Add Message
-                        </button>
-                    @endif
-                </div>
+                    <!-- Sub-bar with Admin controls -->
+                    <div class="section-top-bar">
+                        <span class="section-sub-title">
+                            <span>📌</span> Latest Club Updates
+                        </span>
+                        @if($isAdmin)
+                            <button type="button" class="admin-btn" onclick="openAddMsgModal()">
+                                ➕ Add Message
+                            </button>
+                        @endif
+                    </div>
 
-                <!-- Messages List -->
-                <div class="section-body-list">
-                    @if(isset($importantMessages) && $importantMessages->count() > 0)
-                        @foreach($importantMessages as $msg)
-                            <div class="msg-item-card">
-                                <div class="msg-item-top">
-                                    <span class="msg-badge badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
-                                    <span class="msg-date">{{ $msg->created_at->format('d M Y, h:i A') }}</span>
-                                </div>
-                                @if($msg->title)
-                                    <h4 class="msg-item-title">{{ $msg->title }}</h4>
-                                @endif
-                                <p class="msg-item-body">{{ $msg->message }}</p>
-
-                                @if($isAdmin)
-                                    <div class="item-admin-actions">
-                                        <button type="button" class="admin-btn btn-edit-sm"
-                                            onclick="openEditMsgModal({{ $msg->id }}, '{{ addslashes($msg->title) }}', '{{ addslashes($msg->message) }}', '{{ $msg->badge }}')">
-                                            ✏️ Edit
-                                        </button>
-                                        <form action="{{ route('important-messages.destroy', $msg->id) }}" method="POST"
-                                            style="margin:0;"
-                                            onsubmit="return confirm('Are you sure you want to delete this important message?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="admin-btn btn-delete-sm">
-                                                🗑️ Delete
-                                            </button>
-                                        </form>
+                    <!-- Messages List -->
+                    <div class="section-body-list">
+                        @if(isset($importantMessages) && $importantMessages->count() > 0)
+                            @foreach($importantMessages as $msg)
+                                <div class="msg-item-card">
+                                    <div class="msg-item-top">
+                                        <span class="msg-badge badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
+                                        <span class="msg-date">{{ $msg->created_at->format('d M Y, h:i A') }}</span>
                                     </div>
-                                @endif
+                                    @if($msg->title)
+                                        <h4 class="msg-item-title">{{ $msg->title }}</h4>
+                                    @endif
+                                    <p class="msg-item-body">{{ $msg->message }}</p>
+
+                                    @if($isAdmin)
+                                        <div class="item-admin-actions">
+                                            <button type="button" class="admin-btn btn-edit-sm"
+                                                onclick="openEditMsgModal({{ $msg->id }}, '{{ addslashes($msg->title) }}', '{{ addslashes($msg->message) }}', '{{ $msg->badge }}')">
+                                                ✏️ Edit
+                                            </button>
+                                            <form action="{{ route('important-messages.destroy', $msg->id) }}" method="POST"
+                                                style="margin:0;"
+                                                onsubmit="return confirm('Are you sure you want to delete this important message?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="admin-btn btn-delete-sm">
+                                                    🗑️ Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-placeholder">
+                                📢 No important messages published yet.
                             </div>
-                        @endforeach
-                    @else
-                        <div class="empty-placeholder">
-                            📢 No important messages published yet.
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
 
-            <!-- RIGHT SIDE: FIXTURES (6 Matches & Full Fixtures PDF Link) -->
-            <div class="section-card-box">
-                <!-- Scrolling Marquee Header for FIXTURES -->
-                <div class="scrolling-header-container">
-                    <div class="scrolling-header-track">
-                        <div class="scrolling-header-text">
-                            <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
-                            TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
-                        <div class="scrolling-header-text">
-                            <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
-                            TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
+            <!-- CENTER: HERO TITLE & EMBLEM -->
+            <div class="hero-col hero-col-center">
+                <div class="text-container">
+                    <div class="hero-emblem-wrap">
+                        <img src="{{ asset('usv-logo.png') }}" alt="United Seniors Vellanad" class="hero-emblem-img">
+                    </div>
+                    <h1 class="title">UNITED SENIORS VELLANAD</h1>
+                    <div class="hero-actions">
+                        <a href="{{ route('about') }}" class="btn-hero-about">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                            </svg>
+                            <span>ABOUT US</span>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Sub-bar with FULL FIXTURES PDF button & Admin buttons -->
-                <div class="section-top-bar">
-                    @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
-                        <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
-                            class="full-fixtures-pdf-btn" title="Download / View Full Fixtures PDF">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                            </svg>
-                            <span>FULL FIXTURES</span>
-                        </a>
-                    @else
-                        <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn"
-                            title="View Full Fixtures PDF">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                            </svg>
-                            <span>FULL FIXTURES</span>
-                        </a>
-                    @endif
-
-                    @if($isAdmin)
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button type="button" class="admin-btn" onclick="openAddFixtureModal()">
-                                ➕ Add Match
-                            </button>
-                            <button type="button" class="admin-btn btn-edit-sm" onclick="openUploadPdfModal()">
-                                📄 Upload PDF
-                            </button>
-                        </div>
-                    @endif
-                </div>
-
-                <!-- Fixtures List (6 Matches Shown) -->
-                <div class="section-body-list">
-                    @if(isset($fixtures) && $fixtures->count() > 0)
-                        @foreach($fixtures as $fix)
-                            <div class="fixture-card">
-                                <div class="fixture-header-row">
-                                    <span class="fixture-match-no">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
-                                    <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
-                                </div>
-
-                                <div class="fixture-versus-row">
-                                    <div class="team-box">
-                                        <span class="team-title">{{ $fix->team1 }}</span>
-                                        @if($fix->team1_score)
-                                            <span class="team-score">{{ $fix->team1_score }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="vs-badge">VS</div>
-                                    <div class="team-box">
-                                        <span class="team-title">{{ $fix->team2 }}</span>
-                                        @if($fix->team2_score)
-                                            <span class="team-score">{{ $fix->team2_score }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="fixture-details-row">
-                                    <span>📅 {{ $fix->match_date }} @ {{ $fix->match_time }}</span>
-                                    <span>📍 {{ $fix->venue }}</span>
-                                </div>
-
-                                @if($fix->result)
-                                    <div class="fixture-result-banner">
-                                        🏆 {{ $fix->result }}
-                                    </div>
-                                @endif
-
-                                @if($isAdmin)
-                                    <div class="item-admin-actions">
-                                        <button type="button" class="admin-btn btn-edit-sm"
-                                            onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
-                                            ✏️ Edit Match
-                                        </button>
-                                        <form action="{{ route('home-fixtures.destroy', $fix->id) }}" method="POST"
-                                            style="margin:0;"
-                                            onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="admin-btn btn-delete-sm">
-                                                🗑️ Delete
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
+            <!-- RIGHT SIDE: FIXTURES (Placed below right side SIGN IN tab) -->
+            <div class="hero-col hero-col-right">
+                <div class="section-card-box">
+                    <!-- Scrolling Marquee Header for FIXTURES -->
+                    <div class="scrolling-header-container">
+                        <div class="scrolling-header-track">
+                            <div class="scrolling-header-text">
+                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
+                                TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
                             </div>
-                        @endforeach
-                    @else
-                        <div class="empty-placeholder">
-                            🏏 No match fixtures added yet.
+                            <div class="scrolling-header-text">
+                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
+                                TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
                         </div>
-                    @endif
+                    </div>
+
+                    <!-- Sub-bar with FULL FIXTURES PDF button & Admin buttons -->
+                    <div class="section-top-bar">
+                        @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
+                            <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
+                                class="full-fixtures-pdf-btn" title="Download / View Full Fixtures PDF">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                                </svg>
+                                <span>FULL FIXTURES</span>
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn"
+                                title="View Full Fixtures PDF">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                                </svg>
+                                <span>FULL FIXTURES</span>
+                            </a>
+                        @endif
+
+                        @if($isAdmin)
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <button type="button" class="admin-btn" onclick="openAddFixtureModal()">
+                                    ➕ Add Match
+                                </button>
+                                <button type="button" class="admin-btn btn-edit-sm" onclick="openUploadPdfModal()">
+                                    📄 Upload PDF
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Fixtures List (6 Matches Shown) -->
+                    <div class="section-body-list">
+                        @if(isset($fixtures) && $fixtures->count() > 0)
+                            @foreach($fixtures as $fix)
+                                <div class="fixture-card">
+                                    <div class="fixture-header-row">
+                                        <span class="fixture-match-no">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
+                                        <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
+                                    </div>
+
+                                    <div class="fixture-versus-row">
+                                        <div class="team-box">
+                                            <span class="team-title">{{ $fix->team1 }}</span>
+                                            @if($fix->team1_score)
+                                                <span class="team-score">{{ $fix->team1_score }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="vs-badge">VS</div>
+                                        <div class="team-box">
+                                            <span class="team-title">{{ $fix->team2 }}</span>
+                                            @if($fix->team2_score)
+                                                <span class="team-score">{{ $fix->team2_score }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="fixture-details-row">
+                                        <span>📅 {{ $fix->match_date }} @ {{ $fix->match_time }}</span>
+                                        <span>📍 {{ $fix->venue }}</span>
+                                    </div>
+
+                                    @if($fix->result)
+                                        <div class="fixture-result-banner">
+                                            🏆 {{ $fix->result }}
+                                        </div>
+                                    @endif
+
+                                    @if($isAdmin)
+                                        <div class="item-admin-actions">
+                                            <button type="button" class="admin-btn btn-edit-sm"
+                                                onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
+                                                ✏️ Edit Match
+                                            </button>
+                                            <form action="{{ route('home-fixtures.destroy', $fix->id) }}" method="POST"
+                                                style="margin:0;"
+                                                onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="admin-btn btn-delete-sm">
+                                                    🗑️ Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-placeholder">
+                                🏏 No match fixtures added yet.
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
         </div>
-    </div>
+    </main>
 
     <!-- ========================================== -->
     <!-- ADMIN MODALS FOR MESSAGES & FIXTURES & PDF -->
