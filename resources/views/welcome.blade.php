@@ -25,6 +25,7 @@
             flex-direction: column;
             font-family: 'Outfit', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
+            padding-bottom: 70px; /* Space for fixed bottom bar */
         }
 
         /* Blurred and low opacity background image */
@@ -42,14 +43,20 @@
             z-index: -1;
         }
 
-        /* Navigation Bar */
+        /* Top Navigation Bar with Light Glassmorphism Matching Background */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 3rem;
-            position: relative;
-            z-index: 10;
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .logo {
@@ -62,11 +69,11 @@
         }
 
         .logo-img {
-            width: 50px;
+            width: 48px;
             height: auto;
-            max-height: 48px;
+            max-height: 44px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
             transition: transform var(--transition-speed, 0.3s) ease, filter var(--transition-speed, 0.3s) ease;
         }
 
@@ -76,7 +83,7 @@
         }
 
         .logo-text {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 900;
             color: var(--primary-color);
             letter-spacing: 0.04em;
@@ -92,7 +99,7 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
+            gap: 0.75rem;
             flex-wrap: wrap;
         }
 
@@ -102,13 +109,13 @@
             background: linear-gradient(135deg, #0b4d26 0%, #063c1e 100%);
             color: #ffffff;
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 0.65rem 1.35rem;
+            padding: 0.6rem 1.25rem;
             border-radius: 50px;
             border: 1.5px solid rgba(34, 197, 94, 0.45);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -125,7 +132,7 @@
             border-color: #22c55e;
             color: #ffffff;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
         }
 
         /* Nav Dropdown for Tournaments */
@@ -145,13 +152,13 @@
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
-            background: rgba(18, 18, 18, 0.98);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 14px;
             padding: 0.6rem;
             min-width: 230px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-8px);
@@ -164,17 +171,17 @@
             align-items: center;
             gap: 0.7rem;
             padding: 0.65rem 0.9rem;
-            color: #ffffff;
+            color: #1f2937;
             text-decoration: none;
             font-size: 0.92rem;
-            font-weight: 600;
+            font-weight: 700;
             border-radius: 8px;
             transition: background 0.2s ease, color 0.2s ease;
         }
 
         .nav-dropdown-item:hover {
-            background: rgba(230, 0, 0, 0.18);
-            color: var(--text-color);
+            background: rgba(230, 0, 0, 0.1);
+            color: var(--primary-color);
         }
 
         /* Sign In Button upper right */
@@ -189,16 +196,18 @@
             background-color: var(--primary-color);
             padding: 0.6rem 1.4rem;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.85rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             transition: background-color var(--transition-speed), transform var(--transition-speed);
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
         }
 
         .signin-btn:hover {
             background-color: #15b300ff;
             transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(21, 179, 0, 0.4);
         }
 
         /* Sign In Dropdown Styles */
@@ -225,13 +234,13 @@
             position: absolute;
             top: calc(100% + 8px);
             right: 0;
-            background: rgba(18, 18, 18, 0.96);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 16px;
             padding: 0.6rem;
             min-width: 250px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-8px);
@@ -257,7 +266,7 @@
         }
 
         .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(230, 0, 0, 0.08);
             transform: translateX(3px);
         }
 
@@ -273,7 +282,7 @@
         }
 
         .dropdown-item .item-title {
-            color: #ffffff;
+            color: #111827;
             font-weight: 800;
             font-size: 0.88rem;
             text-transform: uppercase;
@@ -281,18 +290,18 @@
         }
 
         .dropdown-item .item-desc {
-            color: rgba(255, 255, 255, 0.5);
+            color: #6b7280;
             font-size: 0.72rem;
             margin-top: 0.15rem;
         }
 
         .dropdown-item:hover .item-title {
-            color: var(--text-color);
+            color: var(--primary-color);
         }
 
         .dropdown-divider {
             height: 1px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.08);
             margin: 0.35rem 0;
         }
 
@@ -306,115 +315,30 @@
         }
 
         .admin-badge {
-            background: rgba(230, 0, 0, 0.2);
+            background: rgba(230, 0, 0, 0.15);
             border: 1px solid var(--primary-color);
-            color: #ff5555;
+            color: #dc2626;
         }
 
         .player-badge {
-            background: rgba(231, 247, 17, 0.15);
-            border: 1px solid var(--text-color);
-            color: var(--text-color);
+            background: rgba(22, 163, 74, 0.15);
+            border: 1px solid #16a34a;
+            color: #15803d;
         }
 
-        /* Hero Content Area */
-        .main-content {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 2rem 1.5rem 1rem 1.5rem;
-            z-index: 5;
-        }
-
-        .text-container {
-            text-align: center;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-emblem-wrap {
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-emblem-img {
-            width: clamp(120px, 15vw, 180px);
-            height: auto;
-            max-width: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
-        }
-
-        .hero-emblem-img:hover {
-            transform: scale(1.06) translateY(-4px);
-            filter: drop-shadow(0 16px 32px rgba(230, 0, 0, 0.45));
-        }
-
-        .title {
-            color: var(--primary-color);
-            font-weight: 900;
-            font-size: clamp(2rem, 6vw, 4.5rem);
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            margin: 0;
-            line-height: 1.1;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .hero-actions {
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-hero-about {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.65rem;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #b80000 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-            border: 2px solid rgba(231, 247, 17, 0.4);
-            transition: all var(--transition-speed) ease;
-        }
-
-        .btn-hero-about:hover {
-            transform: translateY(-3px) scale(1.03);
-            background: linear-gradient(135deg, #15b300 0%, #0e7d00 100%);
-            border-color: #ffffff;
-            box-shadow: 0 12px 30px rgba(21, 179, 0, 0.5);
-            color: #ffffff;
-        }
-
-        /* Top Scrolling Ticker Styles */
+        /* Top Ticker Bar if active messages exist */
         .scrolling-ticker {
             background-color: var(--primary-color);
             color: #ffffff;
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
-            padding: 0.6rem 0;
-            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
             font-weight: 800;
             letter-spacing: 0.05em;
-            z-index: 100;
+            z-index: 101;
             position: relative;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
             text-transform: uppercase;
         }
 
@@ -432,7 +356,6 @@
             0% {
                 transform: translate3d(0, 0, 0);
             }
-
             100% {
                 transform: translate3d(-100%, 0, 0);
             }
@@ -443,7 +366,6 @@
             padding-right: 2rem;
             font-family: 'Outfit', sans-serif;
             color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .ticker-separator {
@@ -453,13 +375,12 @@
         }
 
         /* ======================================================== */
-        /* HOME PAGE 3-COLUMN HERO GRID (MESSAGES - HEADING - FIXTURES) */
+        /* HOME PAGE 3-COLUMN HERO LAYOUT */
         /* ======================================================== */
         .home-sections-container {
             width: 100%;
-            max-width: 1600px;
-            margin: 0.5rem auto 2rem auto;
-            padding: 0 1.25rem;
+            margin: 1rem 0 2rem 0;
+            padding: 0 1rem 0 0; /* Flush to left edge */
             box-sizing: border-box;
             z-index: 10;
             position: relative;
@@ -467,15 +388,15 @@
 
         /* Alert notifications */
         .home-alert {
+            margin: 0 1.5rem 1.25rem 1.5rem;
             padding: 0.85rem 1.25rem;
             border-radius: 12px;
-            margin-bottom: 1.25rem;
             font-size: 0.92rem;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
 
         .alert-success-custom {
@@ -492,9 +413,15 @@
 
         .hero-sections-3col {
             display: grid;
-            grid-template-columns: minmax(290px, 380px) 1.15fr minmax(310px, 410px);
+            grid-template-columns: minmax(320px, 400px) 1fr minmax(320px, 420px);
             gap: 1.25rem;
             align-items: flex-start;
+        }
+
+        /* LEFT SIDE COLUMN (Flushed against left edge) */
+        .hero-col-left {
+            margin-left: 0;
+            padding-left: 0;
         }
 
         .hero-col-center {
@@ -507,6 +434,10 @@
         }
 
         @media (max-width: 1024px) {
+            .home-sections-container {
+                padding: 0 1rem;
+            }
+
             .hero-sections-3col {
                 grid-template-columns: 1fr;
                 gap: 1.75rem;
@@ -518,26 +449,228 @@
             }
         }
 
-        /* Section Glassmorphism Box */
+        /* ======================================================== */
+        /* LIGHT COLOR STYLE FOR IMPORTANT MESSAGES (MATCHING BACKGROUND) */
+        /* ======================================================== */
+        .section-card-box-light {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 0 22px 22px 0; /* Rounded on right, flat flush on left screen edge */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card-box-light:hover {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Static Header (No Scrolling, Only IMPORTANT MESSAGES) */
+        .static-header-container {
+            background: linear-gradient(135deg, #e60000 0%, #b91c1c 100%);
+            color: #ffffff;
+            padding: 0.95rem 1.25rem;
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 3px 10px rgba(230, 0, 0, 0.25);
+        }
+
+        .static-header-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .section-top-bar-light {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .section-sub-title-light {
+            color: #4b5563;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Important Messages List (No internal scrollbar) */
+        .section-body-list-no-scroll {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .msg-item-card-light {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 1.15rem;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .msg-item-card-light:hover {
+            background: #ffffff;
+            border-color: rgba(230, 0, 0, 0.3);
+            transform: translateX(4px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        .msg-item-top-light {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .msg-badge-light {
+            font-size: 0.68rem;
+            font-weight: 900;
+            padding: 0.2rem 0.65rem;
+            border-radius: 50px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .badge-URGENT {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+            border: 1px solid #ef4444;
+        }
+
+        .badge-NOTICE {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+            border: 1px solid #3b82f6;
+        }
+
+        .badge-UPDATE {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+            border: 1px solid #f59e0b;
+        }
+
+        .badge-ANNOUNCEMENT {
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
+            border: 1px solid #22c55e;
+        }
+
+        .msg-date-light {
+            color: #6b7280;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .msg-item-title-light {
+            color: #111827;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin: 0 0 0.45rem 0;
+            line-height: 1.3;
+        }
+
+        .msg-item-body-light {
+            color: #374151;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .item-admin-actions-light {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.85rem;
+            justify-content: flex-end;
+            border-top: 1px dashed rgba(0, 0, 0, 0.08);
+            padding-top: 0.6rem;
+        }
+
+        .admin-btn-light {
+            background: #475569;
+            color: #ffffff;
+            border: none;
+            font-weight: 800;
+            font-size: 0.78rem;
+            padding: 0.45rem 0.95rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .admin-btn-light:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .admin-btn-light.btn-edit-sm {
+            background: #0284c7;
+        }
+
+        .admin-btn-light.btn-edit-sm:hover {
+            background: #0369a1;
+        }
+
+        .admin-btn-light.btn-delete-sm {
+            background: #dc2626;
+        }
+
+        .admin-btn-light.btn-delete-sm:hover {
+            background: #b91c1c;
+        }
+
+        .empty-placeholder-light {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* RIGHT SIDE: FIXTURES GLASS BOX */
         .section-card-box {
             background: rgba(14, 14, 14, 0.92);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 22px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .section-card-box:hover {
             border-color: rgba(230, 0, 0, 0.45);
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 0, 0, 0.15);
         }
 
-        /* Continuous Scrolling Marquee Heading Banner */
         .scrolling-header-container {
             background: linear-gradient(90deg, #180303 0%, #3d0505 50%, #180303 100%);
             border-bottom: 2.5px solid var(--primary-color);
@@ -546,14 +679,12 @@
             position: relative;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .scrolling-header-track {
             display: flex;
             white-space: nowrap;
             animation: headerScroll 18s linear infinite;
-            will-change: transform;
         }
 
         .scrolling-header-track:hover {
@@ -561,13 +692,8 @@
         }
 
         @keyframes headerScroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .scrolling-header-text {
@@ -580,7 +706,6 @@
             align-items: center;
             gap: 1.2rem;
             padding-right: 1.2rem;
-            text-shadow: 0 2px 10px rgba(230, 0, 0, 0.7);
         }
 
         .scrolling-header-icon {
@@ -588,7 +713,6 @@
             font-size: 1.25rem;
         }
 
-        /* Top Action Bar under Heading */
         .section-top-bar {
             display: flex;
             justify-content: space-between;
@@ -598,17 +722,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             flex-wrap: wrap;
             gap: 0.6rem;
-        }
-
-        .section-sub-title {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
         }
 
         .full-fixtures-pdf-btn {
@@ -632,10 +745,8 @@
 
         .full-fixtures-pdf-btn:hover {
             background: linear-gradient(135deg, #15b300 0%, #0d8000 100%);
-            box-shadow: 0 6px 20px rgba(21, 179, 0, 0.55);
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px);
             color: #ffffff;
-            border-color: #ffffff;
         }
 
         .admin-btn {
@@ -651,28 +762,14 @@
             align-items: center;
             gap: 0.4rem;
             transition: all 0.2s ease;
-            text-decoration: none;
             font-family: inherit;
         }
 
         .admin-btn:hover {
             background: var(--primary-color);
-            border-color: var(--primary-color);
             color: #ffffff;
-            transform: translateY(-1px);
         }
 
-        .admin-btn.btn-edit-sm:hover {
-            background: #0284c7;
-            border-color: #0284c7;
-        }
-
-        .admin-btn.btn-delete-sm:hover {
-            background: #dc2626;
-            border-color: #dc2626;
-        }
-
-        /* Body List Area */
         .section-body-list {
             padding: 0.95rem;
             display: flex;
@@ -684,106 +781,6 @@
             min-height: 320px;
         }
 
-        .section-body-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .section-body-list::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .section-body-list::-webkit-scrollbar-thumb {
-            background: rgba(230, 0, 0, 0.4);
-            border-radius: 4px;
-        }
-
-        /* Important Message Cards */
-        .msg-item-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 16px;
-            padding: 1.15rem;
-            position: relative;
-            transition: all 0.25s ease;
-        }
-
-        .msg-item-card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(230, 0, 0, 0.35);
-            transform: translateX(4px);
-        }
-
-        .msg-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.6rem;
-        }
-
-        .msg-badge {
-            font-size: 0.68rem;
-            font-weight: 900;
-            padding: 0.2rem 0.65rem;
-            border-radius: 50px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .badge-URGENT {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border: 1px solid #ef4444;
-        }
-
-        .badge-NOTICE {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid #3b82f6;
-        }
-
-        .badge-UPDATE {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-            border: 1px solid #f59e0b;
-        }
-
-        .badge-ANNOUNCEMENT {
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border: 1px solid #22c55e;
-        }
-
-        .msg-date {
-            color: rgba(255, 255, 255, 0.45);
-            font-size: 0.72rem;
-            font-weight: 600;
-        }
-
-        .msg-item-title {
-            color: #ffffff;
-            font-size: 1.05rem;
-            font-weight: 800;
-            margin: 0 0 0.45rem 0;
-            line-height: 1.3;
-        }
-
-        .msg-item-body {
-            color: rgba(255, 255, 255, 0.78);
-            font-size: 0.88rem;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .item-admin-actions {
-            display: flex;
-            gap: 0.4rem;
-            margin-top: 0.85rem;
-            justify-content: flex-end;
-            border-top: 1px dashed rgba(255, 255, 255, 0.08);
-            padding-top: 0.6rem;
-        }
-
-        /* Fixture Cards */
         .fixture-card {
             background: rgba(22, 22, 22, 0.85);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -793,14 +790,12 @@
             flex-direction: column;
             gap: 0.65rem;
             transition: all 0.25s ease;
-            position: relative;
         }
 
         .fixture-card:hover {
             background: rgba(32, 32, 32, 0.95);
             border-color: rgba(34, 197, 94, 0.45);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .fixture-header-row {
@@ -848,17 +843,9 @@
         }
 
         @keyframes pulseRed {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.65;
-            }
-
-            100% {
-                opacity: 1;
-            }
+            0% { opacity: 1; }
+            50% { opacity: 0.65; }
+            100% { opacity: 1; }
         }
 
         .fixture-versus-row {
@@ -905,7 +892,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(230, 0, 0, 0.4);
         }
 
         .fixture-details-row {
@@ -924,15 +910,219 @@
             padding: 0.4rem 0.7rem;
             border-radius: 8px;
             border: 1px solid rgba(34, 197, 94, 0.2);
-            line-height: 1.3;
         }
 
-        .empty-placeholder {
+        /* CENTER HERO SECTION */
+        .text-container {
             text-align: center;
-            padding: 2.5rem 1.5rem;
-            color: rgba(255, 255, 255, 0.45);
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-emblem-wrap {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-emblem-img {
+            width: clamp(120px, 15vw, 180px);
+            height: auto;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4));
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+
+        .hero-emblem-img:hover {
+            transform: scale(1.06) translateY(-4px);
+            filter: drop-shadow(0 16px 32px rgba(230, 0, 0, 0.45));
+        }
+
+        .title {
+            color: var(--primary-color);
+            font-weight: 900;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-about {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #b80000 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
             font-size: 0.9rem;
-            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(230, 0, 0, 0.45);
+            border: 2px solid rgba(231, 247, 17, 0.4);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .btn-hero-about:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: linear-gradient(135deg, #15b300 0%, #0e7d00 100%);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        /* ======================================================== */
+        /* BOTTOM BAR WITH MATCHING LIGHT COLOR GLASS & PWA BUTTON */
+        /* ======================================================== */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 95;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+            padding: 0.6rem 1.5rem;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bottom-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1100px;
+            gap: 1rem;
+        }
+
+        .app-icon-wrap {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .app-icon-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: block;
+            border: 1.5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .app-icon-wrap:hover .app-icon-img {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        .app-pulse-ring {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid var(--primary-color);
+            border-radius: 14px;
+            animation: pulseGlow 2.5s infinite;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .app-info {
+            flex: 1;
+            min-width: 0;
+            cursor: pointer;
+        }
+
+        .app-title-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .app-title-light {
+            color: #111827;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .app-tag-light {
+            background: rgba(230, 0, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .app-desc-light {
+            color: #4b5563;
+            font-size: 0.78rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-install-app {
+            background: linear-gradient(135deg, var(--primary-color), #b80000);
+            color: #ffffff;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(230, 0, 0, 0.3);
+            font-family: inherit;
+        }
+
+        .btn-install-app:hover {
+            background: linear-gradient(135deg, #15b300, #0f8a00);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(21, 179, 0, 0.4);
         }
 
         /* Generic Modals Overlay */
@@ -1064,198 +1254,6 @@
         .form-submit-btn:hover {
             background: linear-gradient(135deg, #15b300, #0e7d00);
             transform: translateY(-1px);
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem 1.5rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-menu {
-                gap: 0.65rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .nav-link,
-            .nav-dropdown-toggle {
-                font-size: 0.95rem;
-                padding: 0.55rem 1.1rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Mobile App Bottom Bar / Floating Widget */
-        .mobile-app-bottom-bar {
-            position: fixed;
-            bottom: 1.8rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 90;
-            width: calc(100% - 3rem);
-            max-width: 520px;
-            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .app-bar-content {
-            background: rgba(14, 14, 14, 0.94);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 22px;
-            padding: 0.85rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(230, 0, 0, 0.18);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .app-bar-content:hover {
-            transform: translateY(-3px);
-            border-color: rgba(230, 0, 0, 0.5);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(230, 0, 0, 0.3);
-        }
-
-        .app-icon-wrap {
-            position: relative;
-            width: 52px;
-            height: 52px;
-            flex-shrink: 0;
-            border-radius: 14px;
-            cursor: pointer;
-        }
-
-        .app-icon-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 14px;
-            object-fit: cover;
-            box-shadow: 0 6px 14px rgba(230, 0, 0, 0.4);
-            display: block;
-            border: 2px solid rgba(231, 247, 17, 0.4);
-            transition: transform 0.3s ease;
-        }
-
-        .app-icon-wrap:hover .app-icon-img {
-            transform: scale(1.08) rotate(3deg);
-        }
-
-        .app-pulse-ring {
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border: 2px solid var(--text-color);
-            border-radius: 17px;
-            animation: pulseGlow 2.5s infinite;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        @keyframes pulseGlow {
-            0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-        }
-
-        @keyframes slideUpFade {
-            from {
-                opacity: 0;
-                transform: translate(-50%, 25px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate(-50%, 0);
-            }
-        }
-
-        .app-info {
-            flex: 1;
-            min-width: 0;
-            cursor: pointer;
-        }
-
-        .app-title-row {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .app-title {
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 0.95rem;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-
-        .app-tag {
-            background: rgba(231, 247, 17, 0.15);
-            border: 1px solid var(--text-color);
-            color: var(--text-color);
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 0.1rem 0.4rem;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
-        }
-
-        .app-desc {
-            color: rgba(255, 255, 255, 0.65);
-            font-size: 0.75rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .app-actions {
-            flex-shrink: 0;
-        }
-
-        .btn-install-app {
-            background: linear-gradient(135deg, var(--primary-color), #b80000);
-            color: #ffffff;
-            border: none;
-            padding: 0.65rem 1.1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 14px rgba(230, 0, 0, 0.35);
-            font-family: inherit;
-        }
-
-        .btn-install-app:hover {
-            background: linear-gradient(135deg, #15b300, #0f8a00);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(21, 179, 0, 0.4);
         }
 
         /* PWA Install Modal */
@@ -1408,32 +1406,39 @@
             transform: translateY(-1px);
         }
 
-        @media (max-width: 600px) {
-            .mobile-app-bottom-bar {
-                bottom: 1rem;
-                width: calc(100% - 1.5rem);
-            }
-
-            .app-bar-content {
-                padding: 0.65rem 0.9rem;
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
                 gap: 0.75rem;
             }
 
-            .app-icon-wrap {
-                width: 44px;
-                height: 44px;
+            .nav-menu {
+                gap: 0.5rem;
+                justify-content: center;
             }
 
-            .app-title {
+            .nav-link,
+            .nav-dropdown-toggle {
+                font-size: 0.85rem;
+                padding: 0.45rem 0.95rem;
+            }
+
+            .bottom-bar {
+                padding: 0.5rem 1rem;
+            }
+
+            .app-title-light {
                 font-size: 0.85rem;
             }
 
-            .app-desc {
+            .app-desc-light {
                 font-size: 0.7rem;
             }
 
             .btn-install-app {
-                padding: 0.5rem 0.85rem;
+                padding: 0.5rem 0.9rem;
                 font-size: 0.75rem;
             }
         }
@@ -1457,7 +1462,7 @@
     <!-- Background Layer -->
     <div class="bg-layer"></div>
 
-    <!-- Header Navigation -->
+    <!-- NEW TOP BAR WITH MATCHING LIGHT GLASS STYLE HOUSING ALL TOP BUTTONS -->
     <header class="header">
         <a href="{{ url('/') }}" class="logo" title="United Seniors Vellanad - Home">
             <img src="{{ asset('usv-logo.png') }}" alt="USV Logo" class="logo-img">
@@ -1485,7 +1490,7 @@
                     <a href="{{ route('tournaments.show', 3) }}" class="nav-dropdown-item">
                         <span>🏆</span> Discovery League
                     </a>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 0.35rem 0;"></div>
+                    <div style="border-top: 1px solid rgba(0,0,0,0.08); margin: 0.35rem 0;"></div>
                     <a href="{{ route('tournaments.index') }}" class="nav-dropdown-item">
                         <span>📋</span> All Tournaments
                     </a>
@@ -1544,7 +1549,7 @@
         </div>
     </header>
 
-    <!-- Main First Screen Section Container (Important Messages Left, Emblem/Heading Center, Fixtures Right) -->
+    <!-- Main 3-Column Container -->
     <main class="home-sections-container">
         @if(session('success'))
             <div class="home-alert alert-success-custom">
@@ -1560,52 +1565,43 @@
 
         <div class="hero-sections-3col">
 
-            <!-- LEFT SIDE: IMPORTANT MESSAGES (Placed below left side USV logo) -->
+            <!-- LEFT SIDE: IMPORTANT MESSAGES (Flushed to left screen edge, Light Color Style, No Scrolling) -->
             <div class="hero-col hero-col-left">
-                <div class="section-card-box">
-                    <!-- Scrolling Marquee Header for IMPORTANT MESSAGES -->
-                    <div class="scrolling-header-container">
-                        <div class="scrolling-header-track">
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
-                                ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">📢</span> IMPORTANT MESSAGES &bull; USV OFFICIAL
-                                ANNOUNCEMENTS &bull; CLUB NOTICES &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                        </div>
+                <div class="section-card-box-light">
+                    <!-- Static Header Title (Only IMPORTANT MESSAGES, No Scrolling) -->
+                    <div class="static-header-container">
+                        <span class="static-header-icon">📢</span> IMPORTANT MESSAGES
                     </div>
 
                     <!-- Sub-bar with Admin controls -->
-                    <div class="section-top-bar">
-                        <span class="section-sub-title">
+                    <div class="section-top-bar-light">
+                        <span class="section-sub-title-light">
                             <span>📌</span> Latest Club Updates
                         </span>
                         @if($isAdmin)
-                            <button type="button" class="admin-btn" onclick="openAddMsgModal()">
+                            <button type="button" class="admin-btn-light" onclick="openAddMsgModal()">
                                 ➕ Add Message
                             </button>
                         @endif
                     </div>
 
-                    <!-- Messages List -->
-                    <div class="section-body-list">
+                    <!-- Messages List (No internal scrollbar) -->
+                    <div class="section-body-list-no-scroll">
                         @if(isset($importantMessages) && $importantMessages->count() > 0)
                             @foreach($importantMessages as $msg)
-                                <div class="msg-item-card">
-                                    <div class="msg-item-top">
-                                        <span class="msg-badge badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
-                                        <span class="msg-date">{{ $msg->created_at->format('d M Y, h:i A') }}</span>
+                                <div class="msg-item-card-light">
+                                    <div class="msg-item-top-light">
+                                        <span class="msg-badge-light badge-{{ $msg->badge }}">{{ $msg->badge }}</span>
+                                        <span class="msg-date-light">{{ $msg->created_at->format('d M Y, h:i A') }}</span>
                                     </div>
                                     @if($msg->title)
-                                        <h4 class="msg-item-title">{{ $msg->title }}</h4>
+                                        <h4 class="msg-item-title-light">{{ $msg->title }}</h4>
                                     @endif
-                                    <p class="msg-item-body">{{ $msg->message }}</p>
+                                    <p class="msg-item-body-light">{{ $msg->message }}</p>
 
                                     @if($isAdmin)
-                                        <div class="item-admin-actions">
-                                            <button type="button" class="admin-btn btn-edit-sm"
+                                        <div class="item-admin-actions-light">
+                                            <button type="button" class="admin-btn-light btn-edit-sm"
                                                 onclick="openEditMsgModal({{ $msg->id }}, '{{ addslashes($msg->title) }}', '{{ addslashes($msg->message) }}', '{{ $msg->badge }}')">
                                                 ✏️ Edit
                                             </button>
@@ -1614,7 +1610,7 @@
                                                 onsubmit="return confirm('Are you sure you want to delete this important message?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="admin-btn btn-delete-sm">
+                                                <button type="submit" class="admin-btn-light btn-delete-sm">
                                                     🗑️ Delete
                                                 </button>
                                             </form>
@@ -1623,7 +1619,7 @@
                                 </div>
                             @endforeach
                         @else
-                            <div class="empty-placeholder">
+                            <div class="empty-placeholder-light">
                                 📢 No important messages published yet.
                             </div>
                         @endif
@@ -1650,7 +1646,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDE: FIXTURES (Placed below right side SIGN IN tab) -->
+            <!-- RIGHT SIDE: FIXTURES -->
             <div class="hero-col hero-col-right">
                 <div class="section-card-box">
                     <!-- Scrolling Marquee Header for FIXTURES -->
@@ -1768,6 +1764,33 @@
 
         </div>
     </main>
+
+    <!-- NEW BOTTOM BAR WITH MATCHING LIGHT COLOR GLASS HOUSING MOBILE APP BUTTON -->
+    <footer class="bottom-bar">
+        <div class="bottom-bar-content">
+            <div class="app-icon-wrap" id="appIconTrigger" onclick="handleAppInstallClick()"
+                title="Install USV Mobile App">
+                <img src="{{ asset('icon-192.png') }}" alt="USV Mobile App" class="app-icon-img">
+                <span class="app-pulse-ring"></span>
+            </div>
+            <div class="app-info" onclick="handleAppInstallClick()">
+                <div class="app-title-row">
+                    <span class="app-title-light">USV MOBILE APP</span>
+                    <span class="app-tag-light">FREE PWA</span>
+                </div>
+                <div class="app-desc-light">Install on your phone for instant matches & updates</div>
+            </div>
+            <div class="app-actions">
+                <button type="button" class="btn-install-app" id="installAppBtn" onclick="handleAppInstallClick()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" />
+                    </svg>
+                    <span>INSTALL APP</span>
+                </button>
+            </div>
+        </div>
+    </footer>
 
     <!-- ========================================== -->
     <!-- ADMIN MODALS FOR MESSAGES & FIXTURES & PDF -->
@@ -1994,33 +2017,6 @@
                 </div>
                 <button type="submit" class="form-submit-btn">Upload PDF Document</button>
             </form>
-        </div>
-    </div>
-
-    <!-- Mobile App Bottom Floating Bar / Widget -->
-    <div class="mobile-app-bottom-bar" id="mobileAppBar">
-        <div class="app-bar-content">
-            <div class="app-icon-wrap" id="appIconTrigger" onclick="handleAppInstallClick()"
-                title="Install USV Mobile App">
-                <img src="{{ asset('icon-192.png') }}" alt="USV Mobile App" class="app-icon-img">
-                <span class="app-pulse-ring"></span>
-            </div>
-            <div class="app-info" onclick="handleAppInstallClick()">
-                <div class="app-title-row">
-                    <span class="app-title">USV Mobile App</span>
-                    <span class="app-tag">FREE PWA</span>
-                </div>
-                <div class="app-desc">Install on your phone for instant matches & updates</div>
-            </div>
-            <div class="app-actions">
-                <button type="button" class="btn-install-app" id="installAppBtn" onclick="handleAppInstallClick()">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" />
-                    </svg>
-                    <span>Install App</span>
-                </button>
-            </div>
         </div>
     </div>
 
