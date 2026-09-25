@@ -353,12 +353,8 @@
         }
 
         @keyframes ticker {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-            100% {
-                transform: translate3d(-100%, 0, 0);
-            }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
 
         .ticker-item {
@@ -380,7 +376,7 @@
         .home-sections-container {
             width: 100%;
             margin: 1rem 0 2rem 0;
-            padding: 0 1rem 0 0; /* Flush to left edge */
+            padding: 0; /* Fully flush to both edges */
             box-sizing: border-box;
             z-index: 10;
             position: relative;
@@ -424,6 +420,12 @@
             padding-left: 0;
         }
 
+        /* RIGHT SIDE COLUMN (Flushed against right edge) */
+        .hero-col-right {
+            margin-right: 0;
+            padding-right: 0;
+        }
+
         .hero-col-center {
             display: flex;
             flex-direction: column;
@@ -450,8 +452,10 @@
         }
 
         /* ======================================================== */
-        /* LIGHT COLOR STYLE FOR IMPORTANT MESSAGES (MATCHING BACKGROUND) */
+        /* LIGHT COLOR STYLE FOR LEFT & RIGHT TABLES (MATCHING BACKGROUND) */
         /* ======================================================== */
+        
+        /* LEFT SIDE TABLE BOX */
         .section-card-box-light {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(18px);
@@ -469,7 +473,25 @@
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
         }
 
-        /* Static Header (No Scrolling, Only IMPORTANT MESSAGES) */
+        /* RIGHT SIDE TABLE BOX */
+        .section-card-box-light-right {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 22px 0 0 22px; /* Flat flush on right screen edge, rounded on left */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card-box-light-right:hover {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Static Header (No Scrolling, Clean Title) */
         .static-header-container {
             background: linear-gradient(135deg, #e60000 0%, #b91c1c 100%);
             color: #ffffff;
@@ -511,7 +533,7 @@
             gap: 0.4rem;
         }
 
-        /* Important Messages List (No internal scrollbar) */
+        /* Section List (No internal scrollbar) */
         .section-body-list-no-scroll {
             padding: 1rem;
             display: flex;
@@ -519,6 +541,7 @@
             gap: 0.9rem;
         }
 
+        /* Light Cards for Important Messages & Fixtures */
         .msg-item-card-light {
             background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(0, 0, 0, 0.08);
@@ -653,164 +676,39 @@
             font-weight: 600;
         }
 
-        /* RIGHT SIDE: FIXTURES GLASS BOX */
-        .section-card-box {
-            background: rgba(14, 14, 14, 0.92);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 22px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .section-card-box:hover {
-            border-color: rgba(230, 0, 0, 0.45);
-        }
-
-        .scrolling-header-container {
-            background: linear-gradient(90deg, #180303 0%, #3d0505 50%, #180303 100%);
-            border-bottom: 2.5px solid var(--primary-color);
-            padding: 0.8rem 0;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .scrolling-header-track {
-            display: flex;
-            white-space: nowrap;
-            animation: headerScroll 18s linear infinite;
-        }
-
-        .scrolling-header-track:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes headerScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .scrolling-header-text {
-            font-size: 1.15rem;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            color: #ffffff;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 1.2rem;
-            padding-right: 1.2rem;
-        }
-
-        .scrolling-header-icon {
-            color: var(--text-color);
-            font-size: 1.25rem;
-        }
-
-        .section-top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.85rem 1.25rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            flex-wrap: wrap;
-            gap: 0.6rem;
-        }
-
-        .full-fixtures-pdf-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #e60000 0%, #990000 100%);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 0.85rem;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 0.6rem 1.25rem;
-            border-radius: 50px;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.45);
-            border: 1.5px solid rgba(231, 247, 17, 0.4);
-            transition: all 0.25s ease;
-            cursor: pointer;
-        }
-
-        .full-fixtures-pdf-btn:hover {
-            background: linear-gradient(135deg, #15b300 0%, #0d8000 100%);
-            transform: translateY(-2px);
-            color: #ffffff;
-        }
-
-        .admin-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            font-weight: 800;
-            font-size: 0.78rem;
-            padding: 0.45rem 0.95rem;
-            border-radius: 50px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .admin-btn:hover {
-            background: var(--primary-color);
-            color: #ffffff;
-        }
-
-        .section-body-list {
-            padding: 0.95rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.85rem;
-            flex: 1;
-            overflow-y: auto;
-            max-height: calc(100vh - 235px);
-            min-height: 320px;
-        }
-
-        .fixture-card {
-            background: rgba(22, 22, 22, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Light Fixture Cards */
+        .fixture-card-light {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 16px;
             padding: 1.1rem;
             display: flex;
             flex-direction: column;
             gap: 0.65rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
             transition: all 0.25s ease;
         }
 
-        .fixture-card:hover {
-            background: rgba(32, 32, 32, 0.95);
-            border-color: rgba(34, 197, 94, 0.45);
+        .fixture-card-light:hover {
+            background: #ffffff;
+            border-color: rgba(230, 0, 0, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
         }
 
-        .fixture-header-row {
+        .fixture-header-row-light {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.65);
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            color: #4b5563;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
             padding-bottom: 0.45rem;
         }
 
-        .fixture-match-no {
+        .fixture-match-no-light {
             font-weight: 800;
-            color: var(--text-color);
+            color: var(--primary-color);
             text-transform: uppercase;
         }
 
@@ -824,21 +722,21 @@
         }
 
         .status-Upcoming {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
             border: 1px solid #3b82f6;
         }
 
         .status-Ongoing {
-            background: rgba(239, 68, 68, 0.25);
-            color: #f87171;
+            background: rgba(239, 68, 68, 0.18);
+            color: #dc2626;
             border: 1px solid #ef4444;
             animation: pulseRed 1.8s infinite;
         }
 
         .status-Completed {
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
             border: 1px solid #22c55e;
         }
 
@@ -863,27 +761,27 @@
             align-items: center;
         }
 
-        .team-title {
-            color: #ffffff;
+        .team-title-light {
+            color: #111827;
             font-weight: 800;
             font-size: 0.95rem;
             line-height: 1.2;
         }
 
-        .team-score {
-            color: var(--text-color);
+        .team-score-light {
+            color: #15803d;
             font-size: 0.82rem;
             font-weight: 800;
             margin-top: 0.2rem;
-            background: rgba(231, 247, 17, 0.1);
+            background: rgba(22, 163, 74, 0.1);
             padding: 0.15rem 0.5rem;
             border-radius: 6px;
         }
 
-        .vs-badge {
-            background: rgba(230, 0, 0, 0.25);
+        .vs-badge-light {
+            background: rgba(230, 0, 0, 0.1);
             border: 1px solid var(--primary-color);
-            color: #ff6666;
+            color: #dc2626;
             font-size: 0.7rem;
             font-weight: 900;
             width: 30px;
@@ -894,22 +792,58 @@
             justify-content: center;
         }
 
-        .fixture-details-row {
+        .fixture-details-row-light {
             display: flex;
             justify-content: space-between;
             font-size: 0.76rem;
-            color: rgba(255, 255, 255, 0.55);
+            color: #6b7280;
             gap: 0.5rem;
         }
 
-        .fixture-result-banner {
+        .fixture-result-banner-light {
             font-size: 0.78rem;
             font-weight: 700;
-            color: #4ade80;
-            background: rgba(34, 197, 94, 0.1);
+            color: #15803d;
+            background: rgba(22, 163, 74, 0.12);
             padding: 0.4rem 0.7rem;
             border-radius: 8px;
-            border: 1px solid rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(22, 163, 74, 0.25);
+        }
+
+        /* Bottom Bar inside Fixtures Box for Full Fixtures Button */
+        .section-bottom-bar-light {
+            padding: 0.85rem 1.25rem;
+            background: rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .full-fixtures-pdf-btn-light {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #e60000 0%, #b91c1c 100%);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.65rem 1.4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.35);
+            border: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .full-fixtures-pdf-btn-light:hover {
+            background: linear-gradient(135deg, #15b300 0%, #0d8000 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(21, 179, 0, 0.4);
+            color: #ffffff;
         }
 
         /* CENTER HERO SECTION */
@@ -1646,97 +1580,71 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDE: FIXTURES -->
+            <!-- RIGHT SIDE: FIXTURES (Flushed to right screen edge, Light Color Style, No Scrolling) -->
             <div class="hero-col hero-col-right">
-                <div class="section-card-box">
-                    <!-- Scrolling Marquee Header for FIXTURES -->
-                    <div class="scrolling-header-container">
-                        <div class="scrolling-header-track">
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
-                                TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div class="scrolling-header-text">
-                                <span class="scrolling-header-icon">🏏</span> FIXTURES &bull; UPCOMING MATCHES &bull;
-                                TOURNAMENT SCHEDULE &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                        </div>
+                <div class="section-card-box-light-right">
+                    <!-- Static Header Title (Only 🏏 FIXTURES, No Scrolling) -->
+                    <div class="static-header-container">
+                        <span class="static-header-icon">🏏</span> FIXTURES
                     </div>
 
-                    <!-- Sub-bar with FULL FIXTURES PDF button & Admin buttons -->
-                    <div class="section-top-bar">
-                        @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
-                            <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
-                                class="full-fixtures-pdf-btn" title="Download / View Full Fixtures PDF">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                                </svg>
-                                <span>FULL FIXTURES</span>
-                            </a>
-                        @else
-                            <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn"
-                                title="View Full Fixtures PDF">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
-                                </svg>
-                                <span>FULL FIXTURES</span>
-                            </a>
-                        @endif
-
-                        @if($isAdmin)
+                    <!-- Sub-bar with Admin controls -->
+                    @if($isAdmin)
+                        <div class="section-top-bar-light">
+                            <span class="section-sub-title-light">
+                                <span>📅</span> Match Controls
+                            </span>
                             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                <button type="button" class="admin-btn" onclick="openAddFixtureModal()">
+                                <button type="button" class="admin-btn-light" style="background: #16a34a;" onclick="openAddFixtureModal()">
                                     ➕ Add Match
                                 </button>
-                                <button type="button" class="admin-btn btn-edit-sm" onclick="openUploadPdfModal()">
+                                <button type="button" class="admin-btn-light btn-edit-sm" onclick="openUploadPdfModal()">
                                     📄 Upload PDF
                                 </button>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
 
-                    <!-- Fixtures List (6 Matches Shown) -->
-                    <div class="section-body-list">
+                    <!-- Fixtures List (No internal scrollbar) -->
+                    <div class="section-body-list-no-scroll">
                         @if(isset($fixtures) && $fixtures->count() > 0)
                             @foreach($fixtures as $fix)
-                                <div class="fixture-card">
-                                    <div class="fixture-header-row">
-                                        <span class="fixture-match-no">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
+                                <div class="fixture-card-light">
+                                    <div class="fixture-header-row-light">
+                                        <span class="fixture-match-no-light">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
                                         <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
                                     </div>
 
                                     <div class="fixture-versus-row">
                                         <div class="team-box">
-                                            <span class="team-title">{{ $fix->team1 }}</span>
+                                            <span class="team-title-light">{{ $fix->team1 }}</span>
                                             @if($fix->team1_score)
-                                                <span class="team-score">{{ $fix->team1_score }}</span>
+                                                <span class="team-score-light">{{ $fix->team1_score }}</span>
                                             @endif
                                         </div>
-                                        <div class="vs-badge">VS</div>
+                                        <div class="vs-badge-light">VS</div>
                                         <div class="team-box">
-                                            <span class="team-title">{{ $fix->team2 }}</span>
+                                            <span class="team-title-light">{{ $fix->team2 }}</span>
                                             @if($fix->team2_score)
-                                                <span class="team-score">{{ $fix->team2_score }}</span>
+                                                <span class="team-score-light">{{ $fix->team2_score }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="fixture-details-row">
+                                    <div class="fixture-details-row-light">
                                         <span>📅 {{ $fix->match_date }} @ {{ $fix->match_time }}</span>
                                         <span>📍 {{ $fix->venue }}</span>
                                     </div>
 
                                     @if($fix->result)
-                                        <div class="fixture-result-banner">
+                                        <div class="fixture-result-banner-light">
                                             🏆 {{ $fix->result }}
                                         </div>
                                     @endif
 
                                     @if($isAdmin)
-                                        <div class="item-admin-actions">
-                                            <button type="button" class="admin-btn btn-edit-sm"
+                                        <div class="item-admin-actions-light">
+                                            <button type="button" class="admin-btn-light btn-edit-sm"
                                                 onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
                                                 ✏️ Edit Match
                                             </button>
@@ -1745,7 +1653,7 @@
                                                 onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="admin-btn btn-delete-sm">
+                                                <button type="submit" class="admin-btn-light btn-delete-sm">
                                                     🗑️ Delete
                                                 </button>
                                             </form>
@@ -1754,9 +1662,30 @@
                                 </div>
                             @endforeach
                         @else
-                            <div class="empty-placeholder">
+                            <div class="empty-placeholder-light">
                                 🏏 No match fixtures added yet.
                             </div>
+                        @endif
+                    </div>
+
+                    <!-- FULL FIXTURES PDF LINK MOVED TO BOTTOM OF FIXTURES TABLE -->
+                    <div class="section-bottom-bar-light">
+                        @if(isset($fixtureSetting) && $fixtureSetting->pdf_filename)
+                            <a href="{{ asset('uploads/fixtures/' . $fixtureSetting->pdf_filename) }}" target="_blank"
+                                class="full-fixtures-pdf-btn-light" title="Download / View Full Fixtures PDF">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                                </svg>
+                                <span>FULL FIXTURES</span>
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" onclick="handlePdfClick()" class="full-fixtures-pdf-btn-light"
+                                title="View Full Fixtures PDF">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5c0 .83-.67 1.5-1.5 1.5H7v2H5.5V9H8c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V9H13c.83 0 1.5.67 1.5 1.5v3zm4-3H17v1h1.5V13H17v2h-1.5V9h3v1.5z" />
+                                </svg>
+                                <span>FULL FIXTURES</span>
+                            </a>
                         @endif
                     </div>
                 </div>
