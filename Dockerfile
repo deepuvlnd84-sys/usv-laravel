@@ -39,7 +39,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
 # Laravel ക്യാഷ് ഒപ്റ്റിമൈസ് ചെയ്യുന്നു
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+RUN php artisan route:cache && php artisan view:cache
 
 # Render പോർട്ട് ലിസൺ ചെയ്യുന്നതിനുള്ള സ്ക്രിപ്റ്റ്
-CMD (php artisan migrate --force || true) && sed -i "s/80/${PORT:-80}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground
+CMD php artisan config:clear && (php artisan migrate --force || true) && sed -i "s/80/${PORT:-80}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground
