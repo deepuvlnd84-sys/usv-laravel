@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Important Messages (date ഫീൽഡ് ഒഴിവാക്കി)
+        // 2. Important Messages (Latest Club Updates / Announcements)
         if (class_exists(ImportantMessage::class)) {
             ImportantMessage::truncate();
 
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 3. Home Fixtures
+        // 3. Home Fixtures (Matches & Tournament Schedule)
         if (class_exists(HomeFixture::class)) {
             HomeFixture::truncate();
 
@@ -60,11 +60,11 @@ class DatabaseSeeder extends Seeder
                 'team2' => 'USV Royals',
                 'team2_short' => 'UR',
                 'team2_score' => '162/9 (20.0)',
-                'status' => 'Completed',
-                'result' => 'Vellanad Strikers won by 6 runs',
-                'match_date' => '15 Oct 2026',
+                'match_date' => '2026-10-15',
                 'match_time' => '09:30 AM IST',
                 'venue' => 'Vellanad Main Stadium',
+                'status' => 'COMPLETED',
+                'result' => 'Vellanad Strikers won by 6 runs',
                 'order_position' => 1,
             ]);
 
@@ -77,11 +77,11 @@ class DatabaseSeeder extends Seeder
                 'team2' => 'USV Titans',
                 'team2_short' => 'UT',
                 'team2_score' => '156/4 (18.4)',
-                'status' => 'Completed',
-                'result' => 'USV Titans won by 6 wickets',
-                'match_date' => '16 Oct 2026',
+                'match_date' => '2026-10-16',
                 'match_time' => '02:00 PM IST',
                 'venue' => 'Vellanad Central Ground',
+                'status' => 'COMPLETED',
+                'result' => 'USV Titans won by 6 wickets',
                 'order_position' => 2,
             ]);
 
@@ -94,11 +94,11 @@ class DatabaseSeeder extends Seeder
                 'team2' => 'USV Titans',
                 'team2_short' => 'UT',
                 'team2_score' => '134/8 (15.2)',
-                'status' => 'Ongoing',
-                'result' => 'USV Titans need 49 runs in 28 balls',
-                'match_date' => '18 Oct 2026',
+                'match_date' => '2026-10-18',
                 'match_time' => '09:30 AM IST',
                 'venue' => 'Vellanad Main Stadium',
+                'status' => 'ONGOING',
+                'result' => 'USV Titans need 49 runs in 28 balls',
                 'order_position' => 3,
             ]);
 
@@ -111,12 +111,46 @@ class DatabaseSeeder extends Seeder
                 'team2' => 'Vellanad Warriors',
                 'team2_short' => 'VW',
                 'team2_score' => null,
-                'status' => 'Upcoming',
-                'result' => 'Toss at 01:30 PM IST',
-                'match_date' => '20 Oct 2026',
+                'match_date' => '2026-10-20',
                 'match_time' => '02:00 PM IST',
                 'venue' => 'Vellanad Sports Complex',
+                'status' => 'UPCOMING',
+                'result' => 'Toss at 01:30 PM IST',
                 'order_position' => 4,
+            ]);
+
+            HomeFixture::create([
+                'match_no' => 'MATCH 5',
+                'stage' => 'SEMI FINAL 1',
+                'team1' => 'Rank #1 Team',
+                'team1_short' => 'R1',
+                'team1_score' => null,
+                'team2' => 'Rank #4 Team',
+                'team2_short' => 'R4',
+                'team2_score' => null,
+                'match_date' => '2026-10-24',
+                'match_time' => '09:30 AM IST',
+                'venue' => 'Vellanad Main Stadium',
+                'status' => 'UPCOMING',
+                'result' => 'Winner qualifies for Grand Final',
+                'order_position' => 5,
+            ]);
+
+            HomeFixture::create([
+                'match_no' => 'MATCH 6',
+                'stage' => 'GRAND FINAL',
+                'team1' => 'Finalist 1',
+                'team1_short' => 'F1',
+                'team1_score' => null,
+                'team2' => 'Finalist 2',
+                'team2_short' => 'F2',
+                'team2_score' => null,
+                'match_date' => '2026-10-26',
+                'match_time' => '02:00 PM IST',
+                'venue' => 'Vellanad Main Stadium',
+                'status' => 'UPCOMING',
+                'result' => 'Championship Trophy Match & Prize Ceremony',
+                'order_position' => 6,
             ]);
         }
     }
