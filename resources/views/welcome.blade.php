@@ -677,74 +677,52 @@
             font-weight: 600;
         }
 
-        /* Light Fixture Cards */
+        /* Light Fixture Cards - Poster Style */
         .fixture-card-light {
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 16px;
-            padding: 1.1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1.5px solid rgba(230, 0, 0, 0.15);
+            border-radius: 14px;
+            padding: 0.75rem 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.65rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            gap: 0.35rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             transition: all 0.25s ease;
         }
 
         .fixture-card-light:hover {
             background: #ffffff;
-            border-color: rgba(230, 0, 0, 0.3);
+            border-color: rgba(230, 0, 0, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .fixture-header-row-light {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.78rem;
-            color: #4b5563;
-            border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-            padding-bottom: 0.45rem;
-        }
-
-        .fixture-match-no-light {
-            font-weight: 800;
-            color: var(--primary-color);
-            text-transform: uppercase;
-        }
-
-        .status-badge {
-            font-size: 0.65rem;
+        .day-date-badge {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff;
+            font-size: 0.85rem;
             font-weight: 900;
-            padding: 0.18rem 0.6rem;
-            border-radius: 50px;
+            padding: 0.35rem 0.85rem;
+            border-radius: 6px;
             letter-spacing: 0.05em;
-            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            box-shadow: 0 3px 8px rgba(22, 163, 74, 0.3);
         }
 
-        .status-Upcoming {
-            background: rgba(59, 130, 246, 0.15);
-            color: #2563eb;
-            border: 1px solid #3b82f6;
-        }
-
-        .status-Ongoing {
-            background: rgba(239, 68, 68, 0.18);
+        .match-time-banner {
+            background: rgba(230, 0, 0, 0.08);
+            border: 1px solid rgba(230, 0, 0, 0.2);
             color: #dc2626;
-            border: 1px solid #ef4444;
-            animation: pulseRed 1.8s infinite;
-        }
-
-        .status-Completed {
-            background: rgba(34, 197, 94, 0.15);
-            color: #16a34a;
-            border: 1px solid #22c55e;
-        }
-
-        @keyframes pulseRed {
-            0% { opacity: 1; }
-            50% { opacity: 0.65; }
-            100% { opacity: 1; }
+            font-size: 0.82rem;
+            font-weight: 900;
+            padding: 0.45rem;
+            border-radius: 8px;
+            text-align: center;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .fixture-versus-row {
@@ -753,7 +731,7 @@
             align-items: center;
             gap: 0.6rem;
             text-align: center;
-            padding: 0.35rem 0;
+            padding: 0.2rem 0;
         }
 
         .team-box {
@@ -764,9 +742,10 @@
 
         .team-title-light {
             color: #111827;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 0.95rem;
             line-height: 1.2;
+            letter-spacing: 0.02em;
         }
 
         .team-score-light {
@@ -780,35 +759,17 @@
         }
 
         .vs-badge-light {
-            background: rgba(230, 0, 0, 0.1);
-            border: 1px solid var(--primary-color);
+            background: rgba(230, 0, 0, 0.12);
+            border: 1px solid #dc2626;
             color: #dc2626;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 900;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .fixture-details-row-light {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.76rem;
-            color: #6b7280;
-            gap: 0.5rem;
-        }
-
-        .fixture-result-banner-light {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #15803d;
-            background: rgba(22, 163, 74, 0.12);
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            border: 1px solid rgba(22, 163, 74, 0.25);
         }
 
         /* Bottom Bar inside Fixtures Box for Full Fixtures Button */
@@ -1581,21 +1542,25 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDE: FIXTURES (Flushed to right screen edge, Light Color Style, No Scrolling) -->
+            <!-- RIGHT SIDE: FIXTURES (Premier League S5 Day 4 Poster Match List) -->
             <div class="hero-col hero-col-right">
                 <div class="section-card-box-light-right">
-                    <!-- Static Header Title (Only 🏏 FIXTURES, No Scrolling) -->
+                    <!-- Static Header Title -->
                     <div class="static-header-container">
-                        <span class="static-header-icon">🏏</span> FIXTURES
+                        <span class="static-header-icon">🏏</span> PREMIER LEAGUE S5
                     </div>
 
-                    <!-- Sub-bar with Admin controls -->
-                    @if($isAdmin)
-                        <div class="section-top-bar-light">
-                            <span class="section-sub-title-light">
-                                <span>📅</span> Match Controls
-                            </span>
-                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <!-- Day & Date Sub-header Ribbon -->
+                    <div class="section-top-bar-light" style="justify-content: center; flex-direction: column; gap: 0.3rem;">
+                        <div style="font-weight: 900; color: #dc2626; font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase;">
+                            ★ DAY 4 ★
+                        </div>
+                        <div class="day-date-badge">
+                            <span>📅</span> 16-AUG-26
+                        </div>
+
+                        @if($isAdmin)
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem;">
                                 <button type="button" class="admin-btn-light" style="background: #16a34a;" onclick="openAddFixtureModal()">
                                     ➕ Add Match
                                 </button>
@@ -1603,58 +1568,42 @@
                                     📄 Upload PDF
                                 </button>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
 
-                    <!-- Fixtures List (No internal scrollbar) -->
-                    <div class="section-body-list-no-scroll">
+                    <!-- Fixtures List (The 6 matches from the poster) -->
+                    <div class="section-body-list-no-scroll" style="padding: 0.85rem; gap: 0.65rem;">
                         @if(isset($fixtures) && $fixtures->count() > 0)
                             @foreach($fixtures as $fix)
                                 <div class="fixture-card-light">
-                                    <div class="fixture-header-row-light">
-                                        <span class="fixture-match-no-light">{{ $fix->match_no }} &bull; {{ $fix->stage }}</span>
-                                        <span class="status-badge status-{{ $fix->status }}">{{ $fix->status }}</span>
-                                    </div>
-
-                                    <div class="fixture-versus-row">
+                                    <div class="fixture-versus-row" style="padding: 0;">
                                         <div class="team-box">
-                                            <span class="team-title-light">{{ $fix->team1 }}</span>
+                                            <span class="team-title-light" style="font-size: 0.92rem; font-weight: 900; color: #111827;">{{ $fix->team1 }}</span>
                                             @if($fix->team1_score)
                                                 <span class="team-score-light">{{ $fix->team1_score }}</span>
                                             @endif
                                         </div>
-                                        <div class="vs-badge-light">VS</div>
+                                        <div class="vs-badge-light" style="font-size: 0.75rem; font-weight: 900; width: 28px; height: 28px; background: rgba(230,0,0,0.12); color: #dc2626; border-color: #dc2626;">X</div>
                                         <div class="team-box">
-                                            <span class="team-title-light">{{ $fix->team2 }}</span>
+                                            <span class="team-title-light" style="font-size: 0.92rem; font-weight: 900; color: #111827;">{{ $fix->team2 }}</span>
                                             @if($fix->team2_score)
                                                 <span class="team-score-light">{{ $fix->team2_score }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="fixture-details-row-light">
-                                        <span>📅 {{ $fix->match_date }} @ {{ $fix->match_time }}</span>
-                                        <span>📍 {{ $fix->venue }}</span>
-                                    </div>
-
-                                    @if($fix->result)
-                                        <div class="fixture-result-banner-light">
-                                            🏆 {{ $fix->result }}
-                                        </div>
-                                    @endif
-
                                     @if($isAdmin)
-                                        <div class="item-admin-actions-light">
-                                            <button type="button" class="admin-btn-light btn-edit-sm"
+                                        <div class="item-admin-actions-light" style="margin-top: 0.35rem; padding-top: 0.35rem;">
+                                            <button type="button" class="admin-btn-light btn-edit-sm" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;"
                                                 onclick="openEditFixtureModal({{ $fix->id }}, '{{ addslashes($fix->match_no) }}', '{{ addslashes($fix->stage) }}', '{{ addslashes($fix->team1) }}', '{{ addslashes($fix->team1_short ?? '') }}', '{{ addslashes($fix->team1_score ?? '') }}', '{{ addslashes($fix->team2) }}', '{{ addslashes($fix->team2_short ?? '') }}', '{{ addslashes($fix->team2_score ?? '') }}', '{{ addslashes($fix->match_date) }}', '{{ addslashes($fix->match_time) }}', '{{ addslashes($fix->venue) }}', '{{ $fix->status }}', '{{ addslashes($fix->result ?? '') }}')">
-                                                ✏️ Edit Match
+                                                ✏️ Edit
                                             </button>
                                             <form action="{{ route('home-fixtures.destroy', $fix->id) }}" method="POST"
                                                 style="margin:0;"
-                                                onsubmit="return confirm('Are you sure you want to delete this fixture match?');">
+                                                onsubmit="return confirm('Are you sure you want to delete this match?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="admin-btn-light btn-delete-sm">
+                                                <button type="submit" class="admin-btn-light btn-delete-sm" style="font-size: 0.7rem; padding: 0.25rem 0.6rem;">
                                                     🗑️ Delete
                                                 </button>
                                             </form>
@@ -1667,6 +1616,11 @@
                                 🏏 No match fixtures added yet.
                             </div>
                         @endif
+
+                        <!-- MATCH STARTS AT 7:00 AM NOTE -->
+                        <div class="match-time-banner">
+                            ★ MATCH STARTS AT 7:00 AM ★
+                        </div>
                     </div>
 
                     <!-- FULL FIXTURES PDF LINK MOVED TO BOTTOM OF FIXTURES TABLE -->
