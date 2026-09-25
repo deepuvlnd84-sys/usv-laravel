@@ -375,7 +375,7 @@
         /* ======================================================== */
         .home-sections-container {
             width: 100%;
-            margin: 1rem 0 2rem 0;
+            margin: 1.75rem 0 2.5rem 0;
             padding: 0; /* Fully flush to both edges */
             box-sizing: border-box;
             z-index: 10;
@@ -438,6 +438,7 @@
         @media (max-width: 1024px) {
             .home-sections-container {
                 padding: 0 1rem;
+                margin-top: 1.25rem;
             }
 
             .hero-sections-3col {
