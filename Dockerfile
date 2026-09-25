@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# ആവശ്യമായ പാക്കേജുകൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
+# ആവശ്യമായ പാക്കേജുകളും PostgreSQL/NodeJS എക്സ്റ്റൻഷനുകളും ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -8,7 +8,10 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip
+    libpq-dev \
+    nodejs \
+    npm \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql pgsql mbstring zip
 
 # Apache mod_rewrite എനേബിൾ ചെയ്യുന്നു (Laravel റൂട്ടുകൾ പ്രവർത്തിക്കാൻ)
 RUN a2enmod rewrite
@@ -31,6 +34,12 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # ഡിപൻഡൻസികൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN composer install --no-dev --optimize-autoloader
+
+# Frontend അസറ്റുകൾ ബിൽഡ് ചെയ്യുന്നു
+RUN npm install && npm run build
+
+# Laravel ക്യാഷ് ഒപ്റ്റിമൈസ് ചെയ്യുന്നു
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # Render പോർട്ട് ലിസൺ ചെയ്യുന്നതിനുള്ള സ്ക്രിപ്റ്റ്
 CMD (php artisan migrate --force || true) && sed -i "s/80/${PORT:-80}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground
