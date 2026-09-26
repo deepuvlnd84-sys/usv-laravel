@@ -91,22 +91,22 @@ class ContactController extends Controller
             'president_name' => 'required|string|max:255',
             'president_role' => 'nullable|string|max:255',
             'president_phone' => 'required|string|max:50',
-            'president_email' => 'nullable|email|max:255',
-            'president_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'president_email' => 'nullable|string|max:255',
+            'president_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
 
             'coordinator_name' => 'required|string|max:255',
             'coordinator_role' => 'nullable|string|max:255',
             'coordinator_phone' => 'required|string|max:50',
-            'coordinator_email' => 'nullable|email|max:255',
-            'coordinator_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'coordinator_email' => 'nullable|string|max:255',
+            'coordinator_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
 
-            'facebook_url' => 'nullable|string|max:255',
-            'instagram_url' => 'nullable|string|max:255',
-            'youtube_url' => 'nullable|string|max:255',
+            'facebook_url' => 'nullable|string|max:2000',
+            'instagram_url' => 'nullable|string|max:2000',
+            'youtube_url' => 'nullable|string|max:2000',
             'club_email' => 'nullable|string|max:255',
             'club_phone' => 'nullable|string|max:50',
             'ground_location' => 'nullable|string|max:255',
-            'ground_map_url' => 'nullable|string',
+            'ground_map_url' => 'nullable|string|max:2000',
         ]);
 
         $settings = $this->getSettings();
@@ -216,7 +216,7 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'order' => 'nullable|integer|min:0',
         ]);
 
@@ -277,7 +277,7 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'order' => 'nullable|integer|min:0',
         ]);
 
