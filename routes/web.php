@@ -71,6 +71,7 @@ Route::put('/about', [AboutController::class, 'update'])->name('about.update');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/contact/manage', [ContactController::class, 'manage'])->name('contact.manage');
 Route::post('/contact/settings', [ContactController::class, 'updateSettings'])->name('contact.settings.update');
+Route::post('/admin/leadership', [ContactController::class, 'updateSettings'])->name('admin.leadership.update');
 Route::post('/contact/persons', [ContactController::class, 'storePerson'])->name('contact.persons.store');
 Route::put('/contact/persons/{id}', [ContactController::class, 'updatePerson'])->name('contact.persons.update');
 Route::delete('/contact/persons/{id}', [ContactController::class, 'destroyPerson'])->name('contact.persons.destroy');
