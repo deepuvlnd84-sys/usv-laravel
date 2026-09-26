@@ -13,6 +13,7 @@ class ContactPerson extends Model
         'designation',
         'phone',
         'photo',
+        'photo_public_id',
         'order',
         'is_active',
     ];

@@ -7,6 +7,7 @@ use App\Models\ContactSetting;
 use App\Models\ContactPerson;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ContactController extends Controller
@@ -109,20 +110,30 @@ class ContactController extends Controller
             'ground_map_url' => 'nullable|string|max:2000',
         ]);
 
-        $settings = $this->getSettings();
-        $uploadDir = public_path('uploads/contacts');
-        if (!File::isDirectory($uploadDir)) {
-            File::makeDirectory($uploadDir, 0775, true, true);
-        }
+        DB::beginTransaction();
 
-        // Handle President Photo
-        if ($request->hasFile('president_photo')) {
-            try {
+        try {
+            $settings = $this->getSettings();
+            $uploadDir = public_path('uploads/contacts');
+            if (!File::isDirectory($uploadDir)) {
+                File::makeDirectory($uploadDir, 0775, true, true);
+            }
+
+            // Handle President Photo
+            if ($request->hasFile('president_photo')) {
                 $file = $request->file('president_photo');
                 if ($file && $file->isValid()) {
+                    if ($settings->president_photo_public_id) {
+                        try {
+                            Cloudinary::destroy($settings->president_photo_public_id);
+                        } catch (\Throwable $e) {
+                            \Illuminate\Support\Facades\Log::warning("Old president photo destroy failed: " . $e->getMessage());
+                        }
+                    }
+
                     try {
                         $uploadedFile = Cloudinary::upload($file->getRealPath(), [
-                            'folder' => 'usv_contacts',
+                            'folder' => 'usv_leadership',
                             'transformation' => [
                                 'width' => 500,
                                 'height' => 500,
@@ -133,6 +144,7 @@ class ContactController extends Controller
                             ]
                         ]);
                         $settings->president_photo = $uploadedFile->getSecurePath();
+                        $settings->president_photo_public_id = $uploadedFile->getPublicId();
                     } catch (\Throwable $e) {
                         $this->ensureUploadDirectory($uploadDir);
                         if ($settings->president_photo && File::exists($uploadDir . '/' . $settings->president_photo)) {
@@ -141,21 +153,26 @@ class ContactController extends Controller
                         $presPhotoName = 'pres_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                         $file->move($uploadDir, $presPhotoName);
                         $settings->president_photo = $presPhotoName;
+                        $settings->president_photo_public_id = null;
                     }
                 }
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error("President photo upload failed: " . $e->getMessage());
             }
-        }
 
-        // Handle Coordinator Photo
-        if ($request->hasFile('coordinator_photo')) {
-            try {
+            // Handle Coordinator Photo
+            if ($request->hasFile('coordinator_photo')) {
                 $file = $request->file('coordinator_photo');
                 if ($file && $file->isValid()) {
+                    if ($settings->coordinator_photo_public_id) {
+                        try {
+                            Cloudinary::destroy($settings->coordinator_photo_public_id);
+                        } catch (\Throwable $e) {
+                            \Illuminate\Support\Facades\Log::warning("Old coordinator photo destroy failed: " . $e->getMessage());
+                        }
+                    }
+
                     try {
                         $uploadedFile = Cloudinary::upload($file->getRealPath(), [
-                            'folder' => 'usv_contacts',
+                            'folder' => 'usv_leadership',
                             'transformation' => [
                                 'width' => 500,
                                 'height' => 500,
@@ -166,6 +183,7 @@ class ContactController extends Controller
                             ]
                         ]);
                         $settings->coordinator_photo = $uploadedFile->getSecurePath();
+                        $settings->coordinator_photo_public_id = $uploadedFile->getPublicId();
                     } catch (\Throwable $e) {
                         $this->ensureUploadDirectory($uploadDir);
                         if ($settings->coordinator_photo && File::exists($uploadDir . '/' . $settings->coordinator_photo)) {
@@ -174,35 +192,39 @@ class ContactController extends Controller
                         $coordPhotoName = 'coord_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                         $file->move($uploadDir, $coordPhotoName);
                         $settings->coordinator_photo = $coordPhotoName;
+                        $settings->coordinator_photo_public_id = null;
                     }
                 }
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error("Coordinator photo upload failed: " . $e->getMessage());
             }
+
+            $settings->president_name = $request->president_name;
+            $settings->president_role = $request->president_role ?? 'Club President';
+            $settings->president_phone = $request->president_phone;
+            $settings->president_email = $request->president_email;
+
+            $settings->coordinator_name = $request->coordinator_name;
+            $settings->coordinator_role = $request->coordinator_role ?? 'General Coordinator';
+            $settings->coordinator_phone = $request->coordinator_phone;
+            $settings->coordinator_email = $request->coordinator_email;
+
+            $settings->facebook_url = $request->facebook_url;
+            $settings->instagram_url = $request->instagram_url;
+            $settings->youtube_url = $request->youtube_url;
+
+            $settings->club_email = $request->club_email;
+            $settings->club_phone = $request->club_phone;
+            $settings->ground_location = $request->ground_location;
+            $settings->ground_map_url = $request->ground_map_url;
+
+            $settings->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'ലീഡർഷിപ്പ് വിവരങ്ങൾ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു!');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'അപ്ഡേറ്റ് പരാജയപ്പെട്ടു: ' . $e->getMessage()]);
         }
-
-        $settings->president_name = $request->president_name;
-        $settings->president_role = $request->president_role ?? 'Club President';
-        $settings->president_phone = $request->president_phone;
-        $settings->president_email = $request->president_email;
-
-        $settings->coordinator_name = $request->coordinator_name;
-        $settings->coordinator_role = $request->coordinator_role ?? 'General Coordinator';
-        $settings->coordinator_phone = $request->coordinator_phone;
-        $settings->coordinator_email = $request->coordinator_email;
-
-        $settings->facebook_url = $request->facebook_url;
-        $settings->instagram_url = $request->instagram_url;
-        $settings->youtube_url = $request->youtube_url;
-
-        $settings->club_email = $request->club_email;
-        $settings->club_phone = $request->club_phone;
-        $settings->ground_location = $request->ground_location;
-        $settings->ground_map_url = $request->ground_map_url;
-
-        $settings->save();
-
-        return redirect()->back()->with('success', 'Leadership details and social links updated successfully!');
     }
 
     // Add a new Committee Member / Contact Person
@@ -220,7 +242,9 @@ class ContactController extends Controller
             'order' => 'nullable|integer|min:0',
         ]);
 
-        $photoName = null;
+        $photoUrl = null;
+        $photoPublicId = null;
+
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             if ($file && $file->isValid()) {
@@ -236,14 +260,16 @@ class ContactController extends Controller
                             'fetch_format' => 'auto'
                         ]
                     ]);
-                    $photoName = $uploadedFile->getSecurePath();
+                    $photoUrl = $uploadedFile->getSecurePath();
+                    $photoPublicId = $uploadedFile->getPublicId();
                 } catch (\Throwable $e) {
                     $uploadDir = public_path('uploads/contacts');
                     if (!File::isDirectory($uploadDir)) {
                         File::makeDirectory($uploadDir, 0775, true, true);
                     }
-                    $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move($uploadDir, $photoName);
+                    $photoUrl = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($uploadDir, $photoUrl);
+                    $photoPublicId = null;
                 }
             }
         }
@@ -256,7 +282,8 @@ class ContactController extends Controller
             'name' => $request->name,
             'designation' => $request->designation,
             'phone' => $request->phone,
-            'photo' => $photoName,
+            'photo' => $photoUrl,
+            'photo_public_id' => $photoPublicId,
             'order' => $nextOrder,
             'is_active' => true,
         ]);
@@ -284,6 +311,14 @@ class ContactController extends Controller
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             if ($file && $file->isValid()) {
+                if ($person->photo_public_id) {
+                    try {
+                        Cloudinary::destroy($person->photo_public_id);
+                    } catch (\Throwable $e) {
+                        \Illuminate\Support\Facades\Log::warning("Old person photo destroy failed: " . $e->getMessage());
+                    }
+                }
+
                 try {
                     $uploadedFile = Cloudinary::upload($file->getRealPath(), [
                         'folder' => 'usv_contacts',
@@ -297,6 +332,7 @@ class ContactController extends Controller
                         ]
                     ]);
                     $person->photo = $uploadedFile->getSecurePath();
+                    $person->photo_public_id = $uploadedFile->getPublicId();
                 } catch (\Throwable $e) {
                     $uploadDir = public_path('uploads/contacts');
                     if (!File::isDirectory($uploadDir)) {
@@ -308,6 +344,7 @@ class ContactController extends Controller
                     $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $file->move($uploadDir, $photoName);
                     $person->photo = $photoName;
+                    $person->photo_public_id = null;
                 }
             }
         }
@@ -332,6 +369,14 @@ class ContactController extends Controller
 
         $person = ContactPerson::findOrFail($id);
         $name = $person->name;
+
+        if ($person->photo_public_id) {
+            try {
+                Cloudinary::destroy($person->photo_public_id);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Cloudinary destroy person photo failed: " . $e->getMessage());
+            }
+        }
 
         if ($person->photo) {
             $photoPath = public_path('uploads/contacts/' . $person->photo);
