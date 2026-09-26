@@ -16,6 +16,11 @@ RUN apt-get update && apt-get install -y \
 # Apache mod_rewrite എനേബിൾ ചെയ്യുന്നു (Laravel റൂട്ടുകൾ പ്രവർത്തിക്കാൻ)
 RUN a2enmod rewrite
 
+# PHP upload & post max size ക്രമീകരണം
+RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/uploads.ini
+
 # Apache DocumentRoot Laravel-ന്റെ public/ ഫോൾഡറിലേക്ക് മാറ്റുന്നു
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf

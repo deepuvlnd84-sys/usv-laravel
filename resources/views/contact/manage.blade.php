@@ -708,9 +708,9 @@
                         <div class="form-group">
                             <label for="president_photo" class="form-label">Photo (Upload to change)</label>
                             <input type="file" id="president_photo" name="president_photo" class="form-input" accept="image/*">
-                            @if($settings->president_photo && file_exists(public_path('uploads/contacts/' . $settings->president_photo)))
+                            @if($settings->president_photo_url)
                                 <div class="current-photo-preview">
-                                    <img src="{{ asset('uploads/contacts/' . $settings->president_photo) }}" alt="President Photo" class="preview-thumb">
+                                    <img src="{{ $settings->president_photo_url }}" alt="President Photo" class="preview-thumb">
                                     <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);">Current President photo uploaded</span>
                                 </div>
                             @endif
@@ -739,9 +739,9 @@
                         <div class="form-group">
                             <label for="coordinator_photo" class="form-label">Photo (Upload to change)</label>
                             <input type="file" id="coordinator_photo" name="coordinator_photo" class="form-input" accept="image/*">
-                            @if($settings->coordinator_photo && file_exists(public_path('uploads/contacts/' . $settings->coordinator_photo)))
+                            @if($settings->coordinator_photo_url)
                                 <div class="current-photo-preview">
-                                    <img src="{{ asset('uploads/contacts/' . $settings->coordinator_photo) }}" alt="Coordinator Photo" class="preview-thumb">
+                                    <img src="{{ $settings->coordinator_photo_url }}" alt="Coordinator Photo" class="preview-thumb">
                                     <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);">Current Coordinator photo uploaded</span>
                                 </div>
                             @endif
@@ -822,8 +822,8 @@
                         @forelse($persons as $person)
                             <tr>
                                 <td class="member-photo-cell">
-                                    @if($person->photo && file_exists(public_path('uploads/contacts/' . $person->photo)))
-                                        <img src="{{ asset('uploads/contacts/' . $person->photo) }}" alt="{{ $person->name }}" class="table-member-img">
+                                    @if($person->photo_url)
+                                        <img src="{{ $person->photo_url }}" alt="{{ $person->name }}" class="table-member-img">
                                     @else
                                         <div class="table-avatar-placeholder">👤</div>
                                     @endif

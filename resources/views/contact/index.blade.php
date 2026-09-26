@@ -1321,8 +1321,8 @@
                 <!-- President Card -->
                 <div class="leader-card">
                     <div class="leader-photo-wrap">
-                        @if($settings->president_photo && file_exists(public_path('uploads/contacts/' . $settings->president_photo)))
-                            <img src="{{ asset('uploads/contacts/' . $settings->president_photo) }}" alt="{{ $settings->president_name }}" class="leader-photo-img">
+                        @if($settings->president_photo_url)
+                            <img src="{{ $settings->president_photo_url }}" alt="{{ $settings->president_name }}" class="leader-photo-img">
                         @else
                             <div class="leader-avatar-placeholder">🏏</div>
                         @endif
@@ -1353,8 +1353,8 @@
                 <!-- Coordinator Card -->
                 <div class="leader-card">
                     <div class="leader-photo-wrap">
-                        @if($settings->coordinator_photo && file_exists(public_path('uploads/contacts/' . $settings->coordinator_photo)))
-                            <img src="{{ asset('uploads/contacts/' . $settings->coordinator_photo) }}" alt="{{ $settings->coordinator_name }}" class="leader-photo-img">
+                        @if($settings->coordinator_photo_url)
+                            <img src="{{ $settings->coordinator_photo_url }}" alt="{{ $settings->coordinator_name }}" class="leader-photo-img">
                         @else
                             <div class="leader-avatar-placeholder">📋</div>
                         @endif
@@ -1404,8 +1404,8 @@
                 @forelse($persons as $person)
                     <div class="person-card">
                         <div class="person-photo-wrap">
-                            @if($person->photo && file_exists(public_path('uploads/contacts/' . $person->photo)))
-                                <img src="{{ asset('uploads/contacts/' . $person->photo) }}" alt="{{ $person->name }}" class="person-photo-img">
+                            @if($person->photo_url)
+                                <img src="{{ $person->photo_url }}" alt="{{ $person->name }}" class="person-photo-img">
                             @else
                                 <div class="person-avatar-placeholder">👤</div>
                             @endif
