@@ -28,12 +28,29 @@ class ContactController extends Controller
                 'coordinator_role' => 'General Coordinator',
                 'coordinator_phone' => '+91 94470 67890',
                 'coordinator_email' => 'coordinator@usv.com',
-                'facebook_url' => 'https://facebook.com',
-                'instagram_url' => 'https://instagram.com',
-                'youtube_url' => 'https://youtube.com',
+                'facebook_url' => 'https://www.facebook.com/unitedseniorsvellanad',
+                'instagram_url' => 'https://instagram.com/unitedseniorsvellanad',
+                'youtube_url' => 'https://www.youtube.com/@UnitedSeniorsVellanad',
+                'club_email' => 'unitedseniorsvellanadans@gmail.com',
+                'club_phone' => '094478 89502',
+                'ground_location' => 'H345+JF, Vellanad, Keralam 695543',
+                'ground_map_url' => 'https://www.google.com/maps/place/Viswanathan+Memorial+Panchayath+Stadium,+Vellanad/@8.5565815,77.0396807,15z/data=!4m10!1m2!2m1!1sground+Vellanad!3m6!1s0x3b05b700298dfee1:0xce52ac8e1571f9d!8m2!3d8.5565815!4d77.0587351!15sCg9ncm91bmQgVmVsbGFuYWRaESIPZ3JvdW5kIHZlbGxhbmFkkgEKcGxheWdyb3VuZJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycGFRMU5FVmxwT2EyUklZbnBzTlZsWWFHWk5WR1F5V1c1T2JrNUlZeEFC4AEA-gEECAAQOw!16s%2Fg%2F11wqkkrh2d?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D',
             ]);
         }
         return $settings;
+    }
+
+    private function ensureUploadDirectory($path)
+    {
+        try {
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            return true;
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning("Could not create upload directory [{$path}]: " . $e->getMessage());
+            return false;
+        }
     }
 
     // Public Contact Page
@@ -85,35 +102,52 @@ class ContactController extends Controller
             'facebook_url' => 'nullable|string|max:255',
             'instagram_url' => 'nullable|string|max:255',
             'youtube_url' => 'nullable|string|max:255',
+            'club_email' => 'nullable|string|max:255',
+            'club_phone' => 'nullable|string|max:50',
+            'ground_location' => 'nullable|string|max:255',
+            'ground_map_url' => 'nullable|string',
         ]);
 
         $settings = $this->getSettings();
         $uploadDir = public_path('uploads/contacts');
-
         if (!File::isDirectory($uploadDir)) {
-            File::makeDirectory($uploadDir, 0755, true, true);
+            File::makeDirectory($uploadDir, 0775, true, true);
         }
 
         // Handle President Photo
         if ($request->hasFile('president_photo')) {
-            if ($settings->president_photo && File::exists($uploadDir . '/' . $settings->president_photo)) {
-                File::delete($uploadDir . '/' . $settings->president_photo);
+            try {
+                $this->ensureUploadDirectory($uploadDir);
+                $file = $request->file('president_photo');
+                if ($file && $file->isValid()) {
+                    if ($settings->president_photo && File::exists($uploadDir . '/' . $settings->president_photo)) {
+                        @File::delete($uploadDir . '/' . $settings->president_photo);
+                    }
+                    $presPhotoName = 'pres_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($uploadDir, $presPhotoName);
+                    $settings->president_photo = $presPhotoName;
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error("President photo upload failed: " . $e->getMessage());
             }
-            $file = $request->file('president_photo');
-            $presPhotoName = 'pres_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $presPhotoName);
-            $settings->president_photo = $presPhotoName;
         }
 
         // Handle Coordinator Photo
         if ($request->hasFile('coordinator_photo')) {
-            if ($settings->coordinator_photo && File::exists($uploadDir . '/' . $settings->coordinator_photo)) {
-                File::delete($uploadDir . '/' . $settings->coordinator_photo);
+            try {
+                $this->ensureUploadDirectory($uploadDir);
+                $file = $request->file('coordinator_photo');
+                if ($file && $file->isValid()) {
+                    if ($settings->coordinator_photo && File::exists($uploadDir . '/' . $settings->coordinator_photo)) {
+                        @File::delete($uploadDir . '/' . $settings->coordinator_photo);
+                    }
+                    $coordPhotoName = 'coord_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($uploadDir, $coordPhotoName);
+                    $settings->coordinator_photo = $coordPhotoName;
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error("Coordinator photo upload failed: " . $e->getMessage());
             }
-            $file = $request->file('coordinator_photo');
-            $coordPhotoName = 'coord_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $coordPhotoName);
-            $settings->coordinator_photo = $coordPhotoName;
         }
 
         $settings->president_name = $request->president_name;
@@ -129,6 +163,11 @@ class ContactController extends Controller
         $settings->facebook_url = $request->facebook_url;
         $settings->instagram_url = $request->instagram_url;
         $settings->youtube_url = $request->youtube_url;
+
+        $settings->club_email = $request->club_email;
+        $settings->club_phone = $request->club_phone;
+        $settings->ground_location = $request->ground_location;
+        $settings->ground_map_url = $request->ground_map_url;
 
         $settings->save();
 
@@ -154,11 +193,19 @@ class ContactController extends Controller
         if ($request->hasFile('photo')) {
             $uploadDir = public_path('uploads/contacts');
             if (!File::isDirectory($uploadDir)) {
-                File::makeDirectory($uploadDir, 0755, true, true);
+                File::makeDirectory($uploadDir, 0775, true, true);
             }
-            $file = $request->file('photo');
-            $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $photoName);
+            try {
+                $this->ensureUploadDirectory($uploadDir);
+                $file = $request->file('photo');
+                if ($file && $file->isValid()) {
+                    $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($uploadDir, $photoName);
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error("Person photo upload failed: " . $e->getMessage());
+                $photoName = null;
+            }
         }
 
         $nextOrder = $request->filled('order')
@@ -196,13 +243,23 @@ class ContactController extends Controller
 
         if ($request->hasFile('photo')) {
             $uploadDir = public_path('uploads/contacts');
-            if ($person->photo && File::exists($uploadDir . '/' . $person->photo)) {
-                File::delete($uploadDir . '/' . $person->photo);
+            if (!File::isDirectory($uploadDir)) {
+                File::makeDirectory($uploadDir, 0775, true, true);
             }
-            $file = $request->file('photo');
-            $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $photoName);
-            $person->photo = $photoName;
+            try {
+                $this->ensureUploadDirectory($uploadDir);
+                $file = $request->file('photo');
+                if ($file && $file->isValid()) {
+                    if ($person->photo && File::exists($uploadDir . '/' . $person->photo)) {
+                        @File::delete($uploadDir . '/' . $person->photo);
+                    }
+                    $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($uploadDir, $photoName);
+                    $person->photo = $photoName;
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error("Update person photo failed: " . $e->getMessage());
+            }
         }
 
         $person->name = $request->name;
