@@ -5,8 +5,11 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Session;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 class AuthTest extends TestCase
 {
+    use RefreshDatabase;
     public function test_login_page_loads_successfully()
     {
         $response = $this->get('/login');

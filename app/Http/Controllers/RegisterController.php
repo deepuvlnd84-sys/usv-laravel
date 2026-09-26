@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\RegisterDetail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class RegisterController extends Controller
 {
@@ -14,7 +15,7 @@ class RegisterController extends Controller
      */
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true;
+        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
     }
 
     /**
@@ -64,14 +65,31 @@ class RegisterController extends Controller
 
         $photoName = null;
         if ($request->hasFile('photo')) {
-            $destinationPath = public_path('uploads/registrations');
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true, true);
-            }
-
             $file = $request->file('photo');
-            $photoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $photoName);
+            if ($file && $file->isValid()) {
+                try {
+                    $uploadedFile = Cloudinary::upload($file->getRealPath(), [
+                        'folder' => 'usv_registrations',
+                        'transformation' => [
+                            'width' => 500,
+                            'height' => 500,
+                            'crop' => 'fill',
+                            'gravity' => 'face',
+                            'quality' => 'auto',
+                            'fetch_format' => 'auto'
+                        ]
+                    ]);
+                    $photoName = $uploadedFile->getSecurePath();
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::warning("Cloudinary registration upload failed: " . $e->getMessage() . ". Falling back to local.");
+                    $destinationPath = public_path('uploads/registrations');
+                    if (!File::isDirectory($destinationPath)) {
+                        File::makeDirectory($destinationPath, 0755, true, true);
+                    }
+                    $photoName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($destinationPath, $photoName);
+                }
+            }
         }
 
         try {

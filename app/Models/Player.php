@@ -10,7 +10,7 @@ class Player extends Model
     use HasFactory;
 
     // ഈ Column-കളിൽ മാത്രം Data save ചെയ്യാൻ അനുവദിക്കുക
-    protected $fillable = ['name', 'jersey_number', 'position', 'photo'];
+    protected $fillable = ['name', 'jersey_number', 'position', 'photo', 'photo_public_id'];
 
     /**
      * Get the accessible photo URL or default avatar placeholder
@@ -18,6 +18,9 @@ class Player extends Model
     public function getPhotoUrlAttribute()
     {
         if ($this->photo) {
+            if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://') || filter_var($this->photo, FILTER_VALIDATE_URL)) {
+                return $this->photo;
+            }
             // Check if stored in public/uploads/players or public/storage/players
             if (file_exists(public_path('uploads/players/' . $this->photo))) {
                 return asset('uploads/players/' . $this->photo);
@@ -30,5 +33,13 @@ class Player extends Model
             }
         }
         return null;
+    }
+
+    /**
+     * Mutator to allow setting photo via photo_url
+     */
+    public function setPhotoUrlAttribute($value)
+    {
+        $this->attributes['photo'] = $value;
     }
 }

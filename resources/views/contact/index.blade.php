@@ -891,6 +891,110 @@
             fill: currentColor;
         }
 
+        /* Direct Contact Cards in Connect With section */
+        .direct-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.25rem;
+            margin: 0 auto 2.5rem auto;
+            max-width: 1050px;
+            text-align: left;
+        }
+
+        .contact-card-item {
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            padding: 1.2rem 1.4rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+
+        .contact-card-item:hover {
+            background: rgba(230, 0, 0, 0.08);
+            border-color: rgba(230, 0, 0, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(230, 0, 0, 0.25);
+        }
+
+        .contact-card-icon-wrap {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-card-icon-wrap.email {
+            background: linear-gradient(135deg, rgba(234, 67, 53, 0.25), rgba(180, 40, 30, 0.35));
+            color: #ff5252;
+            border: 1px solid rgba(234, 67, 53, 0.4);
+        }
+
+        .contact-card-icon-wrap.phone {
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.25), rgba(30, 130, 60, 0.35));
+            color: #2ecc71;
+            border: 1px solid rgba(52, 168, 83, 0.4);
+        }
+
+        .contact-card-icon-wrap.ground {
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.25), rgba(30, 90, 200, 0.35));
+            color: #4285f4;
+            border: 1px solid rgba(66, 133, 244, 0.4);
+        }
+
+        .contact-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .contact-card-type {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-color);
+        }
+
+        .contact-card-main-text {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+
+        .contact-card-action-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+
+        .contact-card-item:hover .contact-card-action-icon {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
         /* Modal Styles for Adding Person */
         .modal-overlay {
             position: fixed;
@@ -1328,37 +1432,8 @@
             </div>
         </section>
 
-        <!-- Bottom Section: Social Media Links -->
-        <section class="social-section">
-            <h2 class="social-title">Connect With <span>United Seniors Vellanad</span></h2>
-            <p class="social-desc">Follow our matches, announcements, match highlights, and club activities</p>
-
-            <div class="social-links-row">
-                <!-- Facebook -->
-                <a href="{{ $settings->facebook_url ?: 'https://facebook.com' }}" target="_blank" rel="noopener" class="social-btn facebook" title="Visit our Facebook page">
-                    <svg class="social-icon-img" viewBox="0 0 24 24">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                    <span>Facebook</span>
-                </a>
-
-                <!-- Instagram -->
-                <a href="{{ $settings->instagram_url ?: 'https://instagram.com' }}" target="_blank" rel="noopener" class="social-btn instagram" title="Visit our Instagram profile">
-                    <svg class="social-icon-img" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                    <span>Instagram</span>
-                </a>
-
-                <!-- YouTube -->
-                <a href="{{ $settings->youtube_url ?: 'https://youtube.com' }}" target="_blank" rel="noopener" class="social-btn youtube" title="Watch our YouTube matches">
-                    <svg class="social-icon-img" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    <span>YouTube</span>
-                </a>
-            </div>
-        </section>
+        <!-- Bottom Section: Connect With United Seniors Vellanad -->
+        @include('partials.connect_section')
     </main>
 
     @if($isAdmin)

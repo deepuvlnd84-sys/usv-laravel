@@ -46,6 +46,9 @@ class RegisterDetail extends Model
     public function getPhotoUrlAttribute()
     {
         if ($this->photo) {
+            if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://') || filter_var($this->photo, FILTER_VALIDATE_URL)) {
+                return $this->photo;
+            }
             if (file_exists(public_path('uploads/registrations/' . $this->photo))) {
                 return asset('uploads/registrations/' . $this->photo);
             }

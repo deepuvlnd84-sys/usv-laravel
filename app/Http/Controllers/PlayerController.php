@@ -8,12 +8,13 @@ use App\Models\UsvPlayers;
 use App\Models\UsvMember;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PlayerController extends Controller
 {
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true;
+        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
     }
 
     private function getFallbackMembers()
@@ -160,9 +161,143 @@ class PlayerController extends Controller
         return redirect()->route('members');
     }
 
+    // Save a new player with photo using Cloudinary (saving photo_public_id)
+    public function storePlayer(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'jersey_number' => 'nullable|string|max:50',
+            'position' => 'nullable|string|max:100',
+        ]);
+
+        $photoUrl = null;
+        $photoPublicId = null;
+
+        if ($request->hasFile('photo')) {
+            try {
+                $uploadedFile = Cloudinary::upload($request->file('photo')->getRealPath(), [
+                    'folder' => 'usv_players',
+                    'transformation' => [
+                        'width' => 500,
+                        'height' => 500,
+                        'crop' => 'fill',
+                        'gravity' => 'face',
+                        'quality' => 'auto',
+                        'fetch_format' => 'auto'
+                    ]
+                ]);
+                $photoUrl = $uploadedFile->getSecurePath();
+                $photoPublicId = $uploadedFile->getPublicId();
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Cloudinary upload failed: " . $e->getMessage() . ". Falling back to local storage.");
+                $file = $request->file('photo');
+                $uploadDir = public_path('uploads/players');
+                if (!File::isDirectory($uploadDir)) {
+                    File::makeDirectory($uploadDir, 0775, true, true);
+                }
+                $photoUrl = 'player_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadDir, $photoUrl);
+            }
+        }
+
+        Player::create([
+            'name' => trim($request->name),
+            'jersey_number' => $request->jersey_number ?? null,
+            'position' => $request->position ?? null,
+            'photo' => $photoUrl,
+            'photo_public_id' => $photoPublicId,
+        ]);
+
+        return redirect()->back()->with('success', 'പ്ലെയറുടെ വിവരങ്ങളും ഫോട്ടോയും വിജയകരമായി ചേർത്തു!');
+    }
+
+    // Update player details & photo (removes old photo from Cloudinary)
+    public function updatePlayer(Request $request, $id)
+    {
+        $player = Player::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'jersey_number' => 'nullable|string|max:50',
+            'position' => 'nullable|string|max:100',
+        ]);
+
+        $data = [
+            'name' => trim($request->name),
+        ];
+        if ($request->filled('jersey_number')) $data['jersey_number'] = $request->jersey_number;
+        if ($request->filled('position')) $data['position'] = $request->position;
+
+        if ($request->hasFile('photo')) {
+            // Delete old photo from Cloudinary if public_id exists
+            if ($player->photo_public_id) {
+                try {
+                    Cloudinary::destroy($player->photo_public_id);
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::warning("Could not destroy old Cloudinary photo [{$player->photo_public_id}]: " . $e->getMessage());
+                }
+            }
+
+            try {
+                $uploadedFile = Cloudinary::upload($request->file('photo')->getRealPath(), [
+                    'folder' => 'usv_players',
+                    'transformation' => [
+                        'width' => 500,
+                        'height' => 500,
+                        'crop' => 'fill',
+                        'gravity' => 'face',
+                        'quality' => 'auto',
+                        'fetch_format' => 'auto'
+                    ]
+                ]);
+                $data['photo'] = $uploadedFile->getSecurePath();
+                $data['photo_public_id'] = $uploadedFile->getPublicId();
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Cloudinary update upload failed: " . $e->getMessage() . ". Falling back to local storage.");
+                $file = $request->file('photo');
+                $uploadDir = public_path('uploads/players');
+                if (!File::isDirectory($uploadDir)) {
+                    File::makeDirectory($uploadDir, 0775, true, true);
+                }
+                $photoName = 'player_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadDir, $photoName);
+                $data['photo'] = $photoName;
+                $data['photo_public_id'] = null;
+            }
+        }
+
+        $player->update($data);
+
+        return redirect()->back()->with('success', 'വിവരങ്ങൾ അപ്ഡേറ്റ് ചെയ്തു!');
+    }
+
+    // Delete player & remove photo from Cloudinary
+    public function destroyPlayer($id)
+    {
+        $player = Player::findOrFail($id);
+
+        if ($player->photo_public_id) {
+            try {
+                Cloudinary::destroy($player->photo_public_id);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Could not destroy Cloudinary photo [{$player->photo_public_id}]: " . $e->getMessage());
+            }
+        }
+
+        $player->delete();
+
+        return redirect()->back()->with('success', 'പ്ലെയറെയും ഫോട്ടോയെയും പൂർണ്ണമായി നീക്കം ചെയ്തു!');
+    }
+
     // Save a new member to usv_members table (Admin only)
     public function store(Request $request)
     {
+        if ($request->hasFile('photo') && !$request->filled('member_id')) {
+            return $this->storePlayer($request);
+        }
+
         if (!$this->checkAdmin()) {
             return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to add members.']);
         }
@@ -208,6 +343,10 @@ class PlayerController extends Controller
     // Update existing member in usv_members table (Admin only)
     public function update(Request $request, $id)
     {
+        $player = Player::find($id);
+        if ($player) {
+            return $this->updatePlayer($request, $id);
+        }
         if (!$this->checkAdmin()) {
             return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to edit members.']);
         }
@@ -245,6 +384,10 @@ class PlayerController extends Controller
     // Delete a member from usv_members (Admin only)
     public function destroy($id)
     {
+        $player = Player::find($id);
+        if ($player) {
+            return $this->destroyPlayer($id);
+        }
         if (!$this->checkAdmin()) {
             return redirect()->route('members')->withErrors(['admin' => 'Only Admin has permission to delete members.']);
         }

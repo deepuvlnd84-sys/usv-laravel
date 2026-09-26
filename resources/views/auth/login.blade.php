@@ -261,6 +261,7 @@
         .main-content {
             flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
@@ -548,6 +549,8 @@
                 <a href="#forgot" class="footer-link">Forgot Password?</a>
             </div>
         </div>
+
+        @include('partials.connect_section')
     </main>
 </body>
 

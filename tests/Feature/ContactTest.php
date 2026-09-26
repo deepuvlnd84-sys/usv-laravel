@@ -42,10 +42,13 @@ class ContactTest extends TestCase
         $response->assertSee('Bipin B. S.');
         $response->assertSee('Team Captain');
 
-        // Check social links
+        // Check social & contact links
         $response->assertSee('Facebook');
         $response->assertSee('Instagram');
         $response->assertSee('YouTube');
+        $response->assertSee('unitedseniorsvellanadans@gmail.com');
+        $response->assertSee('094478 89502');
+        $response->assertSee('H345+JF, Vellanad, Keralam 695543');
     }
 
     public function test_guest_cannot_access_contact_manage_page()

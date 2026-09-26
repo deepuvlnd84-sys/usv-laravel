@@ -18,6 +18,6 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('USV Mobile App');
         $response->assertSee('icon-192.png');
-        $response->assertSee('Install App');
+        $response->assertSee('Get USV on Mobile');
     }
 }

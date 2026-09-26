@@ -20,5 +20,9 @@ class ContactSetting extends Model
         'facebook_url',
         'instagram_url',
         'youtube_url',
+        'club_email',
+        'club_phone',
+        'ground_location',
+        'ground_map_url',
     ];
 }

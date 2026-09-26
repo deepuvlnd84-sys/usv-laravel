@@ -6,9 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Mail\SendOtpMail;
+use App\Models\ContactSetting;
 
 class AuthController extends Controller
 {
+    private function getSettings()
+    {
+        $settings = ContactSetting::first();
+        if (!$settings) {
+            $settings = ContactSetting::create([
+                'facebook_url' => 'https://www.facebook.com/unitedseniorsvellanad',
+                'instagram_url' => 'https://instagram.com/unitedseniorsvellanad',
+                'youtube_url' => 'https://www.youtube.com/@UnitedSeniorsVellanad',
+                'club_email' => 'unitedseniorsvellanadans@gmail.com',
+                'club_phone' => '094478 89502',
+                'ground_location' => 'H345+JF, Vellanad, Keralam 695543',
+                'ground_map_url' => 'https://www.google.com/maps/place/Viswanathan+Memorial+Panchayath+Stadium,+Vellanad/@8.5565815,77.0396807,15z/data=!4m10!1m2!2m1!1sground+Vellanad!3m6!1s0x3b05b700298dfee1:0xce52ac8e1571f9d!8m2!3d8.5565815!4d77.0587351!15sCg9ncm91bmQgVmVsbGFuYWRaESIPZ3JvdW5kIHZlbGxhbmFkkgEKcGxheWdyb3VuZJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycGFRMU5FVmxwT2EyUklZbnBzTlZsWWFHWk5WR1F5V1c1T2JrNUlZeEFC4AEA-gEECAAQOw!16s%2Fg%2F11wqkkrh2d?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D',
+            ]);
+        }
+        return $settings;
+    }
+
     // Show the Email ID Entry Form
     public function showLoginForm()
     {
@@ -22,8 +40,9 @@ class AuthController extends Controller
         $num2 = rand(1, 9);
         Session::put('captcha_result', $num1 + $num2);
         $captcha_question = "$num1 + $num2";
+        $settings = $this->getSettings();
 
-        return view('auth.login', compact('captcha_question'));
+        return view('auth.login', compact('captcha_question', 'settings'));
     }
 
     // Generate and Send OTP
@@ -47,8 +66,8 @@ class AuthController extends Controller
         }
 
         // Generate 6-digit OTP
-        $otp = rand(100000, 999999);
-        $email = $request->email;
+        $otp = (string)rand(100000, 999999);
+        $email = trim(strtolower($request->email));
 
         // Store email and OTP in session
         Session::put('login_email', $email);
@@ -56,7 +75,7 @@ class AuthController extends Controller
         Session::forget('debug_mode_otp');
 
         try {
-            // Send the OTP mail using our existing SendOtpMail
+            // Send the OTP mail using SendOtpMail
             Mail::to($email)->send(new SendOtpMail($otp));
 
             // Redirect to the verification form
@@ -68,12 +87,13 @@ class AuthController extends Controller
             if (config('app.debug')) {
                 Session::put('debug_mode_otp', $otp);
                 return redirect()->route('login.verify')
-                    ->with('warning', "Email could not be delivered to {$email} ({$e->getMessage()}).")
+                    ->with('warning', "Email delivery notice: ({$e->getMessage()}). Development OTP mode activated for testing.")
                     ->with('debug_otp', $otp);
             }
 
-            return redirect()->route('login.verify')
-                ->withErrors(['email' => 'Failed to send OTP email. Please try again or contact administrator.']);
+            return redirect()->route('login')
+                ->withInput()
+                ->withErrors(['email' => 'Failed to send OTP email: ' . $e->getMessage() . '. Please verify your email address or contact administrator.']);
         }
     }
 
@@ -85,16 +105,17 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors(['email' => 'Please enter your email to request an OTP.']);
         }
 
-        $debugOtp = (config('app.debug') && Session::has('debug_mode_otp')) ? Session::get('debug_mode_otp') : session('debug_otp');
+        $debugOtp = Session::get('debug_mode_otp') ?? session('debug_otp');
+        $settings = $this->getSettings();
 
-        return view('auth.verify', compact('email', 'debugOtp'));
+        return view('auth.verify', compact('email', 'debugOtp', 'settings'));
     }
 
     // Verify OTP and Log In
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'otp' => 'required|integer',
+            'otp' => 'required',
         ], [
             'otp.required' => 'OTP is required.',
         ]);
@@ -106,14 +127,15 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors(['email' => 'Session expired. Please request a new OTP.']);
         }
 
-        if ($request->otp != $expectedOtp) {
+        $submittedOtp = trim($request->otp);
+
+        if ($submittedOtp !== (string)$expectedOtp) {
             return redirect()->back()
-                ->withErrors(['otp' => 'The entered OTP code is incorrect. Please check your mail.']);
+                ->withErrors(['otp' => 'The entered OTP code is incorrect. Please check your email.']);
         }
 
         // Clear session OTP keys
-        Session::forget('login_otp');
-        Session::forget('debug_mode_otp');
+        Session::forget(['login_otp', 'debug_mode_otp']);
 
         // Keep authenticated state indicator
         Session::put('authenticated_user', $email);
@@ -133,8 +155,9 @@ class AuthController extends Controller
         $num2 = rand(1, 9);
         Session::put('admin_captcha_result', $num1 + $num2);
         $captcha_question = "$num1 + $num2";
+        $settings = $this->getSettings();
 
-        return view('auth.admin_login', compact('captcha_question'));
+        return view('auth.admin_login', compact('captcha_question', 'settings'));
     }
 
     // Process Admin Login

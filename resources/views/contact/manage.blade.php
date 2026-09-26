@@ -749,6 +749,29 @@
                     </div>
                 </div>
 
+                <!-- Club Main Contact Info & Ground Location -->
+                <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                    <h3 class="leader-box-title" style="border: none; padding: 0; margin-bottom: 1rem;">📍 Direct Club Contact Info &amp; Ground Location</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label for="club_email" class="form-label">Club Email Address</label>
+                            <input type="email" id="club_email" name="club_email" class="form-input" value="{{ old('club_email', $settings->club_email ?: 'unitedseniorsvellanadans@gmail.com') }}" placeholder="e.g. unitedseniorsvellanadans@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="club_phone" class="form-label">Club Main Phone Number</label>
+                            <input type="text" id="club_phone" name="club_phone" class="form-input" value="{{ old('club_phone', $settings->club_phone ?: '094478 89502') }}" placeholder="e.g. 094478 89502">
+                        </div>
+                        <div class="form-group">
+                            <label for="ground_location" class="form-label">Ground Location / Plus Code</label>
+                            <input type="text" id="ground_location" name="ground_location" class="form-input" value="{{ old('ground_location', $settings->ground_location ?: 'H345+JF, Vellanad, Keralam 695543') }}" placeholder="e.g. H345+JF, Vellanad, Keralam 695543">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ground_map_url" class="form-label">Google Maps Location Link Symbol URL</label>
+                        <input type="url" id="ground_map_url" name="ground_map_url" class="form-input" value="{{ old('ground_map_url', $settings->ground_map_url) }}" placeholder="https://www.google.com/maps/place/...">
+                    </div>
+                </div>
+
                 <!-- Social Media Links -->
                 <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
                     <h3 class="leader-box-title" style="border: none; padding: 0; margin-bottom: 1rem;">🌐 Social Media Links</h3>
@@ -841,6 +864,9 @@
                 </table>
             </div>
         </section>
+
+        <!-- Bottom Section: Connect With United Seniors Vellanad -->
+        @include('partials.connect_section')
     </main>
 
     <!-- Modal: Add New Member -->

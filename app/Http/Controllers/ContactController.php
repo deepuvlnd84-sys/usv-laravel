@@ -7,12 +7,13 @@ use App\Models\ContactSetting;
 use App\Models\ContactPerson;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ContactController extends Controller
 {
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true;
+        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
     }
 
     private function getSettings()
@@ -117,15 +118,30 @@ class ContactController extends Controller
         // Handle President Photo
         if ($request->hasFile('president_photo')) {
             try {
-                $this->ensureUploadDirectory($uploadDir);
                 $file = $request->file('president_photo');
                 if ($file && $file->isValid()) {
-                    if ($settings->president_photo && File::exists($uploadDir . '/' . $settings->president_photo)) {
-                        @File::delete($uploadDir . '/' . $settings->president_photo);
+                    try {
+                        $uploadedFile = Cloudinary::upload($file->getRealPath(), [
+                            'folder' => 'usv_contacts',
+                            'transformation' => [
+                                'width' => 500,
+                                'height' => 500,
+                                'crop' => 'fill',
+                                'gravity' => 'face',
+                                'quality' => 'auto',
+                                'fetch_format' => 'auto'
+                            ]
+                        ]);
+                        $settings->president_photo = $uploadedFile->getSecurePath();
+                    } catch (\Throwable $e) {
+                        $this->ensureUploadDirectory($uploadDir);
+                        if ($settings->president_photo && File::exists($uploadDir . '/' . $settings->president_photo)) {
+                            @File::delete($uploadDir . '/' . $settings->president_photo);
+                        }
+                        $presPhotoName = 'pres_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($uploadDir, $presPhotoName);
+                        $settings->president_photo = $presPhotoName;
                     }
-                    $presPhotoName = 'pres_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move($uploadDir, $presPhotoName);
-                    $settings->president_photo = $presPhotoName;
                 }
             } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::error("President photo upload failed: " . $e->getMessage());
@@ -135,15 +151,30 @@ class ContactController extends Controller
         // Handle Coordinator Photo
         if ($request->hasFile('coordinator_photo')) {
             try {
-                $this->ensureUploadDirectory($uploadDir);
                 $file = $request->file('coordinator_photo');
                 if ($file && $file->isValid()) {
-                    if ($settings->coordinator_photo && File::exists($uploadDir . '/' . $settings->coordinator_photo)) {
-                        @File::delete($uploadDir . '/' . $settings->coordinator_photo);
+                    try {
+                        $uploadedFile = Cloudinary::upload($file->getRealPath(), [
+                            'folder' => 'usv_contacts',
+                            'transformation' => [
+                                'width' => 500,
+                                'height' => 500,
+                                'crop' => 'fill',
+                                'gravity' => 'face',
+                                'quality' => 'auto',
+                                'fetch_format' => 'auto'
+                            ]
+                        ]);
+                        $settings->coordinator_photo = $uploadedFile->getSecurePath();
+                    } catch (\Throwable $e) {
+                        $this->ensureUploadDirectory($uploadDir);
+                        if ($settings->coordinator_photo && File::exists($uploadDir . '/' . $settings->coordinator_photo)) {
+                            @File::delete($uploadDir . '/' . $settings->coordinator_photo);
+                        }
+                        $coordPhotoName = 'coord_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($uploadDir, $coordPhotoName);
+                        $settings->coordinator_photo = $coordPhotoName;
                     }
-                    $coordPhotoName = 'coord_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move($uploadDir, $coordPhotoName);
-                    $settings->coordinator_photo = $coordPhotoName;
                 }
             } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::error("Coordinator photo upload failed: " . $e->getMessage());
@@ -191,20 +222,29 @@ class ContactController extends Controller
 
         $photoName = null;
         if ($request->hasFile('photo')) {
-            $uploadDir = public_path('uploads/contacts');
-            if (!File::isDirectory($uploadDir)) {
-                File::makeDirectory($uploadDir, 0775, true, true);
-            }
-            try {
-                $this->ensureUploadDirectory($uploadDir);
-                $file = $request->file('photo');
-                if ($file && $file->isValid()) {
+            $file = $request->file('photo');
+            if ($file && $file->isValid()) {
+                try {
+                    $uploadedFile = Cloudinary::upload($file->getRealPath(), [
+                        'folder' => 'usv_contacts',
+                        'transformation' => [
+                            'width' => 500,
+                            'height' => 500,
+                            'crop' => 'fill',
+                            'gravity' => 'face',
+                            'quality' => 'auto',
+                            'fetch_format' => 'auto'
+                        ]
+                    ]);
+                    $photoName = $uploadedFile->getSecurePath();
+                } catch (\Throwable $e) {
+                    $uploadDir = public_path('uploads/contacts');
+                    if (!File::isDirectory($uploadDir)) {
+                        File::makeDirectory($uploadDir, 0775, true, true);
+                    }
                     $photoName = 'person_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $file->move($uploadDir, $photoName);
                 }
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error("Person photo upload failed: " . $e->getMessage());
-                $photoName = null;
             }
         }
 
@@ -242,14 +282,26 @@ class ContactController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $uploadDir = public_path('uploads/contacts');
-            if (!File::isDirectory($uploadDir)) {
-                File::makeDirectory($uploadDir, 0775, true, true);
-            }
-            try {
-                $this->ensureUploadDirectory($uploadDir);
-                $file = $request->file('photo');
-                if ($file && $file->isValid()) {
+            $file = $request->file('photo');
+            if ($file && $file->isValid()) {
+                try {
+                    $uploadedFile = Cloudinary::upload($file->getRealPath(), [
+                        'folder' => 'usv_contacts',
+                        'transformation' => [
+                            'width' => 500,
+                            'height' => 500,
+                            'crop' => 'fill',
+                            'gravity' => 'face',
+                            'quality' => 'auto',
+                            'fetch_format' => 'auto'
+                        ]
+                    ]);
+                    $person->photo = $uploadedFile->getSecurePath();
+                } catch (\Throwable $e) {
+                    $uploadDir = public_path('uploads/contacts');
+                    if (!File::isDirectory($uploadDir)) {
+                        File::makeDirectory($uploadDir, 0775, true, true);
+                    }
                     if ($person->photo && File::exists($uploadDir . '/' . $person->photo)) {
                         @File::delete($uploadDir . '/' . $person->photo);
                     }
@@ -257,8 +309,6 @@ class ContactController extends Controller
                     $file->move($uploadDir, $photoName);
                     $person->photo = $photoName;
                 }
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::error("Update person photo failed: " . $e->getMessage());
             }
         }
 

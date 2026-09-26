@@ -28,9 +28,13 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Storage, bootstrap/cache പെർമിഷനുകൾ നൽകുക
+# Storage, bootstrap/cache, public/uploads പെർമിഷനുകൾ നൽകുക
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+RUN mkdir -p /var/www/html/public/uploads/contacts \
+    && chown -R www-data:www-data /var/www/html/public/uploads \
+    && chmod -R 775 /var/www/html/public/uploads
 
 # ഡിപൻഡൻസികൾ ഇൻസ്റ്റാൾ ചെയ്യുന്നു
 RUN composer install --no-dev --optimize-autoloader

@@ -10,7 +10,7 @@ class TournamentController extends Controller
 {
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true;
+        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
     }
 
     // Display all tournaments

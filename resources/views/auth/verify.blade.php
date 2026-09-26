@@ -262,6 +262,7 @@
         .main-content {
             flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
@@ -558,6 +559,8 @@
                 <a href="{{ route('login') }}" class="footer-link">&larr; Request New OTP</a>
             </div>
         </div>
+
+        @include('partials.connect_section')
     </main>
 </body>
 

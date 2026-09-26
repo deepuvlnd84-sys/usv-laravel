@@ -1387,29 +1387,87 @@
         <div class="members-grid-container" id="membersGridView" style="display: none;">
             <div class="members-cards-grid" id="membersCardsGrid">
                 @foreach($members as $member)
-                    <div class="member-card-item" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}" data-fullname="{{ $member->name }}" data-callname="{{ $member->call_name }}">
-                        <div class="card-header-bar">
-                            <span class="sl-badge">#{{ $member->sl_no }}</span>
-                            <span class="id-badge">ID: {{ $member->member_id }}</span>
+                    <div class="member-card-item relative bg-gradient-to-b from-slate-900 to-black rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-emerald-900/40 flex flex-col items-center group" data-name="{{ strtolower($member->name) }}" data-id="{{ $member->member_id }}" data-call="{{ strtolower($member->call_name ?? '') }}" data-sl="{{ $member->sl_no }}" data-fullname="{{ $member->name }}" data-callname="{{ $member->call_name }}">
+                        
+                        <!-- Top Banner with Emerald Gradient -->
+                        <div class="h-24 w-full bg-gradient-to-r from-emerald-900 via-emerald-700 to-teal-900 relative p-3 flex justify-between items-start">
+                            <span class="bg-black/60 backdrop-blur-md text-emerald-400 text-[11px] font-extrabold px-2.5 py-1 rounded-full border border-emerald-500/30">
+                                #{{ $member->sl_no }}
+                            </span>
+                            <span class="bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[11px] font-extrabold px-2.5 py-1 rounded-full border border-emerald-400/30">
+                                ID: {{ $member->member_id }}
+                            </span>
                         </div>
-                        <div class="card-avatar-row">
-                            <div class="member-avatar large">{{ substr($member->name, 0, 1) }}</div>
-                            <div class="card-info">
-                                <h3 class="name-text">{{ $member->name }}</h3>
-                                <div class="club-tag">UNITED SENIORS VELLANAD</div>
-                            </div>
-                        </div>
-                        <div class="card-footer-bar">
-                            <div style="display: flex; flex-direction: column; gap: 0.2rem;">
-                                <span class="footer-label">CALL NAME</span>
-                                @if(!empty(trim($member->call_name ?? '')))
-                                    <span class="call-badge">{{ $member->call_name }}</span>
+
+                        <!-- Profile Photo Section (Cloudinary or Initials Avatar) -->
+                        <div class="relative -mt-12 mb-3">
+                            <div class="w-24 h-24 rounded-full ring-4 ring-emerald-500/60 shadow-2xl overflow-hidden bg-slate-900 flex items-center justify-center">
+                                @if(!empty($member->photo_url))
+                                    <img 
+                                        src="{{ $member->photo_url }}" 
+                                        alt="{{ $member->name }}" 
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        loading="lazy"
+                                    >
+                                @elseif(!empty($member->photo))
+                                    <img 
+                                        src="{{ str_starts_with($member->photo, 'http') ? $member->photo : asset('uploads/players/' . $member->photo) }}" 
+                                        alt="{{ $member->name }}" 
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        loading="lazy"
+                                    >
                                 @else
-                                    <span class="call-empty">—</span>
+                                    <div class="w-full h-full bg-gradient-to-br from-emerald-800 to-teal-950 text-emerald-200 flex items-center justify-center text-xl font-black uppercase tracking-wider">
+                                        {{ strtoupper(substr($member->name, 0, 2)) }}
+                                    </div>
                                 @endif
                             </div>
-                            <div class="actions-cell">
-                                <a href="{{ route('members.profile', $member->sl_no) }}" class="btn-profile">PROFILE</a>
+                        </div>
+
+                        <!-- Player Information -->
+                        <div class="text-center px-4 pb-5 w-full flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg font-black text-white tracking-wide uppercase leading-tight">
+                                    {{ $member->name }}
+                                </h3>
+                                @if(!empty(trim($member->call_name ?? '')))
+                                    <p class="text-xs text-emerald-400 font-bold mt-1 inline-block bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                                        {{ $member->call_name }}
+                                    </p>
+                                @else
+                                    <p class="text-xs text-gray-400 font-semibold mt-1">UNITED SENIORS VELLANAD</p>
+                                @endif
+                            </div>
+
+                            <!-- Cricket Role / Specs Card -->
+                            <div class="grid grid-cols-2 gap-2 my-3 py-2 px-3 bg-slate-900/90 rounded-xl border border-emerald-900/40 text-xs text-gray-300">
+                                <div>
+                                    <span class="block text-[9px] text-emerald-400 uppercase font-extrabold tracking-wider">ROLE</span>
+                                    <span class="font-bold text-white truncate block">{{ $member->role ?? 'All Rounder' }}</span>
+                                </div>
+                                <div class="border-l border-emerald-800/40 pl-2">
+                                    <span class="block text-[9px] text-emerald-400 uppercase font-extrabold tracking-wider">CLUB ID</span>
+                                    <span class="font-bold text-white truncate block">#{{ $member->member_id }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                                @if(!empty($member->phone))
+                                    <a href="tel:{{ $member->phone }}" 
+                                       class="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 text-xs font-bold rounded-lg transition-colors border border-emerald-500/30">
+                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        Call
+                                    </a>
+                                @endif
+
+                                <a href="{{ route('members.profile', $member->sl_no) }}" 
+                                   class="flex-1 inline-flex items-center justify-center py-1.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-lg transition-colors shadow-md">
+                                    PROFILE
+                                </a>
+
                                 @if($isAdmin)
                                     <button type="button" class="btn-table-edit" onclick="handleEditBtn(this)" title="Edit Member">EDIT</button>
                                     <form action="{{ route('members.destroy', $member->sl_no) }}" method="POST" onsubmit="return confirm('Delete member {{ addslashes($member->name) }}?');" style="margin: 0; display: inline;">
@@ -1420,6 +1478,7 @@
                                 @endif
                             </div>
                         </div>
+
                     </div>
                 @endforeach
             </div>

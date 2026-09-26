@@ -12,7 +12,7 @@ class HomeFixtureController extends Controller
 {
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true;
+        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
     }
 
     // Store a new fixture
