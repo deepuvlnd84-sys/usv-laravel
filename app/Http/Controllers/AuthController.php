@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use App\Mail\SendOtpMail;
+use Illuminate\Support\Facades\Log;
 use App\Models\ContactSetting;
 
 class AuthController extends Controller
@@ -31,7 +31,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         // If already logged in, redirect to dashboard
-        if (Session::has('authenticated_user')) {
+        if (Session::has('authenticated_user') || session()->has('user')) {
             return redirect()->route('dashboard');
         }
 
@@ -45,62 +45,70 @@ class AuthController extends Controller
         return view('auth.login', compact('captcha_question', 'settings'));
     }
 
-    // Generate and Send OTP
+    // Generate and Send OTP via Supabase Auth API
     public function sendOtp(Request $request)
     {
-        $request->validate([
+        $rules = [
             'email' => 'required|email',
-            'captcha' => 'required|integer',
-        ], [
+        ];
+
+        if ($request->has('captcha')) {
+            $rules['captcha'] = 'required|integer';
+        }
+
+        $request->validate($rules, [
             'email.required' => 'Email address is required.',
             'email.email' => 'Please enter a valid email address.',
             'captcha.required' => 'Captcha answer is required.',
         ]);
 
-        // Verify captcha
-        $expected = Session::get('captcha_result');
-        if ($request->captcha != $expected) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['captcha' => 'The captcha code is incorrect. Please try again.']);
+        // Verify captcha if present
+        if ($request->has('captcha')) {
+            $expected = Session::get('captcha_result');
+            if ($request->captcha != $expected) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['captcha' => 'The captcha code is incorrect. Please try again.']);
+            }
         }
 
-        // Generate 6-digit OTP
-        $otp = (string)rand(100000, 999999);
         $email = trim(strtolower($request->email));
-
-        // Store email and OTP in session
-        Session::put('login_email', $email);
-        Session::put('login_otp', $otp);
-        Session::forget('debug_mode_otp');
+        $supabaseUrl = rtrim(env('SUPABASE_URL', 'https://kynnfxdjqplnvucouwug.supabase.co'), '/');
+        $supabaseKey = env('SUPABASE_KEY');
 
         try {
-            // Send the OTP mail using SendOtpMail
-            Mail::to($email)->send(new SendOtpMail($otp));
+            // Supabase HTTPS API വഴി ഒ.ടി.പി അയക്കുന്നു (Render-ൽ ബ്ലോക്ക് ആകില്ല)
+            $response = Http::withHeaders([
+                'apikey' => $supabaseKey,
+                'Authorization' => 'Bearer ' . $supabaseKey,
+                'Content-Type' => 'application/json',
+            ])->post("{$supabaseUrl}/auth/v1/otp", [
+                'email' => $email,
+                'create_user' => true, // യൂസർ ഇല്ലെങ്കിൽ പുതിയ അക്കൗണ്ട് തനിയെ രജിസ്റ്റർ ചെയ്യും
+            ]);
 
-            // Redirect to the verification form
-            return redirect()->route('login.verify')
-                ->with('success', "OTP has been sent to {$email}! Please check your email inbox.");
-        } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error("OTP delivery failed for {$email}: " . $e->getMessage());
+            if ($response->successful()) {
+                // ഇമെയിൽ സെഷനിൽ സൂക്ഷിക്കുക (വെരിഫിക്കേഷൻ പേജിനായി)
+                session(['auth_email' => $email]);
+                Session::put('login_email', $email);
 
-            if (config('app.debug')) {
-                Session::put('debug_mode_otp', $otp);
-                return redirect()->route('login.verify')
-                    ->with('warning', "Email delivery notice: ({$e->getMessage()}). Development OTP mode activated for testing.")
-                    ->with('debug_otp', $otp);
+                return redirect()->route('login.verify')->with('success', 'OTP ഇമെയിലിലേക്ക് അയച്ചിട്ടുണ്ട്.');
             }
 
-            return redirect()->route('login')
-                ->withInput()
-                ->withErrors(['email' => 'Failed to send OTP email: ' . $e->getMessage() . '. Please verify your email address or contact administrator.']);
+            $errorMsg = $response->json('msg') ?? $response->json('error_description') ?? $response->json('message') ?? 'ശ്രമം പരാജയപ്പെട്ടു';
+            Log::error("Supabase Send OTP failed for {$email}: " . $response->body());
+
+            return back()->withInput()->withErrors(['email' => 'OTP അയക്കാൻ സാധിച്ചില്ല: ' . $errorMsg]);
+        } catch (\Throwable $e) {
+            Log::error("Supabase Send OTP exception for {$email}: " . $e->getMessage());
+            return back()->withInput()->withErrors(['email' => 'OTP അയക്കാൻ സാധിച്ചില്ല: ' . $e->getMessage()]);
         }
     }
 
     // Show the OTP Verification Form
     public function showVerifyForm()
     {
-        $email = Session::get('login_email');
+        $email = session('auth_email') ?? Session::get('login_email');
         if (!$email) {
             return redirect()->route('login')->withErrors(['email' => 'Please enter your email to request an OTP.']);
         }
@@ -111,7 +119,7 @@ class AuthController extends Controller
         return view('auth.verify', compact('email', 'debugOtp', 'settings'));
     }
 
-    // Verify OTP and Log In
+    // Verify OTP and Log In via Supabase Auth API
     public function verifyOtp(Request $request)
     {
         $request->validate([
@@ -120,33 +128,50 @@ class AuthController extends Controller
             'otp.required' => 'OTP is required.',
         ]);
 
-        $email = Session::get('login_email');
-        $expectedOtp = Session::get('login_otp');
-
-        if (!$email || !$expectedOtp) {
+        $email = session('auth_email') ?? Session::get('login_email');
+        if (!$email) {
             return redirect()->route('login')->withErrors(['email' => 'Session expired. Please request a new OTP.']);
         }
 
-        $submittedOtp = trim($request->otp);
+        $supabaseUrl = rtrim(env('SUPABASE_URL', 'https://kynnfxdjqplnvucouwug.supabase.co'), '/');
+        $supabaseKey = env('SUPABASE_KEY');
 
-        if ($submittedOtp !== (string)$expectedOtp) {
-            return redirect()->back()
-                ->withErrors(['otp' => 'The entered OTP code is incorrect. Please check your email.']);
+        try {
+            // Supabase-ലേക്ക് വെരിഫിക്കേഷൻ റിക്വസ്റ്റ് അയക്കുന്നു
+            $response = Http::withHeaders([
+                'apikey' => $supabaseKey,
+                'Authorization' => 'Bearer ' . $supabaseKey,
+                'Content-Type' => 'application/json',
+            ])->post("{$supabaseUrl}/auth/v1/verify", [
+                'type' => 'email',
+                'email' => $email,
+                'token' => trim($request->otp),
+            ]);
+
+            if ($response->successful()) {
+                $userData = $response->json();
+
+                // ലോഗിൻ സെഷൻ ഇവിടെ സ്റ്റാർട്ട് ചെയ്യുക
+                session(['user' => $userData['user'] ?? $userData]);
+                Session::put('authenticated_user', $email);
+                session()->forget('auth_email');
+                Session::forget('login_email');
+
+                return redirect()->route('dashboard')->with('success', 'വിജയകരമായി ലോഗിൻ ചെയ്തു!');
+            }
+
+            Log::error("Supabase Verify OTP failed for {$email}: " . $response->body());
+            return back()->withErrors(['otp' => 'നൽകിയ OTP തെറ്റാണ് അല്ലെങ്കിൽ കാലാവധി കഴിഞ്ഞു.']);
+        } catch (\Throwable $e) {
+            Log::error("Supabase Verify OTP exception for {$email}: " . $e->getMessage());
+            return back()->withErrors(['otp' => 'OTP വെരിഫിക്കേഷൻ പരാജയപ്പെട്ടു: ' . $e->getMessage()]);
         }
-
-        // Clear session OTP keys
-        Session::forget(['login_otp', 'debug_mode_otp']);
-
-        // Keep authenticated state indicator
-        Session::put('authenticated_user', $email);
-
-        return redirect()->route('dashboard')->with('success', 'Logged in successfully!');
     }
 
     // Show Admin Login Form
     public function showAdminLoginForm()
     {
-        if (Session::has('authenticated_user')) {
+        if (Session::has('authenticated_user') || session()->has('user')) {
             return redirect()->route('dashboard');
         }
 
@@ -200,8 +225,8 @@ class AuthController extends Controller
     // Show the Dashboard
     public function dashboard()
     {
-        $email = Session::get('authenticated_user');
-        if (!$email) {
+        $email = Session::get('authenticated_user') ?? session('user.email') ?? (is_array(session('user')) ? (session('user')['email'] ?? null) : null);
+        if (!$email && !Session::has('authenticated_user') && !session()->has('user')) {
             return redirect()->route('login')->withErrors(['email' => 'Please sign in to access your dashboard.']);
         }
 
@@ -213,7 +238,7 @@ class AuthController extends Controller
     // Log Out
     public function logout()
     {
-        Session::forget(['authenticated_user', 'login_email', 'debug_mode_otp', 'is_admin']);
+        Session::forget(['authenticated_user', 'login_email', 'debug_mode_otp', 'is_admin', 'user', 'auth_email']);
         return redirect()->route('login')->with('success', 'Logged out successfully!');
     }
 }

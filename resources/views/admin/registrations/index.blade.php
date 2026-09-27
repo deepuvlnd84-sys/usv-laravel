@@ -8,7 +8,8 @@
     @include('pwa')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #e60000;
@@ -694,6 +695,7 @@
                 opacity: 0;
                 transform: scale(0.96);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -837,26 +839,37 @@
                 background: #fff !important;
                 color: #000 !important;
             }
-            .header, .page-actions, .filter-bar, .stats-grid, .table-actions, .modal-backdrop {
+
+            .header,
+            .page-actions,
+            .filter-bar,
+            .stats-grid,
+            .table-actions,
+            .modal-backdrop {
                 display: none !important;
             }
+
             .admin-container {
                 padding: 0 !important;
                 max-width: 100% !important;
             }
+
             .table-card {
                 box-shadow: none !important;
                 border: 1px solid #000 !important;
                 background: #fff !important;
             }
+
             .custom-table {
                 color: #000 !important;
             }
+
             .custom-table th {
                 background: #eee !important;
                 color: #000 !important;
                 border: 1px solid #000 !important;
             }
+
             .custom-table td {
                 border: 1px solid #ccc !important;
                 color: #000 !important;
@@ -881,13 +894,13 @@
             <span class="admin-badge">🛡️ Administrator</span>
             <a href="{{ route('dashboard') }}" class="btn-dash">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
                 </svg>
                 Dashboard
             </a>
             <a href="{{ url('/') }}" class="btn-dash">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                 </svg>
                 Home
             </a>
@@ -898,14 +911,16 @@
     <main class="admin-container">
         <!-- Success & Error Alerts -->
         @if(session('success'))
-            <div style="background: rgba(34, 197, 94, 0.15); border: 1.5px solid #22c55e; color: #86efac; padding: 1rem 1.4rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+            <div
+                style="background: rgba(34, 197, 94, 0.15); border: 1.5px solid #22c55e; color: #86efac; padding: 1rem 1.4rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
                 <span style="font-size: 1.4rem;">✅</span>
                 <strong>{{ session('success') }}</strong>
             </div>
         @endif
 
         @if($errors->any())
-            <div style="background: rgba(230, 0, 0, 0.15); border: 1.5px solid #e60000; color: #fca5a5; padding: 1rem 1.4rem; border-radius: 12px; margin-bottom: 1.5rem;">
+            <div
+                style="background: rgba(230, 0, 0, 0.15); border: 1.5px solid #e60000; color: #fca5a5; padding: 1rem 1.4rem; border-radius: 12px; margin-bottom: 1.5rem;">
                 <strong>Notice:</strong>
                 <ul style="margin-left: 1.2rem; margin-top: 0.3rem;">
                     @foreach($errors->all() as $err)
@@ -921,14 +936,16 @@
                 <h1 class="page-title">
                     <span>📋 Registered Players</span>
                 </h1>
-                <p class="page-subtitle">Manage incoming registrations, export to Excel, edit details & secure records with Lock</p>
+                <p class="page-subtitle">Manage incoming registrations, export to Excel, edit details & secure records
+                    with Lock</p>
             </div>
 
             <div class="page-actions">
                 <!-- PRINT IN EXCEL FORMAT (Requirement) -->
-                <a href="{{ route('admin.register.export', request()->all()) }}" class="btn-excel" title="Download Excel Spreadsheet (.xls)">
+                <a href="{{ route('admin.register.export', request()->all()) }}" class="btn-excel"
+                    title="Download Excel Spreadsheet (.xls)">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                     </svg>
                     <span>Print in Excel Format</span>
                 </a>
@@ -936,7 +953,7 @@
                 <!-- ADD OPTION (Requirement) -->
                 <button type="button" class="btn-add" onclick="openAddModal()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                     </svg>
                     <span>Add New Player</span>
                 </button>
@@ -944,7 +961,8 @@
                 <!-- Print Browser View -->
                 <button type="button" class="btn-print" onclick="window.print()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+                        <path
+                            d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" />
                     </svg>
                     <span>Print</span>
                 </button>
@@ -1014,9 +1032,11 @@
         <form action="{{ route('admin.register.index') }}" method="GET" class="filter-bar">
             <div class="search-box">
                 <svg class="search-icon" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                 </svg>
-                <input type="text" name="search" class="search-input" placeholder="Search by name, mobile, job, jersey..." value="{{ request('search') }}">
+                <input type="text" name="search" class="search-input"
+                    placeholder="Search by name, mobile, job, jersey..." value="{{ request('search') }}">
             </div>
 
             <select name="role" class="filter-select">
@@ -1024,7 +1044,8 @@
                 <option value="Batsman" {{ request('role') == 'Batsman' ? 'selected' : '' }}>Batsman</option>
                 <option value="Bowler" {{ request('role') == 'Bowler' ? 'selected' : '' }}>Bowler</option>
                 <option value="Allrounder" {{ request('role') == 'Allrounder' ? 'selected' : '' }}>Allrounder</option>
-                <option value="Wicket Keeper Batsman" {{ request('role') == 'Wicket Keeper Batsman' ? 'selected' : '' }}>Wicket Keeper Batsman</option>
+                <option value="Wicket Keeper Batsman" {{ request('role') == 'Wicket Keeper Batsman' ? 'selected' : '' }}>
+                    Wicket Keeper Batsman</option>
             </select>
 
             <select name="status" class="filter-select">
@@ -1062,7 +1083,9 @@
                                 <td>
                                     <div class="player-info-cell">
                                         @if($item->photo_url)
-                                            <img src="{{ $item->photo_url }}" alt="{{ $item->name }}" class="player-avatar" onclick="showImageModal('{{ $item->photo_url }}', '{{ htmlspecialchars($item->name) }}')" style="cursor: pointer;" title="Click to enlarge">
+                                            <img src="{{ $item->photo_url }}" alt="{{ $item->name }}" class="player-avatar"
+                                                onclick="showImageModal('{{ $item->photo_url }}', '{{ htmlspecialchars($item->name) }}')"
+                                                style="cursor: pointer;" title="Click to enlarge">
                                         @else
                                             <div class="player-avatar-placeholder">
                                                 {{ strtoupper(substr($item->name, 0, 1)) }}
@@ -1076,7 +1099,7 @@
                                 </td>
                                 <td>
                                     @php
-                                        $roleClass = match($item->playing_role) {
+                                        $roleClass = match ($item->playing_role) {
                                             'Batsman' => 'batsman',
                                             'Bowler' => 'bowler',
                                             'Allrounder' => 'allrounder',
@@ -1093,12 +1116,16 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span style="font-weight: 700; color: #fff;">{{ $item->age ? $item->age . ' yrs' : '-' }}</span>
-                                    <div style="font-size: 0.78rem; color: #94a3b8;">{{ $item->dob ? $item->dob->format('d M Y') : '-' }}</div>
+                                    <span
+                                        style="font-weight: 700; color: #fff;">{{ $item->age ? $item->age . ' yrs' : '-' }}</span>
+                                    <div style="font-size: 0.78rem; color: #94a3b8;">
+                                        {{ $item->dob ? $item->dob->format('d M Y') : '-' }}
+                                    </div>
                                 </td>
                                 <td>
                                     @if($item->blood_group)
-                                        <span style="background: rgba(230, 0, 0, 0.15); border: 1px solid rgba(230, 0, 0, 0.3); color: #fca5a5; font-weight: 800; font-size: 0.78rem; padding: 0.2rem 0.5rem; border-radius: 6px;">
+                                        <span
+                                            style="background: rgba(230, 0, 0, 0.15); border: 1px solid rgba(230, 0, 0, 0.3); color: #fca5a5; font-weight: 800; font-size: 0.78rem; padding: 0.2rem 0.5rem; border-radius: 6px;">
                                             {{ $item->blood_group }}
                                         </span>
                                     @else
@@ -1106,8 +1133,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div style="font-weight: 600; color: #e2e8f0;">{{ $item->education_qualification ?: '-' }}</div>
-                                    <div style="font-size: 0.78rem; color: #94a3b8;">{{ $item->job ?: 'Not specified' }}</div>
+                                    <div style="font-weight: 600; color: #e2e8f0;">
+                                        {{ $item->education_qualification ?: '-' }}
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: #94a3b8;">{{ $item->job ?: 'Not specified' }}
+                                    </div>
                                 </td>
                                 <td>
                                     @if($item->is_locked)
@@ -1123,15 +1153,19 @@
                                 <td>
                                     <div class="table-actions" style="justify-content: flex-end;">
                                         <!-- View Full Details -->
-                                        <button type="button" class="btn-action" data-player="{{ base64_encode(json_encode($item)) }}" onclick="openDetailsModalFromBtn(this)" title="View Complete Details">
+                                        <button type="button" class="btn-action"
+                                            data-player="{{ base64_encode(json_encode($item)) }}"
+                                            onclick="openDetailsModalFromBtn(this)" title="View Complete Details">
                                             👁️ View
                                         </button>
 
                                         <!-- LOCK THE DETAILS OPTION (Requirement) -->
-                                        <form action="{{ route('admin.register.lock', $item->id) }}" method="POST" style="margin: 0; display: inline;">
+                                        <form action="{{ route('admin.register.lock', $item->id) }}" method="POST"
+                                            style="margin: 0; display: inline;">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn-action btn-lock" title="{{ $item->is_locked ? 'Click to Unlock this player' : 'Click to Lock this player details' }}">
+                                            <button type="submit" class="btn-action btn-lock"
+                                                title="{{ $item->is_locked ? 'Click to Unlock this player' : 'Click to Lock this player details' }}">
                                                 @if($item->is_locked)
                                                     🔓 Unlock
                                                 @else
@@ -1141,15 +1175,20 @@
                                         </form>
 
                                         <!-- EDIT OPTION (Requirement) -->
-                                        <button type="button" class="btn-action btn-edit" data-player="{{ base64_encode(json_encode($item)) }}" onclick="openEditModalFromBtn(this)" title="Edit Details">
+                                        <button type="button" class="btn-action btn-edit"
+                                            data-player="{{ base64_encode(json_encode($item)) }}"
+                                            onclick="openEditModalFromBtn(this)" title="Edit Details">
                                             ✏️ Edit
                                         </button>
 
                                         <!-- DELETE OPTION (Requirement) -->
-                                        <form action="{{ route('admin.register.destroy', $item->id) }}" method="POST" style="margin: 0; display: inline;" onsubmit="return confirm('Are you sure you want to delete the registered player \'{{ addslashes($item->name) }}\'? This cannot be undone.');">
+                                        <form action="{{ route('admin.register.destroy', $item->id) }}" method="POST"
+                                            style="margin: 0; display: inline;"
+                                            onsubmit="return confirm('Are you sure you want to delete the registered player \'{{ addslashes($item->name) }}\'? This cannot be undone.');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn-action btn-delete" title="Delete Registration Record">
+                                            <button type="submit" class="btn-action btn-delete"
+                                                title="Delete Registration Record">
                                                 🗑️
                                             </button>
                                         </form>
@@ -1161,10 +1200,12 @@
                                 <td colspan="8">
                                     <div class="empty-state">
                                         <svg viewBox="0 0 24 24">
-                                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                                            <path
+                                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
                                         </svg>
                                         <h3>No Player Registrations Found</h3>
-                                        <p>No players matched your search or filter criteria. Click "Add New Player" or clear filters.</p>
+                                        <p>No players matched your search or filter criteria. Click "Add New Player" or
+                                            clear filters.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -1209,7 +1250,8 @@
                         <!-- Age -->
                         <div class="modal-group">
                             <label class="modal-label">Age</label>
-                            <input type="number" name="age" class="modal-input" min="5" max="100" placeholder="Age in years">
+                            <input type="number" name="age" class="modal-input" min="5" max="100"
+                                placeholder="Age in years">
                         </div>
 
                         <!-- DOB -->
@@ -1237,7 +1279,8 @@
                         <!-- Qualification -->
                         <div class="modal-group">
                             <label class="modal-label">Education Qualification</label>
-                            <input type="text" name="education_qualification" class="modal-input" placeholder="e.g. Degree, Plus Two">
+                            <input type="text" name="education_qualification" class="modal-input"
+                                placeholder="e.g. Degree, Plus Two">
                         </div>
 
                         <!-- Job -->
@@ -1255,7 +1298,8 @@
                         <!-- Playing Role -->
                         <div class="modal-group">
                             <label class="modal-label">Playing Role *</label>
-                            <select name="playing_role" class="modal-select" required onchange="toggleAdminRoleOptions(this.value, 'add')">
+                            <select name="playing_role" class="modal-select" required
+                                onchange="toggleAdminRoleOptions(this.value, 'add')">
                                 <option value="Batsman">Batsman</option>
                                 <option value="Bowler">Bowler</option>
                                 <option value="Allrounder">Allrounder</option>
@@ -1321,7 +1365,8 @@
                         <!-- Cricket Experience -->
                         <div class="modal-group full">
                             <label class="modal-label">Cricket Experience</label>
-                            <input type="text" name="cricket_experience" class="modal-input" placeholder="Years of experience / tournaments">
+                            <input type="text" name="cricket_experience" class="modal-input"
+                                placeholder="Years of experience / tournaments">
                         </div>
 
                         <!-- Remarks -->
@@ -1331,8 +1376,10 @@
                         </div>
 
                         <!-- Lock status check -->
-                        <div class="modal-group full" style="flex-direction: row; align-items: center; gap: 0.6rem; margin-top: 0.5rem;">
-                            <input type="checkbox" name="is_locked" id="add_is_locked" value="1" style="width: 18px; height: 18px; cursor: pointer;">
+                        <div class="modal-group full"
+                            style="flex-direction: row; align-items: center; gap: 0.6rem; margin-top: 0.5rem;">
+                            <input type="checkbox" name="is_locked" id="add_is_locked" value="1"
+                                style="width: 18px; height: 18px; cursor: pointer;">
                             <label for="add_is_locked" class="modal-label" style="cursor: pointer;">
                                 🔒 Lock this player's details immediately upon saving
                             </label>
@@ -1361,8 +1408,10 @@
                 @method('PUT')
                 <div class="modal-body">
                     <!-- Warning if locked -->
-                    <div id="editLockedWarning" style="display: none; background: rgba(230, 0, 0, 0.2); border: 1px solid #e60000; color: #fca5a5; padding: 0.8rem 1rem; border-radius: 10px; margin-bottom: 1.2rem; font-size: 0.88rem;">
-                        ⚠️ <strong>This record is currently LOCKED.</strong> Checking "Unlock to allow saving" will enable updates.
+                    <div id="editLockedWarning"
+                        style="display: none; background: rgba(230, 0, 0, 0.2); border: 1px solid #e60000; color: #fca5a5; padding: 0.8rem 1rem; border-radius: 10px; margin-bottom: 1.2rem; font-size: 0.88rem;">
+                        ⚠️ <strong>This record is currently LOCKED.</strong> Checking "Unlock to allow saving" will
+                        enable updates.
                     </div>
 
                     <div class="modal-grid">
@@ -1415,7 +1464,8 @@
                         <!-- Qualification -->
                         <div class="modal-group">
                             <label class="modal-label">Education Qualification</label>
-                            <input type="text" name="education_qualification" id="edit_education_qualification" class="modal-input">
+                            <input type="text" name="education_qualification" id="edit_education_qualification"
+                                class="modal-input">
                         </div>
 
                         <!-- Job -->
@@ -1499,7 +1549,8 @@
                         <!-- Cricket Experience -->
                         <div class="modal-group full">
                             <label class="modal-label">Cricket Experience</label>
-                            <input type="text" name="cricket_experience" id="edit_cricket_experience" class="modal-input">
+                            <input type="text" name="cricket_experience" id="edit_cricket_experience"
+                                class="modal-input">
                         </div>
 
                         <!-- Remarks -->
@@ -1509,8 +1560,10 @@
                         </div>
 
                         <!-- Lock Option in Edit -->
-                        <div class="modal-group full" style="flex-direction: row; align-items: center; gap: 0.6rem; margin-top: 0.5rem;">
-                            <input type="checkbox" name="is_locked" id="edit_is_locked" value="1" style="width: 18px; height: 18px; cursor: pointer;">
+                        <div class="modal-group full"
+                            style="flex-direction: row; align-items: center; gap: 0.6rem; margin-top: 0.5rem;">
+                            <input type="checkbox" name="is_locked" id="edit_is_locked" value="1"
+                                style="width: 18px; height: 18px; cursor: pointer;">
                             <label for="edit_is_locked" class="modal-label" style="cursor: pointer;">
                                 🔒 Lock this player's details
                             </label>
@@ -1536,9 +1589,11 @@
                 <button type="button" class="modal-close" onclick="closeModal('viewDetailsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.8rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div
+                    style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.8rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
                     <div id="view_photo_wrap">
-                        <img src="" alt="" id="view_photo_img" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #22c55e;">
+                        <img src="" alt="" id="view_photo_img"
+                            style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #22c55e;">
                     </div>
                     <div>
                         <h2 id="view_name" style="font-size: 1.5rem; font-weight: 800; color: #fff;"></h2>
@@ -1614,8 +1669,10 @@
     <!-- Image Preview Modal -->
     <div class="modal-backdrop" id="imagePreviewModal" onclick="closeModal('imagePreviewModal')">
         <div style="text-align: center; max-width: 90%; max-height: 90%;">
-            <img src="" id="largePreviewImg" style="max-width: 100%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.2);">
-            <div id="largePreviewName" style="color: #fff; font-size: 1.2rem; font-weight: 800; margin-top: 1rem;"></div>
+            <img src="" id="largePreviewImg"
+                style="max-width: 100%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.2);">
+            <div id="largePreviewName" style="color: #fff; font-size: 1.2rem; font-weight: 800; margin-top: 1rem;">
+            </div>
         </div>
     </div>
 
@@ -1630,7 +1687,7 @@
         }
 
         // Close modal when clicking outside of modal card
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target.classList.contains('modal-backdrop')) {
                 event.target.style.display = 'none';
             }
@@ -1695,10 +1752,10 @@
         function openDetailsModal(player) {
             document.getElementById('view_name').innerText = player.name;
             document.getElementById('view_mobile').innerText = player.mobile_no || '-';
-            
+
             const dobStr = player.dob ? new Date(player.dob).toLocaleDateString() : '';
             document.getElementById('view_age_dob').innerText = (player.age ? player.age + ' years' : '-') + (dobStr ? ' (' + dobStr + ')' : '');
-            
+
             document.getElementById('view_blood').innerText = player.blood_group || '-';
             document.getElementById('view_education').innerText = player.education_qualification || '-';
             document.getElementById('view_job').innerText = player.job || '-';
@@ -1710,9 +1767,9 @@
             document.getElementById('view_clubs').innerText = player.previous_clubs || '-';
             document.getElementById('view_experience').innerText = player.cricket_experience || '-';
             document.getElementById('view_remarks').innerText = player.remarks || '-';
-            
-            document.getElementById('view_lock_status').innerHTML = player.is_locked 
-                ? '<span style="color: #ef4444; font-weight: 800;">🔒 LOCKED (Protected)</span>' 
+
+            document.getElementById('view_lock_status').innerHTML = player.is_locked
+                ? '<span style="color: #ef4444; font-weight: 800;">🔒 LOCKED (Protected)</span>'
                 : '<span style="color: #22c55e; font-weight: 800;">🔓 UNLOCKED (Editable)</span>';
 
             document.getElementById('view_role_badge').innerHTML = `<span class="role-pill batsman">${player.playing_role}</span>`;
