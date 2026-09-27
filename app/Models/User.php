@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'supabase_id',
+        'role',
+        'email_verified_at',
     ];
 
     /**
