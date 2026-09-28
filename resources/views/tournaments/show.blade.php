@@ -1427,14 +1427,6 @@
 
         <!-- Tournament Switcher Quick Bar -->
         <div class="tournament-selector-bar">
-            <div class="selector-pills-group" style="display: flex; align-items: center; gap: 0.75rem;">
-                <span class="selector-label">SELECT SEASON:</span>
-                <select onchange="window.location.href='{{ url('/tournaments') }}/' + this.value" class="form-select" style="background: #111111; color: #e7f711; border: 1.5px solid #22c55e; border-radius: 20px; padding: 0.45rem 1rem; font-weight: 800; font-size: 0.95rem; cursor: pointer; outline: none;">
-                    @for($s = 1; $s <= 10; $s++)
-                        <option value="{{ $s }}" {{ (int)$tournament->id === $s ? 'selected' : '' }}>SEASON {{ $s }}</option>
-                    @endfor
-                </select>
-            </div>
             <a href="{{ route('tournaments.index') }}" class="back-tournaments-btn">
                 ← Back to All Tournaments
             </a>
