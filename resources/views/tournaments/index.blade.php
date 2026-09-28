@@ -829,30 +829,7 @@
             <a href="{{ route('members') }}" class="nav-link">MEMBERS</a>
             <a href="{{ route('about') }}" class="nav-link">ABOUT</a>
             
-            <!-- Tournaments Dropdown Navigation -->
-            <div class="nav-dropdown-wrap">
-                <a href="{{ route('tournaments.index') }}" class="nav-dropdown-toggle">
-                    TOURNAMENTS
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </a>
-                <div class="nav-dropdown-menu">
-                    <a href="{{ route('tournaments.show', 1) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Premier League
-                    </a>
-                    <a href="{{ route('tournaments.show', 2) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Champions League
-                    </a>
-                    <a href="{{ route('tournaments.show', 3) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Discovery League
-                    </a>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 0.35rem 0;"></div>
-                    <a href="{{ route('tournaments.index') }}" class="nav-dropdown-item active">
-                        <span>📋</span> All Tournaments
-                    </a>
-                </div>
-            </div>
+            <a href="{{ route('tournaments.index') }}" class="nav-link active">TOURNAMENTS</a>
 
             <a href="{{ route('gallery') }}" class="nav-link">GALLERY</a>
             <a href="{{ route('register.create') }}" class="nav-link">REGISTER</a>
@@ -940,28 +917,46 @@
                 </div>
             @endif
 
-            <!-- Quick League Access Buttons Bar -->
-            <div class="quick-league-bar">
-                <div class="quick-league-group">
-                    <span class="quick-league-label">Enter League Details:</span>
-                    <a href="{{ route('tournaments.show', 1) }}" class="quick-league-btn">
-                        <span>👑</span> Premier League
-                    </a>
-                    <a href="{{ route('tournaments.show', 2) }}" class="quick-league-btn">
-                        <span>🏆</span> Champions League
-                    </a>
-                    <a href="{{ route('tournaments.show', 3) }}" class="quick-league-btn">
-                        <span>🌟</span> Discovery League
-                    </a>
+            <!-- Season 1 to 10 Dropdown Selector Control Bar -->
+            <div class="season-selector-box" style="background: rgba(18, 18, 18, 0.88); backdrop-filter: blur(12px); border: 1.5px solid rgba(34, 197, 94, 0.45); border-radius: 18px; padding: 1.25rem 1.75rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="background: linear-gradient(135deg, #e60000 0%, #b30000 100%); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(230,0,0,0.4);">
+                        🏆
+                    </div>
+                    <div>
+                        <label for="seasonSelectDropdown" style="display: block; font-weight: 800; color: #e7f711; font-size: 1.05rem; letter-spacing: 0.03em; text-transform: uppercase;">SELECT TOURNAMENT SEASON</label>
+                        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 2px;">
+                            Select Season 1 to 10 to view full match details, teams, fixtures & standings
+                        </div>
+                    </div>
                 </div>
-                <span style="font-size: 0.82rem; color: #888888;">Select a tournament to view Teams, Fixtures, Points & More</span>
+                <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
+                    <select id="seasonSelectDropdown" style="background: #111111; color: #ffffff; border: 1.5px solid #22c55e; border-radius: 10px; padding: 0.7rem 1.2rem; font-weight: 800; font-size: 1rem; cursor: pointer; outline: none; transition: all 0.2s ease;">
+                        @for($s = 1; $s <= 10; $s++)
+                            <option value="{{ $s }}">SEASON {{ $s }}</option>
+                        @endfor
+                    </select>
+                    <button type="button" onclick="navigateToSelectedSeason()" class="btn-view-details" style="margin: 0; padding: 0.7rem 1.4rem; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; background: linear-gradient(135deg, #e60000 0%, #990000 100%); border: none; border-radius: 10px; color: #ffffff; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s;">
+                        <span>Enter Tournament Details</span>
+                        <span style="font-size: 1.1rem;">&rarr;</span>
+                    </button>
+                </div>
             </div>
+
+            <script>
+                function navigateToSelectedSeason() {
+                    const seasonVal = document.getElementById('seasonSelectDropdown').value;
+                    window.location.href = "{{ url('/tournaments') }}/" + seasonVal;
+                }
+            </script>
 
             <!-- Tournaments List -->
             <div class="tournaments-grid">
                 @forelse($tournaments as $tournament)
                     <div class="tournament-card">
-                        <span class="status-badge {{ $tournament->status }}">{{ $tournament->status }}</span>
+                        @if(strtolower($tournament->status) !== 'upcoming')
+                            <span class="status-badge {{ $tournament->status }}">{{ $tournament->status }}</span>
+                        @endif
                         <div class="trophy-circle">
                             <svg class="trophy-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v3c0 2.2 1.8 4 4 4h1.09c.72 1.96 2.43 3.44 4.54 3.86V21H9v2h6v-2h-3.63v-3.14c2.11-.42 3.82-1.9 4.54-3.86H17c2.2 0 4-1.8 4-4V7c0-1.1-.9-2-2-2zM5 10V7h2v3H5zm14 0h-2V7h2v3z" fill="url(#gold-grad-{{ $tournament->id }})"/>
@@ -980,15 +975,6 @@
                         </a>
                         <div class="tournament-edition">{{ $tournament->edition ?? 'Championship' }}</div>
                         <p class="tournament-desc">{{ $tournament->description ?? 'Official senior cricket tournament.' }}</p>
-
-                        <div class="tournament-meta">
-                            @if($tournament->venue)
-                                <div>📍 Venue: <strong style="color: #fff;">{{ $tournament->venue }}</strong></div>
-                            @endif
-                            @if($tournament->start_date)
-                                <div>📅 Start Date: <strong style="color: #fff;">{{ $tournament->start_date->format('d M, Y') }}</strong></div>
-                            @endif
-                        </div>
 
                         <!-- Enter Tournament Details Button -->
                         <a href="{{ route('tournaments.show', $tournament->id) }}" class="btn-view-details">

@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\ContactSetting;
+use App\Mail\SendOtpMail;
 
 class AuthController extends Controller
 {
@@ -24,7 +26,7 @@ class AuthController extends Controller
                 'club_email' => 'unitedseniorsvellanadans@gmail.com',
                 'club_phone' => '094478 89502',
                 'ground_location' => 'H345+JF, Vellanad, Keralam 695543',
-                'ground_map_url' => 'https://www.google.com/maps/place/Viswanathan+Memorial+Panchayath+Stadium,+Vellanad/@8.5565815,77.0396807,15z/data=!4m10!1m2!2m1!1sground+Vellanad!3m6!1s0x3b05b700298dfee1:0xce52ac8e1571f9d!8m2!3d8.5565815!4d77.0587351!15sCg9ncm91bmQgVmVsbGFuYWRaESIPZ3JvdW5kIHZlbGxhbmFkkgEKcGxheWdyb3VuZJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycGFRMU5FVmxwT2EyUklZbnBzTlZsWWFHWk5WR1F5V1c1T2JrNUlZeEFC4AEA-gEECAAQOw!16s%2Fg%2F11wqkkrh2d?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D',
+                'ground_map_url' => 'https://www.google.com/maps/place/Viswanathan+Memorial+Panchayath+Stadium,+Vellanad/@8.5565815,77.0396807,15z/data=!4m10!1m2!2m1!1sground+Vellanad!3m6!1s0x3b05b700298dfee1:0xce52ac8e1571f9d!8m2!3d8.5565815!4d77.0587351!15sCg9ncm91bmQgVmVsbGFuYWRaESIPZ3JvdW5kIHZlbGxhbmFkkgEKcGxheWdyb luggage!5s...!',
             ]);
         }
         return $settings;
@@ -48,7 +50,7 @@ class AuthController extends Controller
         return view('auth.login', compact('captcha_question', 'settings'));
     }
 
-    // Generate and Send OTP via Supabase Auth API
+    // Generate and Send OTP via Supabase Auth API (with Laravel Mail fallback)
     public function sendOtp(Request $request)
     {
         $rules = [
@@ -80,33 +82,57 @@ class AuthController extends Controller
         $supabaseKey = env('SUPABASE_KEY');
 
         try {
-            // Supabase Auth API ലേക്ക് HTTPS പോർട്ട് 443 വഴി റിക്വസ്റ്റ് അയക്കുന്നു
             $response = Http::withHeaders([
                 'apikey'        => $supabaseKey,
                 'Authorization' => 'Bearer ' . $supabaseKey,
                 'Content-Type'  => 'application/json',
             ])->post("{$supabaseUrl}/auth/v1/otp", [
                 'email'       => $email,
-                'create_user' => true, // യൂസർ മുൻപ് രജിസ്റ്റർ ചെയ്തിട്ടില്ലെങ്കിൽ തനിയെ അക്കൗണ്ട് ക്രിയേറ്റ് ചെയ്യും
+                'create_user' => true,
             ]);
 
             if ($response->successful()) {
-                // വെരിഫിക്കേഷൻ പേജിലേക്ക് ആവശ്യമായ ഇമെയിൽ സെഷനിൽ സൂക്ഷിക്കുന്നു
                 session(['auth_email' => $email]);
                 Session::put('login_email', $email);
 
                 return redirect()->route('login.verify')->with('success', 'OTP ഇമെയിലിലേക്ക് അയച്ചിട്ടുണ്ട്.');
             }
 
-            // Supabase API തരുന്ന കൃത്യമായ എറർ മെസ്സേജ് പിടിച്ചെടുക്കുന്നു
             $errorData = $response->json();
-            $errorMessage = $errorData['msg'] ?? $errorData['error_description'] ?? 'OTP അയക്കാൻ സാധിച്ചില്ല.';
+            Log::warning('Supabase Send OTP failed for ' . $email . ': ' . json_encode($errorData) . '. Initiating fallback mail OTP.');
 
-            return back()->withInput()->withErrors(['email' => $errorMessage]);
+            return $this->sendFallbackOtp($email);
 
         } catch (\Exception $e) {
-            Log::error('Supabase OTP Error: ' . $e->getMessage());
-            return back()->withInput()->withErrors(['email' => 'സെർവറുമായി ബന്ധപ്പെടാൻ സാധിച്ചില്ല. ദയവായി അല്പം കഴിഞ്ഞ് ശ്രമിക്കുക.']);
+            Log::error('Supabase OTP Error: ' . $e->getMessage() . '. Initiating fallback mail OTP.');
+            return $this->sendFallbackOtp($email);
+        }
+    }
+
+    // Send Fallback OTP via Laravel Mailer
+    private function sendFallbackOtp($email)
+    {
+        $otp = sprintf("%06d", rand(100000, 999999));
+
+        session([
+            'auth_email'     => $email,
+            'login_email'    => $email,
+            'login_otp'      => $otp,
+            'debug_mode_otp' => $otp,
+        ]);
+        Session::put('login_email', $email);
+        Session::put('debug_mode_otp', $otp);
+
+        try {
+            Mail::to($email)->send(new SendOtpMail($otp));
+            Log::info("Fallback OTP {$otp} sent via Mail to {$email}");
+            return redirect()->route('login.verify')->with('success', 'OTP ഇമെയിലിലേക്ക് അയച്ചിട്ടുണ്ട്.');
+        } catch (\Exception $e) {
+            Log::error('Mail OTP Error: ' . $e->getMessage());
+            if (config('app.debug')) {
+                return redirect()->route('login.verify')->with('warning', 'OTP ഇമെയിൽ അയക്കാൻ സാധിച്ചില്ല. ഡെവലപ്‌മെന്റ് മോഡ് OTP ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക.');
+            }
+            return back()->withInput()->withErrors(['email' => 'OTP അയക്കാൻ സാധിച്ചില്ല. ദയവായി ഇമെയിൽ പരിശോധിക്കുക അല്ലെങ്കിൽ പിന്നീട് ശ്രമിക്കുക.']);
         }
     }
 
@@ -124,11 +150,11 @@ class AuthController extends Controller
         return view('auth.verify', compact('email', 'debugOtp', 'settings'));
     }
 
-    // Verify OTP and Log In via Supabase Auth API & sync with Laravel User model
+    // Verify OTP and Log In via Supabase Auth API / Fallback session OTP & sync with Laravel User model
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'otp' => 'required|numeric',
+            'otp' => 'required',
         ]);
 
         $email = session('auth_email') ?? Session::get('login_email');
@@ -137,11 +163,18 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors(['email' => 'സെഷൻ കാലഹരണപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.']);
         }
 
+        $inputOtp = trim($request->otp);
+        $sessionOtp = session('login_otp') ?? Session::get('debug_mode_otp') ?? session('debug_otp');
+
+        // Check fallback session OTP first if matches
+        if ($sessionOtp && (string)$inputOtp === (string)$sessionOtp) {
+            return $this->completeLogin($email);
+        }
+
         $supabaseUrl = rtrim(env('SUPABASE_URL', 'https://kynnfxdjqplnvucouwug.supabase.co'), '/');
         $supabaseKey = env('SUPABASE_KEY');
 
         try {
-            // ഉപയോക്താവ് നൽകിയ OTP Supabase വഴി പരിശോധിക്കുന്നു
             $response = Http::withHeaders([
                 'apikey'        => $supabaseKey,
                 'Authorization' => 'Bearer ' . $supabaseKey,
@@ -149,50 +182,14 @@ class AuthController extends Controller
             ])->post("{$supabaseUrl}/auth/v1/verify", [
                 'type'  => 'email',
                 'email' => $email,
-                'token' => trim($request->otp),
+                'token' => $inputOtp,
             ]);
 
             if ($response->successful()) {
                 $supabaseData = $response->json();
                 $supabaseUser = $supabaseData['user'] ?? $supabaseData;
                 $supabaseId   = $supabaseUser['id'] ?? null;
-                $userEmail    = $supabaseUser['email'] ?? $email;
-
-                $existingUser = User::where('email', $userEmail)->first();
-
-                // 1. Laravel ലോക്കൽ Users ടേബിളിൽ യൂസറെ കണ്ടെത്തുക അല്ലെങ്കിൽ ഉണ്ടാക്കുക
-                $user = User::updateOrCreate(
-                    ['email' => $userEmail],
-                    [
-                        'supabase_id'       => $supabaseId,
-                        'name'              => $existingUser->name ?? explode('@', $userEmail)[0],
-                        'password'          => $existingUser->password ?? bcrypt(Str::random(24)),
-                        'email_verified_at' => now(),
-                    ]
-                );
-
-                // 2. Laravel ബിൽറ്റ്-ഇൻ Auth വഴി ഔദ്യോഗികമായി ലോഗിൻ ചെയ്യിക്കുക
-                Auth::login($user, true); // true നൽകുന്നത് 'Remember Me' സെഷൻ നിലനിർത്താനാണ്
-
-                // 3. സെഷൻ വിവരങ്ങൾ സൂക്ഷിക്കുക
-                session([
-                    'user'       => $supabaseUser,
-                    'auth_token' => $supabaseData['access_token'] ?? null
-                ]);
-                Session::put('authenticated_user', $userEmail);
-
-                // 4. താൽക്കാലികമായി വെച്ച സെഷൻ വിവരങ്ങൾ നീക്കം ചെയ്യുക
-                session()->forget('auth_email');
-                Session::forget('login_email');
-                session()->regenerate(); // സെഷൻ ഫിക്സേഷൻ തടയാൻ
-
-                // 5. അഡ്മിൻ അല്ലെങ്കിൽ സാധാരണ യൂസർ റോൾ അനുസരിച്ച് റീഡയറക്ട് ചെയ്യാം
-                if (isset($user->role) && $user->role === 'admin') {
-                    Session::put('is_admin', true);
-                    return redirect()->intended('/admin/dashboard')->with('success', 'സ്വാഗതം അഡ്മിൻ!');
-                }
-
-                return redirect()->intended('/dashboard')->with('success', 'വിജയകരമായി ലോഗിൻ ചെയ്തു!');
+                return $this->completeLogin($email, $supabaseId, $supabaseUser, $supabaseData['access_token'] ?? null);
             }
 
             return back()->withErrors(['otp' => 'നൽകിയ OTP തെറ്റാണ് അല്ലെങ്കിൽ കാലാവധി കഴിഞ്ഞു.']);
@@ -201,6 +198,41 @@ class AuthController extends Controller
             Log::error('Supabase Verify Error: ' . $e->getMessage());
             return back()->withErrors(['otp' => 'വെരിഫിക്കേഷൻ പരാജയപ്പെട്ടു.']);
         }
+    }
+
+    // Helper method to finalize login session and user record
+    private function completeLogin($email, $supabaseId = null, $supabaseUser = null, $authToken = null)
+    {
+        $existingUser = User::where('email', $email)->first();
+
+        $user = User::updateOrCreate(
+            ['email' => $email],
+            [
+                'supabase_id'       => $supabaseId ?? ($existingUser->supabase_id ?? null),
+                'name'              => $existingUser->name ?? explode('@', $email)[0],
+                'password'          => $existingUser->password ?? bcrypt(Str::random(24)),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        Auth::login($user, true);
+
+        session([
+            'user'       => $supabaseUser ?? $user->toArray(),
+            'auth_token' => $authToken
+        ]);
+        Session::put('authenticated_user', $email);
+
+        session()->forget(['auth_email', 'login_email', 'login_otp', 'debug_mode_otp', 'debug_otp']);
+        Session::forget(['auth_email', 'login_email', 'login_otp', 'debug_mode_otp', 'debug_otp']);
+        session()->regenerate();
+
+        if (isset($user->role) && $user->role === 'admin') {
+            Session::put('is_admin', true);
+            return redirect()->intended('/admin/dashboard')->with('success', 'സ്വാഗതം അഡ്മിൻ!');
+        }
+
+        return redirect()->intended('/dashboard')->with('success', 'വിജയകരമായി ലോഗിൻ ചെയ്തു!');
     }
 
     // Show Admin Login Form
@@ -274,7 +306,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        Session::forget(['authenticated_user', 'login_email', 'debug_mode_otp', 'is_admin', 'user', 'auth_email', 'auth_token']);
+        Session::forget(['authenticated_user', 'login_email', 'debug_mode_otp', 'is_admin', 'user', 'auth_email', 'auth_token', 'login_otp', 'debug_otp']);
         session()->invalidate();
         session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Logged out successfully!');

@@ -10,14 +10,16 @@ class TournamentController extends Controller
 {
     private function checkAdmin()
     {
-        return Session::get('is_admin') === true || Session::get('authenticated_user') === 'Admin';
+        return Session::get('is_admin') === true || 
+               Session::get('authenticated_user') === 'Admin' || 
+               (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->role === 'admin');
     }
 
     // Display all tournaments
     public function index()
     {
         try {
-            $tournaments = Tournament::orderBy('created_at', 'asc')->get();
+            $tournaments = Tournament::orderBy('id', 'asc')->get();
         } catch (\Throwable $e) {
             $tournaments = collect();
         }
@@ -26,19 +28,45 @@ class TournamentController extends Controller
         return view('tournaments.index', compact('tournaments', 'isAdmin'));
     }
 
-
     // Display single tournament details with Teams, Fixtures, Point Table, Leaderboard, Committee, and Gallery
     public function show($id)
     {
         if (is_numeric($id)) {
-            $tournament = Tournament::findOrFail($id);
+            $tournament = Tournament::find($id);
+            if (!$tournament) {
+                $seasonNames = [
+                    1 => 'Premier League',
+                    2 => 'Champions League',
+                    3 => 'Discovery League',
+                    4 => 'Vellanad Cup',
+                    5 => 'USV Super League',
+                    6 => 'USV Challenge Trophy',
+                    7 => 'USV Masters League',
+                    8 => 'USV Gold Cup',
+                    9 => 'USV Premier Shield',
+                    10 => 'USV Champions Trophy',
+                ];
+                $name = $seasonNames[$id] ?? "USV Tournament Season {$id}";
+                $tournament = Tournament::create([
+                    'id' => (int)$id,
+                    'name' => $name,
+                    'edition' => "Season {$id}",
+                    'venue' => 'Vellanad Stadium',
+                    'start_date' => date('Y-m-d'),
+                    'description' => "Official USV Season {$id} Cricket Championship.",
+                    'status' => 'Upcoming',
+                ]);
+            }
         } else {
             $queryName = str_replace('-', ' ', $id);
-            $tournament = Tournament::where('name', 'like', "%{$queryName}%")->firstOrFail();
+            $tournament = Tournament::where('name', 'like', "%{$queryName}%")->first();
+            if (!$tournament) {
+                $tournament = Tournament::firstOrFail();
+            }
         }
 
         $isAdmin = $this->checkAdmin();
-        $allTournaments = Tournament::orderBy('created_at', 'asc')->get();
+        $allTournaments = Tournament::orderBy('id', 'asc')->get();
         $data = $this->getTournamentDetailsData($tournament);
 
         return view('tournaments.show', array_merge([

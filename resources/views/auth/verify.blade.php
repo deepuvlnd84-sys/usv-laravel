@@ -548,8 +548,8 @@
                         An OTP verification code has been sent to:<br>
                         <strong style="color: #ffffff;">{{ $email }}</strong>
                     </p>
-                    <label for="otp" class="form-label" style="text-align: center;">Enter 6-Digit OTP</label>
-                    <input type="text" id="otp" name="otp" class="form-input" placeholder="------" required maxlength="6" autofocus autocomplete="one-time-code">
+                    <label for="otp" class="form-label" style="text-align: center;">Enter Verification OTP</label>
+                    <input type="text" id="otp" name="otp" class="form-input" placeholder="Enter OTP Code" required maxlength="10" autofocus autocomplete="one-time-code">
                 </div>
 
                 <button type="submit" class="submit-btn">Verify & Sign In</button>

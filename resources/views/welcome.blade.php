@@ -1368,30 +1368,7 @@
             <a href="{{ route('members') }}" class="nav-link">MEMBERS</a>
             <a href="{{ route('about') }}" class="nav-link">ABOUT</a>
 
-            <!-- Tournaments Dropdown Navigation -->
-            <div class="nav-dropdown-wrap">
-                <a href="{{ route('tournaments.index') }}" class="nav-dropdown-toggle">
-                    TOURNAMENTS
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z" />
-                    </svg>
-                </a>
-                <div class="nav-dropdown-menu">
-                    <a href="{{ route('tournaments.show', 1) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Premier League
-                    </a>
-                    <a href="{{ route('tournaments.show', 2) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Champions League
-                    </a>
-                    <a href="{{ route('tournaments.show', 3) }}" class="nav-dropdown-item">
-                        <span>🏆</span> Discovery League
-                    </a>
-                    <div style="border-top: 1px solid rgba(0,0,0,0.08); margin: 0.35rem 0;"></div>
-                    <a href="{{ route('tournaments.index') }}" class="nav-dropdown-item">
-                        <span>📋</span> All Tournaments
-                    </a>
-                </div>
-            </div>
+            <a href="{{ route('tournaments.index') }}" class="nav-link">TOURNAMENTS</a>
 
             <a href="{{ route('gallery') }}" class="nav-link">GALLERY</a>
             <a href="{{ route('register.create') }}" class="nav-link">REGISTER</a>

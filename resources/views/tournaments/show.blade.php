@@ -1394,30 +1394,7 @@
             <a href="{{ route('members') }}" class="nav-link">MEMBERS</a>
             <a href="{{ route('about') }}" class="nav-link">ABOUT</a>
 
-            <!-- Tournaments Dropdown Navigation -->
-            <div class="nav-dropdown-wrap">
-                <a href="{{ route('tournaments.index') }}" class="nav-dropdown-toggle">
-                    TOURNAMENTS
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </a>
-                <div class="nav-dropdown-menu">
-                    <a href="{{ route('tournaments.show', 1) }}" class="nav-dropdown-item {{ $tournament->id == 1 ? 'active' : '' }}">
-                        <span>🏆</span> Premier League
-                    </a>
-                    <a href="{{ route('tournaments.show', 2) }}" class="nav-dropdown-item {{ $tournament->id == 2 ? 'active' : '' }}">
-                        <span>🏆</span> Champions League
-                    </a>
-                    <a href="{{ route('tournaments.show', 3) }}" class="nav-dropdown-item {{ $tournament->id == 3 ? 'active' : '' }}">
-                        <span>🏆</span> Discovery League
-                    </a>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 0.35rem 0;"></div>
-                    <a href="{{ route('tournaments.index') }}" class="nav-dropdown-item">
-                        <span>📋</span> All Tournaments
-                    </a>
-                </div>
-            </div>
+            <a href="{{ route('tournaments.index') }}" class="nav-link active">TOURNAMENTS</a>
 
             <a href="{{ route('gallery') }}" class="nav-link">GALLERY</a>
             <a href="{{ route('contact') }}" class="nav-link">CONTACT</a>
@@ -1450,17 +1427,13 @@
 
         <!-- Tournament Switcher Quick Bar -->
         <div class="tournament-selector-bar">
-            <div class="selector-pills-group">
-                <span class="selector-label">Tournaments:</span>
-                <a href="{{ route('tournaments.show', 1) }}" class="tourn-pill {{ $tournament->id == 1 ? 'active' : '' }}">
-                    🏆 Premier League
-                </a>
-                <a href="{{ route('tournaments.show', 2) }}" class="tourn-pill {{ $tournament->id == 2 ? 'active' : '' }}">
-                    🏆 Champions League
-                </a>
-                <a href="{{ route('tournaments.show', 3) }}" class="tourn-pill {{ $tournament->id == 3 ? 'active' : '' }}">
-                    🏆 Discovery League
-                </a>
+            <div class="selector-pills-group" style="display: flex; align-items: center; gap: 0.75rem;">
+                <span class="selector-label">SELECT SEASON:</span>
+                <select onchange="window.location.href='{{ url('/tournaments') }}/' + this.value" class="form-select" style="background: #111111; color: #e7f711; border: 1.5px solid #22c55e; border-radius: 20px; padding: 0.45rem 1rem; font-weight: 800; font-size: 0.95rem; cursor: pointer; outline: none;">
+                    @for($s = 1; $s <= 10; $s++)
+                        <option value="{{ $s }}" {{ (int)$tournament->id === $s ? 'selected' : '' }}>SEASON {{ $s }}</option>
+                    @endfor
+                </select>
             </div>
             <a href="{{ route('tournaments.index') }}" class="back-tournaments-btn">
                 ← Back to All Tournaments
@@ -1494,15 +1467,26 @@
                             $statusClass = 'status-completed';
                         }
                     @endphp
-                    <span class="status-pill {{ $statusClass }}">
-                        <span class="pulse-dot"></span>
-                        {{ $tournament->status }}
-                    </span>
+                    @if(strtolower($tournament->status) !== 'upcoming')
+                        <span class="status-pill {{ $statusClass }}">
+                            <span class="pulse-dot"></span>
+                            {{ $tournament->status }}
+                        </span>
+                    @endif
 
                     @if($isAdmin)
-                        <button type="button" class="admin-edit-btn" onclick="openEditModal()">
-                            ⚙️ Edit Details
-                        </button>
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <button type="button" class="admin-edit-btn" onclick="openEditModal()">
+                                ⚙️ Edit Details
+                            </button>
+                            <form action="{{ route('tournaments.destroy', $tournament->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this tournament?');" style="margin: 0;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="admin-edit-btn" style="background: rgba(220, 38, 38, 0.25); border-color: #ef4444; color: #f87171;">
+                                    🗑️ Delete
+                                </button>
+                            </form>
+                        </div>
                     @endif
                 </div>
             </div>
